@@ -29,16 +29,16 @@ export const signupSchema = Joi.object({
     firstName:Joi.string()
     .required()
     .messages({
-        'string.base':'names must be string',
-        'string.empty':'names can not be empty',
-        'any.required':'names is required'
+        'string.base':'firstName must be string',
+        'string.empty':'firstName can not be empty',
+        'any.required':'firstName is required'
     }),
     lastName:Joi.string()
     .required()
     .messages({
-        'string.base':'names must be string',
-        'string.empty':'names can not be empty',
-        'any.required':'names is required'
+        'string.base':'lastName must be string',
+        'string.empty':'lastName can not be empty',
+        'any.required':'lastName is required'
     }),
     email: Joi.string().email().required().messages({
     'any.required': 'email is required',
@@ -58,10 +58,11 @@ export const signupSchema = Joi.object({
         'password must contain atleast one uppercase letter,one lowercase letter one number, one special character',
       'any.required': 'password is required',
     }),
-    role:Joi.string()
-      .valid("client","provider")
-      .messages({
-        'string.base': 'role should be a type of text',
-        'any.only':'role must be contain in the following "client","provider""'
-      })
+    confirmPassword: Joi.string()
+    .required()
+    .valid(Joi.ref('password'))
+    .messages({
+      'string.base':'Please match your password and confirm password'
+    })
+    
 })

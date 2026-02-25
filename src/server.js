@@ -7,6 +7,7 @@ import StatusCodes from 'http-status-codes';
 
 import './database/configs/config.js';
 import { handleSuccess } from './utils/responseUtils.js';
+import router from './routes/index.js';
 
 dotenv.config();
 const app = express();
@@ -24,6 +25,8 @@ app.get('/', (req, res) => {
     {},
   );
 });
+
+app.use("/api/v1",router)
 
 app.listen(port, () => {
   console.log(`Server running on ${port}`);

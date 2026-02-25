@@ -21,8 +21,9 @@ const handleSuccess = (res, statusCode = 200, message = "success.", data = {}) =
 }
 
 const handleError = (res, statusCode = 500, error = "Error.") => {
-  const response = buildErrorResponse(statusCode, error);
+  const response = buildErrorResponse(statusCode,error.toString() || JSON.stringify(error));
   return res.status(statusCode).json(response);
+
 }
 
 export {
