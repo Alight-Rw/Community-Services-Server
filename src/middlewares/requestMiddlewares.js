@@ -3,10 +3,11 @@
 import Joi from 'joi';
 import { StatusCodes } from 'http-status-codes';
 
-import { handleError } from '../utils/responseUtils';
+import { handleError } from '../utils/responseUtils.js';
 
 export const routeBodyValidation = (schema) => async (req, res, next) => {
   try {
+    
     const { error } = schema.validate(req.body, { abortEarly: false });
     if (error) {
       const errorMessage = `${error.details[0].message} in the body`;
