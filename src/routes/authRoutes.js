@@ -1,3 +1,4 @@
+
 import express from "express"
 import { signUpProvider, singUpClient } from "../modules/auth/authControllers.js"
 import { routeBodyValidation } from "../middlewares/requestMiddlewares.js"
