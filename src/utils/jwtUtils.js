@@ -1,14 +1,15 @@
 import randomstring from 'randomstring';
-import {sign, verify } from 'jsonwebtoken';
+import jwt from "jsonwebtoken"
 
-const generateAccessToken = (id, key) => {
-  return sign({ id }, key);
+const JWT_SECRET = process.env.SECRET_KEY || "fallback_secret";
+
+const generateAccessToken = (id) => {
+  return jwt.sign({ id }, JWT_SECRET, { expiresIn: "1d" });
 };
 
-const verifyToken = (token, key)=> {
-  return verify(token, key);
+const verifyToken = (token) => {
+  return jwt.verify(token, JWT_SECRET);
 };
-
 const generateRandomString = ()=> {
   return randomstring.generate(process.env.RANDOM_STRING_LENGTH);
 };
