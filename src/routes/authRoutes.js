@@ -18,7 +18,7 @@ router.post(
   signUpProvider,
 );
 router.post(
-  "/signup",
+  "/client-signup",
   routeBodyValidation(signupSchema),
   checkUser("isConflict"),
   singUpClient,
