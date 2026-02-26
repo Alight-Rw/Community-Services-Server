@@ -1,20 +1,19 @@
-/** @format */
 import { StatusCodes } from 'http-status-codes';
 import { hashPassword } from '../../utils/passwordUtils.js';
 import { handleError, handleSuccess } from '../../utils/responseUtils.js';
-import { createUser } from './authRepositories.js';
-
+import { createUser, findUser } from './authRepositories.js';
+import { sendEmail } from '../../utils/emailTamplents/sendEmail.js';
+import { verifyAccountTemplate } from '../../utils/emailTamplents/verifyEmailTamplent.js';
 import { generateAccessToken } from '../../utils/jwtUtils.js';
-import User from '../../database/models/users.js';
-import jwt from 'jsonwebtoken';
-import { sendEmail } from '../../services/sendEmail.js';
+import { forgotPasswordTemplate } from '../../utils/emailTamplents/forgotpasswordTemplate.js';
+import { randomBytes } from 'crypto';
 
 const signUpProvider = async (req, res) => {
   try {
     delete req.body.confirmPassword;
     const user = await createUser({
       ...req.body,
-      role:'provider',
+      role: 'provider',
       isVerified: true,
       password: hashPassword(req.body.password),
     });
@@ -45,55 +44,47 @@ const singUpClient = async (req, res) => {
 
     const verificastionURL = `${process.env.VERIFICATION_URL}/${token}`;
 
-    await sendEmail('verify-account', user.email, verificastionURL)
-    return handleSuccess( res, StatusCodes.CREATED, 'Client created successfully', user );
+    await sendEmail({
+      to: user.email,
+      subject: "email notification",
+      html: verifyAccountTemplate(user.email, verifyLink),
+    });
+
+    return handleSuccess(
+      res,
+      StatusCodes.CREATED,
+      'Client created successfully',
+      user
+    );
 
   } catch (error) {
     return handleError(res, StatusCodes.INTERNAL_SERVER_ERROR, error);
   }
 };
 
-const verifyAccount = async (req, res) => {
+const forgotPassword = async (req, res) => {
   try {
-    const { token } = req.body;
+    const { email } = req.body;
+    const user = await findUser({ email });
+    if (!user) return handleError(res, StatusCodes.NOT_FOUND, 'User not found');
 
-    if (!token) {
-      return handleError(res, StatusCodes.BAD_REQUEST, 'Token is required');
-    }
-
-    
-    let payload;
-    try {
-      payload = jwt.verify(token, process.env.JWT_SECRET);
-    } catch (err) {
-      return handleError(res, StatusCodes.BAD_REQUEST, 'Invalid or expired token');
-    }
-
-    
-    const user = await User.findOne({ verificationToken: token });
-    if (!user) {
-      return handleError(res, StatusCodes.BAD_REQUEST, 'Invalid token');
-    }
-
-    if (user.isVerified) {
-      return handleError(res, StatusCodes.BAD_REQUEST, 'Account already verified');
-    }
-
-    if (user.verificationTokenExpires < Date.now()) {
-      return handleError(res, StatusCodes.BAD_REQUEST, 'Token expired');
-    }
-
-  
-    user.isVerified = true;
-    user.verificationToken = null;
-    user.verificationTokenExpires = null;
+   const token = randomBytes(20).toString('hex');
+    user.resetPasswordToken = token;
+    user.resetPasswordExpires = Date.now() + 3600000; 
     await user.save();
 
-    return handleSuccess(res, StatusCodes.OK, 'Account verified successfully');
+    const resetUrl = `${process.env.CLIENT_URL}/reset-password/${token}`;
+
+    await sendEmail({
+      to: user.email,
+      subject: 'Password Reset',
+      html: forgotPasswordTemplate(user.email, resetUrl),
+    });
+
+    return handleSuccess(res, StatusCodes.OK, 'Password reset email sent');
   } catch (error) {
-    
-    return handleError(res, StatusCodes.INTERNAL_SERVER_ERROR, 'Something went wrong');
+    return handleError(res, StatusCodes.INTERNAL_SERVER_ERROR, error.message);
   }
 };
 
-export { signUpProvider, singUpClient , verifyAccount};
+export { signUpProvider, singUpClient,forgotPassword };
