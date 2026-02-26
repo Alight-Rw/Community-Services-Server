@@ -16,7 +16,7 @@ router.post(
   signUpProvider,
 );
 router.post(
-  "/client-signup",
+  "/signup",
   routeBodyValidation(signupSchema),
   isAccountExist,
   singUpClient,

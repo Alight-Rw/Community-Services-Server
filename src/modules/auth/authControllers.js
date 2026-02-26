@@ -3,7 +3,7 @@
 import { StatusCodes } from 'http-status-codes';
 import { comparePassword, hashPassword } from '../../utils/passwordUtils.js';
 import { handleError, handleSuccess } from '../../utils/responseUtils.js';
-import { createUser, findUser } from './authRepositories.js';
+import { createToken, createUser, findUser } from './authRepositories.js';
 
 import { generateAccessToken } from '../../utils/jwtUtils.js';
 
@@ -15,7 +15,7 @@ const signUpProvider = async (req, res) => {
     delete req.body.confirmPassword;
     const user = await createUser({
       ...req.body,
-      role:'provider',
+      role: 'provider',
       isVerified: true,
       password: hashPassword(req.body.password),
     });
@@ -35,19 +35,26 @@ const singUpClient = async (req, res) => {
   try {
     const user = await createUser({
       ...req.body,
-      role: 'client',
-      isVerified: false,
       password: hashPassword(req.body.password),
     });
 
     const token = generateAccessToken(user?.id);
-    user.verifyToken = token;
-    await user.save();
+    await createToken(token,user.id)
 
-    const verificastionURL = `${process.env.VERIFICATION_URL}/${token}`;
+    const verifyLink = `${process.env.CLIENT_URL}/verified-email/${token}`;
 
-    await sendEmail('verify-account', user.email, verificastionURL)
-    return handleSuccess( res, StatusCodes.CREATED, 'Client created successfully', user );
+    await sendEmail({
+      action: "verify-account",
+      receiverEmail: user.email,
+      link: verifyLink,
+    });
+
+    return handleSuccess(
+      res,
+      StatusCodes.CREATED,
+      'Client created successfully',
+      user
+    );
 
   } catch (error) {
     return handleError(res, StatusCodes.INTERNAL_SERVER_ERROR, error);
@@ -80,7 +87,7 @@ const login = async (req, res) => {
       );
     }
     const token = generateAccessToken(user?._id);
-    return handleSuccess(res, StatusCodes.OK, token);
+    return handleSuccess(res, StatusCodes.OK,"Login successfully", token);
   } catch (error) {
     return handleError(res, StatusCodes.INTERNAL_SERVER_ERROR, error.message);
   }
