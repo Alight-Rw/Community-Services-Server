@@ -1,14 +1,15 @@
 
 /** @format */
 import { StatusCodes } from 'http-status-codes';
-import { comparePassword, hashPassword } from '../../utils/passwordUtils.js';
+import { hashPassword } from '../../utils/passwordUtils.js';
 import { handleError, handleSuccess } from '../../utils/responseUtils.js';
-import { createToken, createUser, findUser } from './authRepositories.js';
+import { createToken, createUser} from './authRepositories.js';
 
 import { generateAccessToken } from '../../utils/jwtUtils.js';
 
 import jwt from 'jsonwebtoken';
 import { sendEmail } from '../../services/sendEmail.js';
+import Token from '../../database/models/tokens.js';
 
 const signUpProvider = async (req, res) => {
   try {
@@ -62,37 +63,19 @@ const singUpClient = async (req, res) => {
 };
 const login = async (req, res) => {
   try {
-    const { email, password } = req.body;
-    const user = await findUser({ email });
-    if (!user) {
-      return handleError(
-        res,
-        StatusCodes.UNAUTHORIZED,
-        "Invalid email or Password",
-      );
-    }
-    comparePassword(password, user.password)
-    if (!comparePassword) {
-      return handleError(
-        res,
-        StatusCodes.UNAUTHORIZED,
-        "Invalid email or Password",
-      );
-    }
-    if (!user.isVerified) {
-      return handleError(
-        res,
-        StatusCodes.UNAUTHORIZED,
-        "Please verify your Account",
-      );
-    }
-    const token = generateAccessToken(user?._id);
+    const { deviceId } = req.body;
+    const user = req.user;
+    const token = generateAccessToken(user?._id, deviceId);
+    await Token.findOneAndUpdate(
+      { userId: user._id, deviceId },
+      { token },
+      { upsert: true, returnDocument:'after' },
+    );
     return handleSuccess(res, StatusCodes.OK, "Login successfully", token);
   } catch (error) {
     return handleError(res, StatusCodes.INTERNAL_SERVER_ERROR, error.message);
   }
 };
-
 const forgotPassword = async (req, res) => {
   try {
 
@@ -111,6 +94,7 @@ const forgotPassword = async (req, res) => {
     return handleError(res, StatusCodes.INTERNAL_SERVER_ERROR, error.message);
   }
 };
+
 
 
 

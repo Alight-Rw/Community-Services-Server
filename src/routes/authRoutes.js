@@ -7,7 +7,8 @@ import {
 } from "../modules/auth/authControllers.js";
 import { routeBodyValidation } from "../middlewares/requestMiddlewares.js";
 import { signupSchema } from "../validations/authValidations.js";
-import { checkUser } from "../middlewares/authMiddlewares.js";
+
+import { checkUser, isAccountFind, isAccountVerified, isPasswordMatch } from "../middlewares/authMiddlewares.js";
 
 const router = express.Router();
 router.post(
@@ -27,5 +28,5 @@ router.post("/forgot-password",
   );
 
 
-router.post("/login", login);
+router.post("/login",isAccountFind,isPasswordMatch,isAccountVerified, login);
 export default router;
