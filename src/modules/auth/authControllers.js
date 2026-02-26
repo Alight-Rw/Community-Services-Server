@@ -6,6 +6,8 @@ import { generateAccessToken } from '../../utils/jwtUtils.js';
 import User from '../../database/models/users.js';
 import jwt from 'jsonwebtoken';
 import { sendEmail } from '../../services/sendEmail.js';
+import { randomBytes } from 'crypto';
+import { forgotPasswordTemplate } from '../../utils/forgotpasswordTemplate.js';
 
 const signUpProvider = async (req, res) => {
   try {
