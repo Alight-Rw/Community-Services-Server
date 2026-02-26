@@ -1,9 +1,10 @@
 
+
 /** @format */
 import { StatusCodes } from 'http-status-codes';
 import { comparePassword, hashPassword } from '../../utils/passwordUtils.js';
 import { handleError, handleSuccess } from '../../utils/responseUtils.js';
-import { createToken, createUser, findUser } from './authRepositories.js';
+import { createToken, createUser, findUser, updateVerify } from './authRepositories.js';
 
 import { generateAccessToken } from '../../utils/jwtUtils.js';
 
@@ -112,6 +113,31 @@ const forgotPassword = async (req, res) => {
   }
 };
 
+const verifyAccount = async (req, res) => {
+  try {
+    const user = req.user;
+    const token = req.token;
+
+    
+    await updateVerify (
+      { _id: user._id },
+      { $set: { isVerified: true } }
+    );
+
+    
+    await deleteToken(token, user._id);
+
+    return res.status(200).json({
+      success: true,
+      message: "Account verified successfully",
+    });
+  } catch (error) {
+    return handleError(res, 500, error.message);
+  }
+};
 
 
-export { signUpProvider, singUpClient, login, forgotPassword };
+export { signUpProvider, singUpClient, login, forgotPassword ,verifyAccount};
+
+
+
