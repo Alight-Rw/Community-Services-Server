@@ -4,9 +4,9 @@ import { hashPassword } from '../../utils/passwordUtils.js';
 import { handleError, handleSuccess } from '../../utils/responseUtils.js';
 import { createToken, createUser} from './authRepositories.js';
 
-import { generateAccessToken } from '../../utils/jwtUtils.js';
+import { generateAccessToken } from "../../utils/jwtUtils.js";
 
-import jwt from 'jsonwebtoken';
+
 import { sendEmail } from '../../services/sendEmail.js';
 import Token from '../../database/models/tokens.js';
 
@@ -15,7 +15,7 @@ const signUpProvider = async (req, res) => {
     delete req.body.confirmPassword;
     const user = await createUser({
       ...req.body,
-      role: 'provider',
+      role: "provider",
       isVerified: true,
       password: hashPassword(req.body.password),
     });
@@ -23,7 +23,7 @@ const signUpProvider = async (req, res) => {
     return handleSuccess(
       res,
       StatusCodes.CREATED,
-      'Provider successfully created',
+      "Provider successfully created",
       user,
     );
   } catch (error) {
@@ -52,10 +52,9 @@ const singUpClient = async (req, res) => {
     return handleSuccess(
       res,
       StatusCodes.CREATED,
-      'Client created successfully',
-      user
+      "Client created successfully",
+      user,
     );
-
   } catch (error) {
     return handleError(res, StatusCodes.INTERNAL_SERVER_ERROR, error);
   }
