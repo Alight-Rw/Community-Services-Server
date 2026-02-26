@@ -1,3 +1,4 @@
+import Tokens from "../../database/models/tokens.js"
 import User from "../../database/models/users.js"
 
 const createUser = (data) => {
@@ -9,5 +10,6 @@ const findUser = (email) => {
 }
 export {
   createUser,
-  findUser
+  findUser,
+  createToken
 }

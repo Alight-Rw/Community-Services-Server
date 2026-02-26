@@ -35,19 +35,27 @@ const singUpClient = async (req, res) => {
   try {
     const user = await createUser({
       ...req.body,
-      role: 'client',
-      isVerified: false,
       password: hashPassword(req.body.password),
     });
 
-    const token = generateAccessToken(user?.id);
+    const token = generateAccessToken(user?.id); 
     user.verifyToken = token;
     await user.save();
 
-    const verificastionURL = `${process.env.VERIFICATION_URL}/${token}`;
+    const verifyLink = `${process.env.CLIENT_URL}/verified-email/${token}`;
 
-    await sendEmail('verify-account', user.email, verificastionURL)
-    return handleSuccess( res, StatusCodes.CREATED, 'Client created successfully', user );
+    await sendEmail({
+      to: user.email,
+      subject:"email notification",
+      html: verifyAccountTemplate(user.email, verifyLink),
+    });
+
+    return handleSuccess(
+      res,
+      StatusCodes.CREATED,
+      'Client created successfully',
+      user
+    );
 
   } catch (error) {
     return handleError(res, StatusCodes.INTERNAL_SERVER_ERROR, error);
