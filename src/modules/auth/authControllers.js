@@ -3,7 +3,7 @@
 import { StatusCodes } from 'http-status-codes';
 import { comparePassword, hashPassword } from '../../utils/passwordUtils.js';
 import { handleError, handleSuccess } from '../../utils/responseUtils.js';
-import { createUser, findUser } from './authRepositories.js';
+import { createToken, createUser, findUser } from './authRepositories.js';
 
 import { generateAccessToken } from '../../utils/jwtUtils.js';
 
@@ -87,7 +87,7 @@ const login = async (req, res) => {
       );
     }
     const token = generateAccessToken(user?._id);
-    return handleSuccess(res, StatusCodes.OK, token);
+    return handleSuccess(res, StatusCodes.OK,"Login successfully", token);
   } catch (error) {
     return handleError(res, StatusCodes.INTERNAL_SERVER_ERROR, error.message);
   }
