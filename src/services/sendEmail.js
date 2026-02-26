@@ -10,8 +10,8 @@ export const sendEmail = async (email) => {
     port: Number(process.env.SMTP_HOST_PORT),
     secure: true,
     auth: {
-      user: process.env.NODEMAILER_EMAIL,
-      pass: process.env.NODEMAILER_PASSWORD,
+      user: process.env.SMTP_GMAIL_SENDER_EMAIL,
+      pass: process.env.SMTP_GMAIL_SENDER_PASSWORD,
     },
   });
 
