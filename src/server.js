@@ -1,5 +1,5 @@
 /** @format */
-
+import categoryRoutes from "./routes/categoryRoutes.js";
 import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
@@ -16,6 +16,7 @@ const port = process.env.PORT;
 app.use(cors());
 app.use(express.json({ limit: '500mb' }));
 app.use(express.urlencoded({ limit: '500mb', extended: true }));
+app.use("/api/vi/categories", categoryRoutes)
 
 app.use("/api/v1",router)
 
