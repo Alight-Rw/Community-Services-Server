@@ -2,14 +2,16 @@ import mongoose from "mongoose";
 
 const categorySchema = new mongoose.Schema({
   name: {
-    type: String,  
+    type: String, 
     required: true,
     unique: true,
     trim: true
   },
   description: {
-    type: String   
+    type: String,
+    trim: true
   }
 }, { timestamps: true });
 
-export default mongoose.model("Category", categorySchema);
+const Category = mongoose.model("Category", categorySchema);
+export default Category; // IYI LINE NI INGENZI CYANE
