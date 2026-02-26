@@ -1,8 +1,19 @@
 /** @format */
+// import { StatusCodes } from "http-status-codes";
+// import { comparePassword, hashPassword } from "../../utils/passwordUtils.js";
+// import { handleError, handleSuccess } from "../../utils/responseUtils.js";
+// import { createUser, findUser } from "./authRepositories.js";
+// import { sendEmail } from "../../utils/emailTamplents/sendEmail.js";
+// import { verifyAccountTemplate } from "../../utils/emailTamplents/verifyEmailTamplent.js";
+// import { generateAccessToken } from "../../utils/jwtUtils.js";
+// import bcrypt from "bcrypt";
+
+// -------
+/** @format */
 import { StatusCodes } from 'http-status-codes';
-import { hashPassword } from '../../utils/passwordUtils.js';
+import { comparePassword, hashPassword } from '../../utils/passwordUtils.js';
 import { handleError, handleSuccess } from '../../utils/responseUtils.js';
-import { createUser } from './authRepositories.js';
+import { createUser, findUser } from './authRepositories.js';
 
 import { generateAccessToken } from '../../utils/jwtUtils.js';
 import User from '../../database/models/users.js';
@@ -52,6 +63,38 @@ const singUpClient = async (req, res) => {
     return handleError(res, StatusCodes.INTERNAL_SERVER_ERROR, error);
   }
 };
+const login = async (req, res) => {
+  try {
+     const { email, password } = req.body;
+     const user = await findUser({ email });
+    if (!user) {
+      return handleError(
+        res,
+        StatusCodes.UNAUTHORIZED,
+        "Invalid email or Password",
+      );
+    }
+    comparePassword(password,user.password)
+    if (!comparePassword) {
+      return handleError(
+        res,
+        StatusCodes.UNAUTHORIZED,
+        "Invalid email or Password",
+      );
+    }
+    if (!user.isVerified) {
+      return handleError(
+        res,
+        StatusCodes.UNAUTHORIZED,
+        "Please verify your Account",
+      );
+    }
+    const token = generateAccessToken(user?._id);
+    return handleSuccess(res, StatusCodes.OK, token);
+  } catch (error) {
+    return handleError(res, StatusCodes.INTERNAL_SERVER_ERROR, error.message);
+  }
+};
 
 const verifyAccount = async (req, res) => {
   try {
@@ -96,4 +139,4 @@ const verifyAccount = async (req, res) => {
   }
 };
 
-export { signUpProvider, singUpClient , verifyAccount};
+export { signUpProvider, singUpClient ,login, verifyAccount};
