@@ -2,10 +2,10 @@ import { StatusCodes } from 'http-status-codes';
 import { hashPassword } from '../../utils/passwordUtils.js';
 import { handleError, handleSuccess } from '../../utils/responseUtils.js';
 import { createUser, findUser } from './authRepositories.js';
-import { sendEmail } from '../../utils/emailTamplents/sendEmail.js';
-import { verifyAccountTemplate } from '../../utils/emailTamplents/verifyEmailTamplent.js';
+import { sendEmail } from '../../utils/emailTemplateUtils/sendEmail.js';
+import { verifyAccountTemplate } from '../../utils/emailTemplateUtils/verifyEmailTempleteUtils.js';
 import { generateAccessToken } from '../../utils/jwtUtils.js';
-import { forgotPasswordTemplate } from '../../utils/emailTamplents/forgotpasswordTemplate.js';
+import { forgotPasswordTemplate } from '../../utils/emailTemplateUtils/forgotpasswordTemplate.js';
 import { randomBytes } from 'crypto';
 
 const signUpProvider = async (req, res) => {
