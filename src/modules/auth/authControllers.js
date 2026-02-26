@@ -15,7 +15,7 @@ const signUpProvider = async (req, res) => {
     delete req.body.confirmPassword;
     const user = await createUser({
       ...req.body,
-      role:'provider',
+      role: 'provider',
       isVerified: true,
       password: hashPassword(req.body.password),
     });
@@ -38,16 +38,15 @@ const singUpClient = async (req, res) => {
       password: hashPassword(req.body.password),
     });
 
-    const token = generateAccessToken(user?.id); 
-    user.verifyToken = token;
-    await user.save();
+    const token = generateAccessToken(user?.id);
+    await createToken(token,user.id)
 
     const verifyLink = `${process.env.CLIENT_URL}/verified-email/${token}`;
 
     await sendEmail({
-      to: user.email,
-      subject:"email notification",
-      html: verifyAccountTemplate(user.email, verifyLink),
+      action: "verify-account",
+      receiverEmail: user.email,
+      link: verifyLink,
     });
 
     return handleSuccess(

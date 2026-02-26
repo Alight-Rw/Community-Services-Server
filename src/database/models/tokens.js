@@ -12,4 +12,5 @@ const tokenSchema = new mongoose.Schema({
   },
 }, { timestamps: true });
 
-export default mongoose.model("Token", tokenSchema);
+const Token = mongoose.model("Token", tokenSchema);
+export default Token
