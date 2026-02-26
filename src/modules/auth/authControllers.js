@@ -1,4 +1,3 @@
-
 /** @format */
 import { StatusCodes } from 'http-status-codes';
 import { hashPassword } from '../../utils/passwordUtils.js';
