@@ -1,14 +1,4 @@
-/** @format */
-// import { StatusCodes } from "http-status-codes";
-// import { comparePassword, hashPassword } from "../../utils/passwordUtils.js";
-// import { handleError, handleSuccess } from "../../utils/responseUtils.js";
-// import { createUser, findUser } from "./authRepositories.js";
-// import { sendEmail } from "../../utils/emailTamplents/sendEmail.js";
-// import { verifyAccountTemplate } from "../../utils/emailTamplents/verifyEmailTamplent.js";
-// import { generateAccessToken } from "../../utils/jwtUtils.js";
-// import bcrypt from "bcrypt";
 
-// -------
 /** @format */
 import { StatusCodes } from 'http-status-codes';
 import { comparePassword, hashPassword } from '../../utils/passwordUtils.js';
