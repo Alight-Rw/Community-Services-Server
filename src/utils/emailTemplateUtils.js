@@ -1,8 +1,12 @@
 /** @format */
 
-export const verifyAccountTemplate = (receiverEmail, link) => {
-  return `
-    <table cellpadding="0" cellspacing="0" border="0" width="100%" style="background: linear-gradient(135deg, #E8F4FD 0%, #D6E9F7 100%); min-height: 100vh;">
+export const verifyAccountTemplate = (receiverEmail, action, link) => {
+  return {
+    to: receiverEmail,
+    subject: `COMMUNITY SERVICES TEAM ${action}`,
+    from: `COMMUNITY SERVICES TEAM <${process.env.SMTP_GMAIL_SENDER_EMAIL}>`,
+    text: 'Hello From COMMUNITY SERVICES TEAM, We received a request to verify your account.',
+    html: `<table cellpadding="0" cellspacing="0" border="0" width="100%" style="background: linear-gradient(135deg, #E8F4FD 0%, #D6E9F7 100%); min-height: 100vh;">
       <tr>
         <td align="center" style="padding: 40px 20px;">
           <table style="max-width: 700px; width: 100%; background-color: #FFFFFF; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); overflow: hidden;">
@@ -23,8 +27,8 @@ export const verifyAccountTemplate = (receiverEmail, link) => {
 
                 <div style="text-align: center; margin: 10px 0;">
                   <a href="${link}" 
-                     style="display: inline-block; background: #408BF6; color: #FFFFFF; text-decoration: none; padding: 16px 32px; border-radius: 8px; font-weight: 600; font-size: 16px; box-shadow: 0 4px 15px #9DC2EF;">
-                     Verify Email
+                    style="display: inline-block; background: #408BF6; color: #FFFFFF; text-decoration: none; padding: 16px 32px; border-radius: 8px; font-weight: 600; font-size: 16px; box-shadow: 0 4px 15px #9DC2EF;">
+                    Verify Email
                   </a>
                 </div>
               </td>
@@ -45,6 +49,6 @@ export const verifyAccountTemplate = (receiverEmail, link) => {
           </table>
         </td>
       </tr>
-    </table>
-  `;
+    </table>`
+  };
 };

@@ -3,7 +3,7 @@ import { v2 } from 'cloudinary';
 import StatusCodes from 'http-status-codes';
 import responseUtils from '../utils/responseUtils';
 
-dotenv.config();
+dotenv.config({ quiet: true });
 
 v2.config({
   api_key: process.env.CLOUDINARY_API_KEY,
