@@ -1,11 +1,12 @@
+
 /** @format */
 import { StatusCodes } from 'http-status-codes';
-import { hashPassword } from '../../utils/passwordUtils.js';
+import { comparePassword, hashPassword } from '../../utils/passwordUtils.js';
 import { handleError, handleSuccess } from '../../utils/responseUtils.js';
-import { createUser } from './authRepositories.js';
+import { createUser, findUser } from './authRepositories.js';
 
 import { generateAccessToken } from '../../utils/jwtUtils.js';
-import User from '../../database/models/users.js';
+
 import jwt from 'jsonwebtoken';
 import { sendEmail } from '../../services/sendEmail.js';
 
@@ -52,48 +53,39 @@ const singUpClient = async (req, res) => {
     return handleError(res, StatusCodes.INTERNAL_SERVER_ERROR, error);
   }
 };
-
-const verifyAccount = async (req, res) => {
+const login = async (req, res) => {
   try {
-    const { token } = req.body;
-
-    if (!token) {
-      return handleError(res, StatusCodes.BAD_REQUEST, 'Token is required');
-    }
-
-    
-    let payload;
-    try {
-      payload = jwt.verify(token, process.env.JWT_SECRET);
-    } catch (err) {
-      return handleError(res, StatusCodes.BAD_REQUEST, 'Invalid or expired token');
-    }
-
-    
-    const user = await User.findOne({ verificationToken: token });
+     const { email, password } = req.body;
+     const user = await findUser({ email });
     if (!user) {
-      return handleError(res, StatusCodes.BAD_REQUEST, 'Invalid token');
+      return handleError(
+        res,
+        StatusCodes.UNAUTHORIZED,
+        "Invalid email or Password",
+      );
     }
-
-    if (user.isVerified) {
-      return handleError(res, StatusCodes.BAD_REQUEST, 'Account already verified');
+    comparePassword(password,user.password)
+    if (!comparePassword) {
+      return handleError(
+        res,
+        StatusCodes.UNAUTHORIZED,
+        "Invalid email or Password",
+      );
     }
-
-    if (user.verificationTokenExpires < Date.now()) {
-      return handleError(res, StatusCodes.BAD_REQUEST, 'Token expired');
+    if (!user.isVerified) {
+      return handleError(
+        res,
+        StatusCodes.UNAUTHORIZED,
+        "Please verify your Account",
+      );
     }
-
-  
-    user.isVerified = true;
-    user.verificationToken = null;
-    user.verificationTokenExpires = null;
-    await user.save();
-
-    return handleSuccess(res, StatusCodes.OK, 'Account verified successfully');
+    const token = generateAccessToken(user?._id);
+    return handleSuccess(res, StatusCodes.OK, token);
   } catch (error) {
-    
-    return handleError(res, StatusCodes.INTERNAL_SERVER_ERROR, 'Something went wrong');
+    return handleError(res, StatusCodes.INTERNAL_SERVER_ERROR, error.message);
   }
 };
 
-export { signUpProvider, singUpClient , verifyAccount};
+
+
+export { signUpProvider, singUpClient ,login};
