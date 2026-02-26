@@ -1,19 +1,18 @@
-import { StatusCodes } from 'http-status-codes';
+/** @format */import { StatusCodes } from 'http-status-codes';
 import { hashPassword } from '../../utils/passwordUtils.js';
 import { handleError, handleSuccess } from '../../utils/responseUtils.js';
 import { createUser, findUser } from './authRepositories.js';
-import { sendEmail } from '../../utils/emailTemplateUtils/sendEmail.js';
-import { verifyAccountTemplate } from '../../utils/emailTemplateUtils/verifyEmailTempleteUtils.js';
 import { generateAccessToken } from '../../utils/jwtUtils.js';
-import { forgotPasswordTemplate } from '../../utils/emailTemplateUtils/forgotpasswordTemplate.js';
-import { randomBytes } from 'crypto';
+import User from '../../database/models/users.js';
+import jwt from 'jsonwebtoken';
+import { sendEmail } from '../../services/sendEmail.js';
 
 const signUpProvider = async (req, res) => {
   try {
     delete req.body.confirmPassword;
     const user = await createUser({
       ...req.body,
-      role: 'provider',
+      role:'provider',
       isVerified: true,
       password: hashPassword(req.body.password),
     });
@@ -44,21 +43,54 @@ const singUpClient = async (req, res) => {
 
     const verificastionURL = `${process.env.VERIFICATION_URL}/${token}`;
 
-    await sendEmail({
-      to: user.email,
-      subject: "email notification",
-      html: verifyAccountTemplate(user.email, verifyLink),
-    });
-
-    return handleSuccess(
-      res,
-      StatusCodes.CREATED,
-      'Client created successfully',
-      user
-    );
+    await sendEmail('verify-account', user.email, verificastionURL)
+    return handleSuccess( res, StatusCodes.CREATED, 'Client created successfully', user );
 
   } catch (error) {
     return handleError(res, StatusCodes.INTERNAL_SERVER_ERROR, error);
+  }
+};
+
+const verifyAccount = async (req, res) => {
+  try {
+    const { token } = req.body;
+
+    if (!token) {
+      return handleError(res, StatusCodes.BAD_REQUEST, 'Token is required');
+    }
+
+    
+    let payload;
+    try {
+      payload = jwt.verify(token, process.env.JWT_SECRET);
+    } catch (err) {
+      return handleError(res, StatusCodes.BAD_REQUEST, 'Invalid or expired token');
+    }
+
+    
+    const user = await User.findOne({ verificationToken: token });
+    if (!user) {
+      return handleError(res, StatusCodes.BAD_REQUEST, 'Invalid token');
+    }
+
+    if (user.isVerified) {
+      return handleError(res, StatusCodes.BAD_REQUEST, 'Account already verified');
+    }
+
+    if (user.verificationTokenExpires < Date.now()) {
+      return handleError(res, StatusCodes.BAD_REQUEST, 'Token expired');
+    }
+
+  
+    user.isVerified = true;
+    user.verificationToken = null;
+    user.verificationTokenExpires = null;
+    await user.save();
+
+    return handleSuccess(res, StatusCodes.OK, 'Account verified successfully');
+  } catch (error) {
+    
+    return handleError(res, StatusCodes.INTERNAL_SERVER_ERROR, 'Something went wrong');
   }
 };
 
@@ -87,4 +119,4 @@ const forgotPassword = async (req, res) => {
   }
 };
 
-export { signUpProvider, singUpClient,forgotPassword };
+export { signUpProvider, singUpClient , verifyAccount , forgotPassword };
