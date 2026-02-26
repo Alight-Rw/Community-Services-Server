@@ -1,6 +1,6 @@
 
 import express from "express"
-import {  login, signUpProvider, singUpClient } from "../modules/auth/authControllers.js"
+import {  login, signUpProvider, singUpClient, verifyAccount } from "../modules/auth/authControllers.js"
 import { routeBodyValidation } from "../middlewares/requestMiddlewares.js"
 import { signupSchema } from "../validations/authValidations.js"
 import { isAccountExist } from "../middlewares/authMiddlewares.js"
