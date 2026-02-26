@@ -1,13 +1,13 @@
 import User from "../../database/models/users.js"
 
-const createUser = (data)=>{
- return User.create(data)
+const createUser = (data) => {
+  return User.create(data)
 }
 
-const findUser = (email) =>{
-    return User.findOne(email)
+const findUser = (email) => {
+  return User.findOne(email)
 }
-export  {
+export {
   createUser,
   findUser
 }
