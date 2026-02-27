@@ -11,6 +11,7 @@ import { routeBodyValidation } from "../middlewares/requestMiddlewares.js";
 import { signupSchema } from "../validations/authValidations.js";
 import { verifyUserToken } from "../middlewares/authMiddlewares.js";
 import { checkUser, isAccountFind, isAccountVerified, isPasswordMatch, isTokenExist } from "../middlewares/authMiddlewares.js";
+import { isAccountExist, isfindUser } from "../middlewares/authMiddlewares.js";
 
 const router = express.Router();
 router.post(
@@ -37,6 +38,7 @@ router.get(
 
 router.post("/login", isAccountFind, isPasswordMatch, isAccountVerified, login);
 router.post("/logout", verifyUserToken, Logout);
+   isfindUser,forgotPassword,
 
 
 export default router;

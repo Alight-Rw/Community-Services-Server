@@ -1,5 +1,8 @@
 import dotenv from "dotenv";
 import nodemailer from "nodemailer";import { verifyAccountTemplate, forgotPasswordTemplate } from "../utils/emailTemplateUtils.js";
+import nodemailer from "nodemailer";
+import { verifyAccountTemplate } from "../utils/emailTemplateUtils.js";
+import { forgotPasswordTemplate } from "../utils/forgotpasswordTemplate.js";
 
 dotenv.config({ quiet: true });
 
