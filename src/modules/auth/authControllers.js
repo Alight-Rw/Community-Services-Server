@@ -1,4 +1,3 @@
-
 /** @format */
 import { StatusCodes } from 'http-status-codes';
 import { hashPassword } from '../../utils/passwordUtils.js';
@@ -16,7 +15,7 @@ const signUpProvider = async (req, res) => {
     delete req.body.confirmPassword;
     const user = await createUser({
       ...req.body,
-      role: 'provider',
+      role: "provider",
       isVerified: true,
       password: hashPassword(req.body.password),
     });
@@ -24,7 +23,7 @@ const signUpProvider = async (req, res) => {
     return handleSuccess(
       res,
       StatusCodes.CREATED,
-      'Provider successfully created',
+      "Provider successfully created",
       user,
     );
   } catch (error) {
@@ -53,10 +52,9 @@ const singUpClient = async (req, res) => {
     return handleSuccess(
       res,
       StatusCodes.CREATED,
-      'Client created successfully',
-      user
+      "Client created successfully",
+      user,
     );
-
   } catch (error) {
     return handleError(res, StatusCodes.INTERNAL_SERVER_ERROR, error);
   }
