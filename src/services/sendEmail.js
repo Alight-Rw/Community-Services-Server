@@ -1,6 +1,7 @@
 import dotenv from "dotenv";
 import nodemailer from "nodemailer";
 import { verifyAccountTemplate } from "../utils/emailTemplateUtils.js";
+import { forgotPasswordTemplate } from "../utils/forgotpasswordTemplate.js";
 
 dotenv.config({ quiet: true });
 
@@ -17,6 +18,9 @@ export const sendEmail = async (email) => {
 
   try {
     if (email?.action === 'verify-account') return await transporter.sendMail(verifyAccountTemplate(email?.receiverEmail, email?.action, email?.link));
+    if (email?.action === 'forgot-password') return await transporter.sendMail(forgotPasswordTemplate(email?.receiverEmail, email?.action, email?.link));
+
+  
   } catch (error) {
     console.error("Email sending failed:", error);
     throw error;

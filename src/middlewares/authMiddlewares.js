@@ -13,6 +13,18 @@ const isAccountExist = async (req,res,next) =>{
     return handleError(res,StatusCodes.INTERNAL_SERVER_ERROR,error)
   }
 }
+const isfindUser = async (req,res,next) =>{
+  try {
+    const user = await findUser({email:req.body.email}) 
+    if(!user){
+       return handleError(res,StatusCodes.NOT_FOUND,'User not Found')
+    }
+    return next()
+  } catch (error) {
+    return handleError(res,StatusCodes.INTERNAL_SERVER_ERROR,error)
+  }
+}
 export {
-    isAccountExist
+    isAccountExist,
+    isfindUser
 }

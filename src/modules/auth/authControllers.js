@@ -93,6 +93,25 @@ const login = async (req, res) => {
   }
 };
 
+const forgotPassword = async (req, res) => {
+  try {
+    
+ 
+    const token = generateAccessToken(user._id);
+    await createToken({token,id:user._id})
+     
+
+    const resetUrl = `${process.env.CLIENT_URL}/reset-password/${token}`;
+
+    await sendEmail({action:'forgot-password',receiverEmail:user.email,link:resetUrl});
+
+    return handleSuccess(res, StatusCodes.OK, 'Password reset email sent');
+
+  } catch (error) {
+    return handleError(res, StatusCodes.INTERNAL_SERVER_ERROR, error.message);
+  }
+};
 
 
-export { signUpProvider, singUpClient ,login};
+
+export { signUpProvider, singUpClient ,login,forgotPassword };
