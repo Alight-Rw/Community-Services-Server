@@ -11,10 +11,7 @@ const findUser = (email) => {
 } 
 
 const createToken = (token, userId) => {
-  return Token.create({
-    token: token,
-    userId: userId,
-  });
+  return Token.create({token,userId});
 };
 export {
   createUser,
