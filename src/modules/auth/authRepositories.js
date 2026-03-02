@@ -23,12 +23,17 @@ const FindUserByID = async(id)=>{
  const deleteToken = (token) =>{
   return Token.deleteOne({ token });
  }
+
+ const findToken = ({userId,token}) =>{
+  return Token.findOne({userId,token});
+ }
 export {
   createUser,
   findUser,
   createToken,
   updateVerify,
   FindUserByID,
-  deleteToken 
+  deleteToken ,
+  findToken
   
 }

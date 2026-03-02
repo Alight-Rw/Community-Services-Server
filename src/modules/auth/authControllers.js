@@ -2,14 +2,13 @@
 import { StatusCodes } from 'http-status-codes';
 import { hashPassword } from '../../utils/passwordUtils.js';
 import { handleError, handleSuccess } from '../../utils/responseUtils.js';
-import { createToken, createUser} from './authRepositories.js';
+import { createToken, createUser, deleteToken, updateVerify} from './authRepositories.js';
 
 import { generateAccessToken } from '../../utils/jwtUtils.js';
 
 
 import { sendEmail } from '../../services/sendEmail.js';
 import Token from '../../database/models/tokens.js';
-import { deleteToken } from './authRepositories.js';
 
 const signUpProvider = async (req, res) => {
   try {
@@ -95,34 +94,54 @@ const forgotPassword = async (req, res) => {
 };
 
 
-const Logout = async (req, res) => {
-  
-try {
-    const { token, email } = req.body; 
+const verifyAccount = async (req, res) => {
+  try {
+    const user = req.user;
+    const token = req.token;
 
     
-    const user = await findUser(email);
-    if (!user) {
-      return handleError(res, StatusCodes.NOT_FOUND, "User not found");
-    }
-
-    const userId = user.id;
+      await updateVerify (
+      { _id: user._id },
+      { $set: { isVerified: true } }
+    );
 
     
-    await deleteToken(token, userId);
+    await deleteToken(token, user._id);
 
-    
-    return handleSuccess(res, StatusCodes.OK, "Logged out successfully");
-
+    return handleSuccess(
+      res,
+      StatusCodes.CREATED,
+      "Account verified successfully successfully",
+      
+    );
   } catch (error) {
-    return handleError(res, StatusCodes.INTERNAL_SERVER_ERROR, "Server error", error.message);
+    return handleError(res, 500, error.message);
   }
-
 };
 
 
 
 
-export { Logout,signUpProvider, singUpClient, login, forgotPassword };
+const Logout = async (req, res) => {
+  try {
+    const { deviceId } = req.body;
+    const user = req.user;
+
+    await Token.findOneAndDelete({
+      userId: user._id,
+      deviceId
+    });
+
+    return handleSuccess(res, StatusCodes.OK, "Logged out successfully");
+
+  } catch (error) {
+    return handleError(res, StatusCodes.INTERNAL_SERVER_ERROR, error.message);
+  }
+};
+
+
+
+
+export { signUpProvider, singUpClient, login, forgotPassword, verifyAccount ,Logout};
 
 

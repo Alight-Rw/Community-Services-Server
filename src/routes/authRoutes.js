@@ -8,7 +8,8 @@ import {
 } from "../modules/auth/authControllers.js";
 import { routeBodyValidation } from "../middlewares/requestMiddlewares.js";
 import { signupSchema } from "../validations/authValidations.js";
-
+import { verifyUserToken } from "../middlewares/authMiddlewares.js";
+import { Logout } from "../modules/auth/authControllers.js";
 import { checkUser, isAccountFind, isAccountVerified, isPasswordMatch, isTokenExist } from "../middlewares/authMiddlewares.js";
 
 const router = express.Router();
@@ -25,15 +26,17 @@ router.post(
   singUpClient,
 );
 router.post("/forgot-password",
-   checkUser("notUser"),forgotPassword
-  );
-
-  router.get(
-  "/verify-account/:token",
-  isTokenExist,        
-  verifyAccount       
+  checkUser("notUser"), forgotPassword
 );
 
+router.get(
+  "/verify-account/:token",
+  isTokenExist,
+  verifyAccount
+);
 
-router.post("/login",isAccountFind,isPasswordMatch,isAccountVerified, login);
+router.post("/login", isAccountFind, isPasswordMatch, isAccountVerified, login);
+router.post("/logout", verifyUserToken, Logout);
+
+
 export default router;

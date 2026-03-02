@@ -3,6 +3,8 @@ import { findUser, FindUserByID } from "../modules/auth/authRepositories.js"
 import { handleError } from "../utils/responseUtils.js"
 import { comparePassword } from "../utils/passwordUtils.js";
 import { verifyToken } from "../utils/jwtUtils.js";
+import Token from "../database/models/tokens.js";
+import { findToken } from "../modules/auth/authRepositories.js";
 
 
 const checkUser = (mode) => {
@@ -105,7 +107,52 @@ const isTokenExist = async (req, res, next) => {
   }
 };
 
+const verifyUserToken = async (req, res, next) => {
+  try {
+    
+    const authHeader = req.headers.authorization;
+
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      return handleError(res, StatusCodes.UNAUTHORIZED, "Token missing");
+    }
+
+    
+    const token = authHeader.split(" ")[1];
+
+    
+    const decoded = verifyToken(token);
+
+    if (!decoded?.id) {
+      return handleError(res, StatusCodes.UNAUTHORIZED, "Invalid token");
+    }
+
+    
+    const user = await FindUserByID(decoded.id);
+
+    if (!user) {
+      return handleError(res, StatusCodes.NOT_FOUND, "User not found");
+    }
+
+    
+    const tokenExist = await findToken({ userId: user._id, token });
+
+    if (!tokenExist) {
+      return handleError(res, StatusCodes.UNAUTHORIZED, "Token expired or logged out");
+    }
+
+    
+    req.user = user;
+    req.token = token;
+
+    next();
+
+  } catch (error) {
+    return handleError(res, StatusCodes.UNAUTHORIZED, "Invalid or expired token");
+  }
+};
+
+
 
 export {
-    isAccountFind,isPasswordMatch,isAccountVerified,checkUser,isTokenExist
+    isAccountFind,isPasswordMatch,isAccountVerified,checkUser,isTokenExist,verifyUserToken
 }
