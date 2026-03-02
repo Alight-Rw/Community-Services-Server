@@ -7,23 +7,23 @@ import {
 } from "../modules/auth/authControllers.js";
 import { routeBodyValidation } from "../middlewares/requestMiddlewares.js";
 import { signupSchema } from "../validations/authValidations.js";
-import { isAccountExist, isfindUser } from "../middlewares/authMiddlewares.js";
+import { checkUser } from "../middlewares/authMiddlewares.js";
 
 const router = express.Router();
 router.post(
   "/provider-signup",
   routeBodyValidation(signupSchema),
-  isAccountExist,
+  checkUser("isConflict"),
   signUpProvider,
 );
 router.post(
   "/signup",
   routeBodyValidation(signupSchema),
-  isAccountExist,
+  checkUser("isConflict"),
   singUpClient,
 );
 router.post("/forgot-password",
-   isfindUser,forgotPassword
+   checkUser("notUser"),forgotPassword
   );
 
 

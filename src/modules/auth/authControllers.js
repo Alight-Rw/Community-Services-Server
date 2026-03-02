@@ -39,7 +39,7 @@ const singUpClient = async (req, res) => {
     });
 
     const token = generateAccessToken(user?.id);
-    await createToken(token,user.id)
+    await createToken(token, user.id)
 
     const verifyLink = `${process.env.CLIENT_URL}/verified-email/${token}`;
 
@@ -62,8 +62,8 @@ const singUpClient = async (req, res) => {
 };
 const login = async (req, res) => {
   try {
-     const { email, password } = req.body;
-     const user = await findUser({ email });
+    const { email, password } = req.body;
+    const user = await findUser({ email });
     if (!user) {
       return handleError(
         res,
@@ -71,7 +71,7 @@ const login = async (req, res) => {
         "Invalid email or Password",
       );
     }
-    comparePassword(password,user.password)
+    comparePassword(password, user.password)
     if (!comparePassword) {
       return handleError(
         res,
@@ -87,7 +87,7 @@ const login = async (req, res) => {
       );
     }
     const token = generateAccessToken(user?._id);
-    return handleSuccess(res, StatusCodes.OK,"Login successfully", token);
+    return handleSuccess(res, StatusCodes.OK, "Login successfully", token);
   } catch (error) {
     return handleError(res, StatusCodes.INTERNAL_SERVER_ERROR, error.message);
   }
@@ -95,15 +95,15 @@ const login = async (req, res) => {
 
 const forgotPassword = async (req, res) => {
   try {
-    
- 
-    const token = generateAccessToken(user._id);
-    await createToken({token,id:user._id})
-     
+
+    const user = req.user
+    const token = generateAccessToken(user?._id);
+    await createToken(token, user._id);
+
 
     const resetUrl = `${process.env.CLIENT_URL}/reset-password/${token}`;
 
-    await sendEmail({action:'forgot-password',receiverEmail:user.email,link:resetUrl});
+    await sendEmail({ action: 'forgot-password', receiverEmail: user.email, link: resetUrl });
 
     return handleSuccess(res, StatusCodes.OK, 'Password reset email sent');
 
@@ -114,4 +114,4 @@ const forgotPassword = async (req, res) => {
 
 
 
-export { signUpProvider, singUpClient ,login,forgotPassword };
+export { signUpProvider, singUpClient, login, forgotPassword };
