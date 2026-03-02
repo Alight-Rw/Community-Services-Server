@@ -39,7 +39,7 @@ const singUpClient = async (req, res) => {
     });
 
     const token = generateAccessToken(user?.id);
-    await createToken(token, user.id)
+    await createToken(token,user.id)
 
     const verifyLink = `${process.env.CLIENT_URL}/verified-email/${token}`;
 
@@ -61,30 +61,47 @@ const singUpClient = async (req, res) => {
 };
 const login = async (req, res) => {
   try {
-    const { deviceId } = req.body;
-    const user = req.user;
-    const token = generateAccessToken(user?._id, deviceId);
-    await Token.findOneAndUpdate(
-      { userId: user._id, deviceId },
-      { token },
-      { upsert: true, returnDocument:'after' },
-    );
-    return handleSuccess(res, StatusCodes.OK, "Login successfully", token);
+     const { email, password } = req.body;
+     const user = await findUser({ email });
+    if (!user) {
+      return handleError(
+        res,
+        StatusCodes.UNAUTHORIZED,
+        "Invalid email or Password",
+      );
+    }
+    comparePassword(password,user.password)
+    if (!comparePassword) {
+      return handleError(
+        res,
+        StatusCodes.UNAUTHORIZED,
+        "Invalid email or Password",
+      );
+    }
+    if (!user.isVerified) {
+      return handleError(
+        res,
+        StatusCodes.UNAUTHORIZED,
+        "Please verify your Account",
+      );
+    }
+    const token = generateAccessToken(user?._id);
+    return handleSuccess(res, StatusCodes.OK,"Login successfully", token);
   } catch (error) {
     return handleError(res, StatusCodes.INTERNAL_SERVER_ERROR, error.message);
   }
 };
 const forgotPassword = async (req, res) => {
   try {
-
-    const user = req.user
-    const token = generateAccessToken(user?._id);
-    await createToken(token, user._id);
-
+    
+ 
+    const token = generateAccessToken(user._id);
+    await createToken({token,id:user._id})
+     
 
     const resetUrl = `${process.env.CLIENT_URL}/reset-password/${token}`;
 
-    await sendEmail({ action: 'forgot-password', receiverEmail: user.email, link: resetUrl });
+    await sendEmail({  action:  'forgot-password',  receiverEmail:  user.email,  link:  resetUrl  });
 
     return handleSuccess(res, StatusCodes.OK, 'Password reset email sent');
 
@@ -142,6 +159,4 @@ const Logout = async (req, res) => {
 
 
 
-export { signUpProvider, singUpClient, login, forgotPassword, verifyAccount ,Logout};
-
-
+export { signUpProvider, singUpClient ,login,forgotPassword };
