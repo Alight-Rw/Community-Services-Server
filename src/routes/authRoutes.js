@@ -29,7 +29,7 @@ router.post("/forgot-password",
 
 
 router.get(
-  "/verify-account/:userId/:token",
+  "/verify-account/:token",
   isTokenExist,        
   verifyAccount       
 );

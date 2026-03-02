@@ -10,6 +10,7 @@ import { generateAccessToken } from '../../utils/jwtUtils.js';
 
 import jwt from 'jsonwebtoken';
 import { sendEmail } from '../../services/sendEmail.js';
+import Token from '../../database/models/tokens.js';
 
 const signUpProvider = async (req, res) => {
   try {
