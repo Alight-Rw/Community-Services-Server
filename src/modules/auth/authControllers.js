@@ -132,4 +132,4 @@ const verifyAccount = async (req, res) => {
 };
 
 
-export { signUpProvider, singUpClient, login, forgotPassword };
+export { signUpProvider, singUpClient, login, forgotPassword ,  verifyprofile };

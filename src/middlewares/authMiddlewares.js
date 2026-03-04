@@ -1,10 +1,12 @@
 import { StatusCodes } from "http-status-codes";
-import { findUser, findUserById } from "../modules/auth/authRepositories.js";
+import { findUser, FindUserByID} from "../modules/auth/authRepositories.js";
 import { handleError } from "../utils/responseUtils.js";
 import Token from "../database/models/tokens.js";
 import { verifyToken } from "../utils/jwtUtils.js";
+
 const checkUser = (mode) => {
   return async (req, res, next) => {
+    console.log("wellcomuyjhbuyuyuy")
     try {
       const user = await findUser({ email: req.body.email });
       if (mode === "isConflict" && user) {

@@ -1,4 +1,5 @@
 
+
 import Token from "../../database/models/tokens.js"
 import User from "../../database/models/users.js"
 
@@ -10,9 +11,6 @@ const findUser = (email) => {
   return User.findOne(email)
 } 
 
-const findUserById =(id)=>{
-  return User.findById(id)
-}
 
 const createToken = (token, userId) => {
   return Token.create({token,userId});
@@ -30,7 +28,10 @@ const FindUserByID = async(id)=>{
 export {
   createUser,
   findUser,
+  FindUserByID,
   createToken,
-  findUserById
+  updateVerify,
+  deleteToken,
+  
   
 }
