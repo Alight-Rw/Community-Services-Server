@@ -17,6 +17,16 @@ const findUserById =(id)=>{
 const createToken = (token, userId) => {
   return Token.create({token,userId});
 };
+
+const updateVerify = (id, updateData) =>
+  User.updateOne({ _id: id }, updateData);
+
+const FindUserByID = async(id)=>{
+  return await User.findById(id)
+}
+ const deleteToken = (token) =>{
+  return Token.deleteOne({ token });
+ }
 export {
   createUser,
   findUser,

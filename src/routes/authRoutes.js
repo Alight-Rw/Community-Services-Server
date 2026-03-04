@@ -4,11 +4,11 @@ import {
   login,
   signUpProvider,
   singUpClient,
-  verifyprofile,
 } from "../modules/auth/authControllers.js";
 import { routeBodyValidation } from "../middlewares/requestMiddlewares.js";
 import { signupSchema } from "../validations/authValidations.js";
-import { checkUser } from "../middlewares/authMiddlewares.js";
+
+import { checkUser, isAccountFind, isAccountVerified, isPasswordMatch, isTokenExist } from "../middlewares/authMiddlewares.js";
 
 const router = express.Router();
 router.post(
@@ -18,17 +18,15 @@ router.post(
   signUpProvider,
 );
 router.post(
-  "/signup",
+  "/client-signup",
   routeBodyValidation(signupSchema),
   checkUser("isConflict"),
   singUpClient,
 );
 router.post("/forgot-password",
-  checkUser("notUser"), forgotPassword
-);
+   checkUser("notUser"),forgotPassword
+  );
 
 
 router.post("/login", login);
-
-router.get("/verify-profile/:token",verifyprofile)
 export default router;
