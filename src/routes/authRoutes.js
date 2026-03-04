@@ -2,6 +2,7 @@ import express from "express";
 import {
   forgotPassword,
   login,
+  Logout,
   signUpProvider,
   singUpClient,
   verifyAccount,
