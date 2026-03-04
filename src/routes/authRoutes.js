@@ -8,7 +8,7 @@ import {
 } from "../modules/auth/authControllers.js";
 import { routeBodyValidation } from "../middlewares/requestMiddlewares.js";
 import { signupSchema } from "../validations/authValidations.js";
-import { isAccountExist, isTokenExist } from "../middlewares/authMiddlewares.js";
+import { checkUser, isTokenExist } from "../middlewares/authMiddlewares.js";
 
 const router = express.Router();
 router.post(
