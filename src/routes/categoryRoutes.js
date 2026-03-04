@@ -1,14 +1,11 @@
 import express from "express";
-import {
-  createCategory,
-  getCategories,
-} from "../modules/shared/controllers/categoryController.js";
-
+import { categoryExist } from "../middlewares/categoryMiddlewares.js";
+import { createCategoryies,getCategories } from "../modules/shared/controllers/categoryController.js";
 
 const router = express.Router();
 
 
 router.get("/", getCategories);
-router.post("/", createCategory);
+router.post("/",categoryExist, createCategoryies);
 
 export default router;

@@ -4,8 +4,8 @@ export const findCategory = async (categoryName) => {
   return await Category.findOne({ categoryName });
 };
 
-export const createCategory = async (data) => {
-  return await Category.create(data);
+export const createCategory = (data) => {
+  return Category.create(data);
 };
 
 export const getAllCategories = async () => {
