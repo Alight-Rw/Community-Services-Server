@@ -111,7 +111,20 @@ const forgotPassword = async (req, res) => {
     return handleError(res, StatusCodes.INTERNAL_SERVER_ERROR, error.message);
   }
 };
+const verifyprofile = async(res,req)=>{
+  try{
+  const user = req.user
+  
+  req.isVerified= true;
+  await user.save()
+
+ return handleSuccess(res, StatusCodes.OK, 'profile verified successfuly');
+}catch (error) {
+    return handleError(res, StatusCodes.INTERNAL_SERVER_ERROR, error.message);
+  }
+}
 
 
 
-export { signUpProvider, singUpClient, login, forgotPassword };
+export { signUpProvider, singUpClient, login, forgotPassword,verifyprofile };
+

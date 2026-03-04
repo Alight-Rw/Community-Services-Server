@@ -10,6 +10,10 @@ const findUser = (email) => {
   return User.findOne(email)
 } 
 
+const findUserById =(id)=>{
+  return User.findById(id)
+}
+
 const createToken = (token, userId) => {
   return Token.create({token,userId});
 };
@@ -17,5 +21,6 @@ export {
   createUser,
   findUser,
   createToken,
+  findUserById
   
 }

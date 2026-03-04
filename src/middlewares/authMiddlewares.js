@@ -1,15 +1,12 @@
 import { StatusCodes } from "http-status-codes";
-import { findUser } from "../modules/auth/authRepositories.js";
+import { findUser, findUserById } from "../modules/auth/authRepositories.js";
 import { handleError } from "../utils/responseUtils.js";
-
-
-
+import Token from "../database/models/tokens.js";
+import { verifyToken } from "../utils/jwtUtils.js";
 const checkUser = (mode) => {
   return async (req, res, next) => {
     try {
       const user = await findUser({ email: req.body.email });
-
-      
       if (mode === "isConflict" && user) {
         return handleError(
           res,
@@ -17,8 +14,6 @@ const checkUser = (mode) => {
           "Account already exists"
         );
       }
-
-      
       if (mode === "notUser" && !user) {
         return handleError(
           res,
@@ -26,8 +21,6 @@ const checkUser = (mode) => {
           "User not found"
         );
       }
-
-      
       if (user) {
         req.user = user;
       }

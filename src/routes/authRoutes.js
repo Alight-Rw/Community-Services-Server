@@ -4,6 +4,7 @@ import {
   login,
   signUpProvider,
   singUpClient,
+  verifyprofile,
 } from "../modules/auth/authControllers.js";
 import { routeBodyValidation } from "../middlewares/requestMiddlewares.js";
 import { signupSchema } from "../validations/authValidations.js";
@@ -23,9 +24,11 @@ router.post(
   singUpClient,
 );
 router.post("/forgot-password",
-   checkUser("notUser"),forgotPassword
-  );
+  checkUser("notUser"), forgotPassword
+);
 
 
 router.post("/login", login);
+
+router.get("/verify-profile/:token",verifyprofile)
 export default router;
