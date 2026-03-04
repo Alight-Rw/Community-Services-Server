@@ -23,7 +23,7 @@ export const createCategory = async (req, res) => {
 export const getCategories = async (req, res) => {
   try {
     const categories = await getAllCategories();
-
+return handleError (res,StatusCodes.CONFLICT, "category not found");
     return handleSuccess( res, StatusCodes.OK,"Categories fetched successfully", categories );
 
   } catch (error) {
