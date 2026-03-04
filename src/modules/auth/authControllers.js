@@ -108,10 +108,12 @@ const verifyAccount = async (req, res) => {
     
     await deleteToken(token, user._id);
 
-    return res.status(200).json({
-      success: true,
-      message: "Account verified successfully",
-    });
+    return handleSuccess(
+      res,
+      StatusCodes.CREATED,
+      "Account verified successfully successfully",
+      user,
+    );
   } catch (error) {
     return handleError(res, 500, error.message);
   }
