@@ -100,7 +100,7 @@ const verifyAccount = async (req, res) => {
     const token = req.token;
 
     
-     const updatedUser = await updateVerify (
+      await updateVerify (
       { _id: user._id },
       { $set: { isVerified: true } }
     );
