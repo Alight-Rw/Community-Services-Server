@@ -2,7 +2,7 @@
 import { StatusCodes } from 'http-status-codes';
 import { hashPassword } from '../../utils/passwordUtils.js';
 import { handleError, handleSuccess } from '../../utils/responseUtils.js';
-import { createToken, createUser} from './authRepositories.js';
+import { createToken, createUser, deleteToken, updateVerify} from './authRepositories.js';
 
 import { generateAccessToken } from '../../utils/jwtUtils.js';
 
@@ -94,6 +94,30 @@ const forgotPassword = async (req, res) => {
 };
 
 
+const verifyAccount = async (req, res) => {
+  try {
+    const user = req.user;
+    const token = req.token;
+
+    
+      await updateVerify (
+      { _id: user._id },
+      { $set: { isVerified: true } }
+    );
+
+    
+    await deleteToken(token, user._id);
+
+    return handleSuccess(
+      res,
+      StatusCodes.CREATED,
+      "Account verified successfully successfully",
+      
+    );
+  } catch (error) {
+    return handleError(res, 500, error.message);
+  }
+};
 
 
-export { signUpProvider, singUpClient, login, forgotPassword };
+export { signUpProvider, singUpClient, login, forgotPassword, verifyAccount };
