@@ -1,12 +1,15 @@
 /** @format */
 
-import express from "express";
-import authRouter from "./authRoutes.js";
-
+import express from 'express';
+import authRouter from './authRoutes.js';
+import categoryRoutes from "./categoryRoutes.js";
 
 const router = express.Router();
 
-router.use("/auth", authRouter);
+router.use('/auth', authRouter); 
+router.use("/categories", categoryRoutes); 
+
+
 
 
 export default router;
