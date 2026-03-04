@@ -4,7 +4,7 @@
 import { StatusCodes } from 'http-status-codes';
 import { comparePassword, hashPassword } from '../../utils/passwordUtils.js';
 import { handleError, handleSuccess } from '../../utils/responseUtils.js';
-import { createToken, createUser, findUser, updateVerify } from './authRepositories.js';
+import { createToken, createUser, deleteToken, findUser, updateVerify} from './authRepositories.js';
 
 import { generateAccessToken } from '../../utils/jwtUtils.js';
 
