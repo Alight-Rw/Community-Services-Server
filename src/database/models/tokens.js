@@ -12,7 +12,7 @@ const tokenSchema = new mongoose.Schema({
   },
     deviceId: {  
     type: String,
-    required: true,
+    required:false,
   },
 }, { timestamps: true });
 tokenSchema.index({ userId: 1, deviceId: 1 }, { unique: true });

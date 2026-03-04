@@ -20,9 +20,9 @@ const updateVerify = (id, updateData) =>
 const FindUserByID = async(id)=>{
   return await User.findById(id)
 }
- const deleteToken = (token) =>
-  Token.deleteOne({ token });
-
+ const deleteToken = (token) =>{
+  return Token.deleteOne({ token });
+ }
 export {
   createUser,
   findUser,

@@ -100,7 +100,7 @@ const verifyAccount = async (req, res) => {
     const token = req.token;
 
     
-    await updateVerify (
+     const updatedUser = await updateVerify (
       { _id: user._id },
       { $set: { isVerified: true } }
     );
@@ -112,7 +112,7 @@ const verifyAccount = async (req, res) => {
       res,
       StatusCodes.CREATED,
       "Account verified successfully successfully",
-      user,
+      
     );
   } catch (error) {
     return handleError(res, 500, error.message);
