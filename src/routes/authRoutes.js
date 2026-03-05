@@ -5,7 +5,7 @@ import {
   Logout,
   signUpProvider,
   singUpClient,
-  verifyAccount,
+  verifyAccount,getprofile
 } from "../modules/auth/authControllers.js";
 import { routeBodyValidation } from "../middlewares/requestMiddlewares.js";
 import { signupSchema } from "../validations/authValidations.js";
@@ -37,6 +37,7 @@ router.get(
 
 router.post("/login", isAccountFind, isPasswordMatch, isAccountVerified, login);
 router.post("/logout", verifyUserToken, Logout);
+router.get("/profile", verifyUserToken, getprofile);
 
 
 export default router;
