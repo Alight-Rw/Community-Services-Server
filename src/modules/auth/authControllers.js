@@ -2,7 +2,7 @@
 import { StatusCodes } from 'http-status-codes';
 import { hashPassword } from '../../utils/passwordUtils.js';
 import { handleError, handleSuccess } from '../../utils/responseUtils.js';
-import { createToken, createUser, deleteToken,deleteOneToken, updateVerify} from './authRepositories.js';
+import { createToken, createUser, deleteToken,deleteOneToken,FindUserByID, updateVerify} from './authRepositories.js';
 
 import { generateAccessToken } from '../../utils/jwtUtils.js';
 
@@ -140,7 +140,18 @@ const Logout = async (req, res) => {
   }
 };
 
+const getprofile = async(req,res)=>{
+   const user = req.user 
+   try {
+    const userprofile = await FindUserByID(user?._id)
+    return handleSuccess(res,StatusCodes.OK,"Profile retrived",userprofile)
+   } catch (error) {
+    return handleError(res,StatusCodes.INTERNAL_SERVER_ERROR,error.message)
+   }
+}
 
 
 
-export { signUpProvider, singUpClient, login, forgotPassword, verifyAccount ,Logout};
+
+
+export { signUpProvider, singUpClient, login, forgotPassword, verifyAccount ,Logout,getprofile};
