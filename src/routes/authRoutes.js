@@ -10,7 +10,6 @@ import {
 import { routeBodyValidation } from "../middlewares/requestMiddlewares.js";
 import { signupSchema } from "../validations/authValidations.js";
 import { verifyUserToken } from "../middlewares/authMiddlewares.js";
-import { Logout } from "../modules/auth/authControllers.js";
 import { checkUser, isAccountFind, isAccountVerified, isPasswordMatch, isTokenExist } from "../middlewares/authMiddlewares.js";
 
 const router = express.Router();

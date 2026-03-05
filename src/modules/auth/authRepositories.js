@@ -28,8 +28,8 @@ const updateVerify = (id, updateData) =>
 const FindUserByID = async(id)=>{
   return await User.findById(id)
 }
- const deleteOneToken = (token) =>{
-  return Token.deleteOne({ token });
+ const deleteOneToken = ({userId,deviceId}) =>{
+  return Token.findOneAndDelete({userId,deviceId});
  }
 
  const findToken = ({userId,token}) =>{

@@ -126,7 +126,7 @@ const verifyUserToken = async (req, res, next) => {
       return handleError(res, StatusCodes.UNAUTHORIZED, "Invalid token");
     }
 
-    
+    const deviceId = decoded.deviceId
     const user = await FindUserByID(decoded.id);
 
     if (!user) {
@@ -143,6 +143,7 @@ const verifyUserToken = async (req, res, next) => {
     
     req.user = user;
     req.token = token;
+    req.deviceId = deviceId
 
     next();
 

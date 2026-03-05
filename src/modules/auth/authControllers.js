@@ -2,14 +2,13 @@
 import { StatusCodes } from 'http-status-codes';
 import { hashPassword } from '../../utils/passwordUtils.js';
 import { handleError, handleSuccess } from '../../utils/responseUtils.js';
-import { createToken, createUser, deleteToken, updateVerify} from './authRepositories.js';
+import { createToken, createUser, deleteToken,deleteOneToken, updateVerify} from './authRepositories.js';
 
 import { generateAccessToken } from '../../utils/jwtUtils.js';
 
 
 import { sendEmail } from '../../services/sendEmail.js';
 import Token from '../../database/models/tokens.js';
-import { deleteToken } from './authRepositories.js';
 
 const signUpProvider = async (req, res) => {
   try {
@@ -126,10 +125,10 @@ const verifyAccount = async (req, res) => {
 
 const Logout = async (req, res) => {
   try {
-    const { deviceId } = req.body;
+    const deviceId = req.deviceId
     const user = req.user;
 
-    await Token.findOneAndDelete({
+    await deleteOneToken({
       userId: user._id,
       deviceId
     });
