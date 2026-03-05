@@ -66,3 +66,19 @@ export const signupSchema = Joi.object({
     })
     
 })
+
+
+export const categorySchema = Joi.object({
+  categoryName: Joi.string()
+    .trim()
+    .min(2)
+    .max(50)
+    .required()
+    .messages({
+      "string.base": "categoryName must be a string",
+      "string.empty": "categoryName cannot be empty",
+      "string.min": "categoryName must have at least 2 characters",
+      "string.max": "categoryName must not exceed 50 characters",
+      "any.required": "categoryName is required"
+    })
+});
