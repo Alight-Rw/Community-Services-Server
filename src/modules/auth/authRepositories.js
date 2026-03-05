@@ -13,13 +13,8 @@ const findUser = (email) => {
 const createToken = (token, userId) => {
   return Token.create({token,userId});
 }
-const deleteToken = (token, userId) => {
-  return Token.delete({
-    where: {
-      token: token,
-      userId: userId
-    }
-  });
+const deleteToken = async (token, userId) => {
+  const result = await Token.deleteOne({ token, userId });
 };
 
 const updateVerify = (id, updateData) =>

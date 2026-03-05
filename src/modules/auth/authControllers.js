@@ -100,7 +100,7 @@ const verifyAccount = async (req, res) => {
     const token = req.token;
 
     
-      await updateVerify (
+    await updateVerify (
       { _id: user._id },
       { $set: { isVerified: true } }
     );
@@ -108,12 +108,10 @@ const verifyAccount = async (req, res) => {
     
     await deleteToken(token, user._id);
 
-    return handleSuccess(
-      res,
-      StatusCodes.CREATED,
-      "Account verified successfully successfully",
-      
-    );
+    return res.status(200).json({
+      success: true,
+      message: "Account verified successfully",
+    });
   } catch (error) {
     return handleError(res, 500, error.message);
   }
@@ -161,6 +159,28 @@ const updateProfile = async (req, res) => {
   }
 };
 
+const changePassword = async (req, res) => {
+  try {
+    const token = req.token;
+    const userId = req.user.id;
 
 
-export { signUpProvider, singUpClient, login, forgotPassword, verifyAccount ,Logout,getprofile,updateProfile};
+    const hashedPassword = await hashPassword(req.body.newPassword);
+
+    await updateVerify(userId, {
+      password: hashedPassword
+      
+    });
+
+    await deleteToken(token, userId);
+
+    return handleSuccess(res,StatusCodes.OK, "Password changed successfully");
+
+  } catch (error) {
+    return handleError(res, StatusCodes.INTERNAL_SERVER_ERROR, error.message);
+  }
+};
+
+
+
+export { signUpProvider, singUpClient,changePassword, login, forgotPassword, verifyAccount ,Logout,getprofile,updateProfile};

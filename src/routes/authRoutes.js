@@ -6,10 +6,11 @@ import {
   signUpProvider,
   singUpClient,
   verifyAccount,getprofile,
-  updateProfile
+  updateProfile,
+  changePassword
 } from "../modules/auth/authControllers.js";
 import { routeBodyValidation } from "../middlewares/requestMiddlewares.js";
-import { signupSchema } from "../validations/authValidations.js";
+import { changePasswordSchema, signupSchema } from "../validations/authValidations.js";
 import { verifyUserToken } from "../middlewares/authMiddlewares.js";
 import { checkUser, isAccountFind, isAccountVerified, isPasswordMatch, isTokenExist } from "../middlewares/authMiddlewares.js";
 
@@ -41,5 +42,10 @@ router.post("/logout", verifyUserToken, Logout);
 router.get("/profile", verifyUserToken, getprofile);
 router.patch("/edit-profile", verifyUserToken, updateProfile);
 
+router.post(
+  "/change-password/:token",
+  routeBodyValidation(changePasswordSchema),isTokenExist,
+  changePassword
+);
 
 export default router;
