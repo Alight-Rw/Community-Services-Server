@@ -3,16 +3,22 @@ import { findUser, FindUserByID } from "../modules/auth/authRepositories.js"
 import { handleError } from "../utils/responseUtils.js"
 import { comparePassword } from "../utils/passwordUtils.js";
 import { verifyToken } from "../utils/jwtUtils.js";
-import Token from "../database/models/tokens.js";
 import { findToken } from "../modules/auth/authRepositories.js";
-
 
 const checkUser = (mode) => {
   return async (req, res, next) => {
     try {
-      const user = await findUser({ email: req.body.email });
+      const query = {};
 
-      
+      if (req.body.email) {
+        query.email = req.body.email;
+      }
+
+      if (req.params.id) {
+        query._id = req.params.id;
+      }
+
+      const user = await findUser(query);
       if (mode === "isConflict" && user) {
         return handleError(
           res,
@@ -21,7 +27,6 @@ const checkUser = (mode) => {
         );
       }
 
-      
       if (mode === "notUser" && !user) {
         return handleError(
           res,
@@ -30,7 +35,6 @@ const checkUser = (mode) => {
         );
       }
 
-      
       if (user) {
         req.user = user;
       }
@@ -155,20 +159,6 @@ const verifyUserToken = async (req, res, next) => {
 
 
 export {
-    isAccountFind,isPasswordMatch,isAccountVerified,checkUser,isTokenExist,verifyUserToken
+    isAccountFind,isPasswordMatch,isAccountVerified,checkUser,isTokenExist,verifyUserToken,
 }
-const isfindUser = async (req,res,next) =>{
-  try {
-    const user = await findUser({email:req.body.email}) 
-    if(!user){
-       return handleError(res,StatusCodes.NOT_FOUND,'User not Found')
-    }
-    return next()
-  } catch (error) {
-    return handleError(res,StatusCodes.INTERNAL_SERVER_ERROR,error)
-  }
-}
-export {
-    isAccountExist,
-    isfindUser
-}
+

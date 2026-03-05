@@ -3,12 +3,10 @@ import { StatusCodes } from 'http-status-codes';
 import { hashPassword } from '../../utils/passwordUtils.js';
 import { handleError, handleSuccess } from '../../utils/responseUtils.js';
 import { createToken, createUser, deleteToken,deleteOneToken,FindUserByID, updateVerify} from './authRepositories.js';
-
 import { generateAccessToken } from '../../utils/jwtUtils.js';
-
-
 import { sendEmail } from '../../services/sendEmail.js';
 import Token from '../../database/models/tokens.js';
+import User from '../../database/models/users.js';
 
 const signUpProvider = async (req, res) => {
   try {
@@ -110,12 +108,29 @@ const forgotPassword = async (req, res) => {
   }
 };
 
+const updateProfile = async (req, res) => {
+  try {
+    const { firstName,lastName, email, phone, location } = req.body;
+    const userId = req.user.id;
+
+   const updatedUser = await User.findByIdAndUpdate(
+  userId,
+  { firstName, lastName, email, phone, location },
+  { returnDocument: "after" }
+);
+
+    return handleSuccess(
+      res, StatusCodes.OK, 'Profile updated successfully');
+    
+  } catch (error) {
+    return handleError(res, StatusCodes.INTERNAL_SERVER_ERROR, error.message );
+  }
+};
 
 const verifyAccount = async (req, res) => {
   try {
     const user = req.user;
     const token = req.token;
-
     
       await updateVerify (
       { _id: user._id },
@@ -167,7 +182,4 @@ const getprofile = async(req,res)=>{
    }
 }
 
-
-
-
-export { signUpProvider, singUpClient, login, forgotPassword, verifyAccount ,Logout,getprofile};
+export { signUpProvider, singUpClient, login, forgotPassword, verifyAccount ,Logout,getprofile,updateProfile};

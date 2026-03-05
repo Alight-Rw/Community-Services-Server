@@ -3,10 +3,10 @@
 import mongoose from 'mongoose';
 
 const userSchema = new mongoose.Schema({
- avatar:{
-   type:String,
-   required:false,
- },
+  avatar: {
+    type: String,
+    required: false,
+  },
   firstName: {
     type: String,
     required: true,
@@ -23,6 +23,14 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true,
+  },
+
+  location: {
+    type: String,
+  },
+
+  phone: {
+    type: String,
   },
   role: {
     type: String,
