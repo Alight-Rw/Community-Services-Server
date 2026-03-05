@@ -153,5 +153,4 @@ const getprofile = async(req,res)=>{
 
 
 
-
 export { signUpProvider, singUpClient, login, forgotPassword, verifyAccount ,Logout,getprofile};
