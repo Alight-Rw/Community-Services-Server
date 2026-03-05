@@ -5,11 +5,7 @@ import {
   Logout,
   signUpProvider,
   singUpClient,
-<<<<<<< HEAD
-  verifyAccount,
-=======
   updateProfile,
->>>>>>> 51787a6 (Edit profile)
 } from "../modules/auth/authControllers.js";
 import { routeBodyValidation } from "../middlewares/requestMiddlewares.js";
 import { signupSchema } from "../validations/authValidations.js";
