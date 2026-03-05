@@ -2,7 +2,7 @@
 import { StatusCodes } from 'http-status-codes';
 import { hashPassword } from '../../utils/passwordUtils.js';
 import { handleError, handleSuccess } from '../../utils/responseUtils.js';
-import { createToken, createUser, deleteToken, updateVerify} from './authRepositories.js';
+import { createToken, createUser, deleteToken,deleteOneToken, updateVerify} from './authRepositories.js';
 
 import { generateAccessToken } from '../../utils/jwtUtils.js';
 
@@ -117,7 +117,30 @@ const verifyAccount = async (req, res) => {
   } catch (error) {
     return handleError(res, 500, error.message);
   }
+
 };
 
 
-export { signUpProvider, singUpClient, login, forgotPassword, verifyAccount };
+
+
+const Logout = async (req, res) => {
+  try {
+    const deviceId = req.deviceId
+    const user = req.user;
+
+    await deleteOneToken({
+      userId: user._id,
+      deviceId
+    });
+
+    return handleSuccess(res, StatusCodes.OK, "Logged out successfully");
+
+  } catch (error) {
+    return handleError(res, StatusCodes.INTERNAL_SERVER_ERROR, error.message);
+  }
+};
+
+
+
+
+export { signUpProvider, singUpClient, login, forgotPassword, verifyAccount ,Logout};
