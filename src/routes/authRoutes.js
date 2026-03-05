@@ -1,3 +1,4 @@
+
 import express from "express";
 import {
   forgotPassword,
@@ -6,30 +7,44 @@ import {
   signUpProvider,
   singUpClient,
   updateProfile,
+  verifyAccount,
 } from "../modules/auth/authControllers.js";
+
 import { routeBodyValidation } from "../middlewares/requestMiddlewares.js";
 import { signupSchema } from "../validations/authValidations.js";
-import { verifyUserToken } from "../middlewares/authMiddlewares.js";
-import { checkUser, isAccountFind, isAccountVerified, isPasswordMatch, isTokenExist } from "../middlewares/authMiddlewares.js";
-import { isAccountExist, isfindUser } from "../middlewares/authMiddlewares.js";
-import { checkUser } from "../middlewares/authMiddlewares.js";
-import { verifyTokenMiddleware } from "../utils/jwtUtils.js";
+
+import {
+  checkUser,
+  isAccountFind,
+  isAccountVerified,
+  isPasswordMatch,
+  isTokenExist,
+  isfindUser,
+  verifyUserToken,
+} from "../middlewares/authMiddlewares.js";
+
 
 const router = express.Router();
+
+
 router.post(
   "/provider-signup",
   routeBodyValidation(signupSchema),
   checkUser("isConflict"),
-  signUpProvider,
+  signUpProvider
 );
+
 router.post(
   "/client-signup",
   routeBodyValidation(signupSchema),
   checkUser("isConflict"),
-  singUpClient,
+  singUpClient
 );
-router.post("/forgot-password",
-  checkUser("notUser"), forgotPassword
+
+router.post(
+  "/forgot-password",
+  checkUser("notUser"),
+  forgotPassword
 );
 
 router.get(
@@ -38,12 +53,22 @@ router.get(
   verifyAccount
 );
 
-router.post("/login", isAccountFind, isPasswordMatch, isAccountVerified, login);
-router.post("/logout", verifyUserToken, Logout);
-   isfindUser,forgotPassword,
-   checkUser("notUser"),forgotPassword
+router.post(
+  "/login",
+  isAccountFind,
+  isPasswordMatch,
+  isAccountVerified,
+  login
+);
 
-  );
-router.patch("/update-profile", verifyTokenMiddleware, updateProfile);
+router.post(
+  "/logout",
+  verifyUserToken,
+  Logout
+);
+
+router.patch(
+  "/update-profile", 
+  verifyUserToken, updateProfile);
 
 export default router;

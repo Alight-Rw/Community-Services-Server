@@ -3,16 +3,9 @@ import { StatusCodes } from 'http-status-codes';
 import { hashPassword } from '../../utils/passwordUtils.js';
 import { handleError, handleSuccess } from '../../utils/responseUtils.js';
 import { createToken, createUser, deleteToken,deleteOneToken, updateVerify} from './authRepositories.js';
-
 import { generateAccessToken } from '../../utils/jwtUtils.js';
-
-
 import { sendEmail } from '../../services/sendEmail.js';
-<<<<<<< HEAD
-import Token from '../../database/models/tokens.js';
-=======
 import User from '../../database/models/users.js';
->>>>>>> 51787a6 (Edit profile)
 
 const signUpProvider = async (req, res) => {
   try {
@@ -140,7 +133,6 @@ const verifyAccount = async (req, res) => {
     const user = req.user;
     const token = req.token;
 
-<<<<<<< HEAD
     
       await updateVerify (
       { _id: user._id },
@@ -163,8 +155,6 @@ const verifyAccount = async (req, res) => {
 };
 
 
-
-
 const Logout = async (req, res) => {
   try {
     const deviceId = req.deviceId
@@ -183,8 +173,4 @@ const Logout = async (req, res) => {
 };
 
 
-
-export { signUpProvider, singUpClient ,login,forgotPassword };
-=======
-export { signUpProvider, singUpClient, login, forgotPassword, updateProfile};
->>>>>>> 51787a6 (Edit profile)
+export { signUpProvider, singUpClient, login, forgotPassword,Logout,verifyAccount, updateProfile};
