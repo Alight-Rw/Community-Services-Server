@@ -66,3 +66,34 @@ export const signupSchema = Joi.object({
     })
     
 })
+
+export const contactUsSchema = Joi.object({
+
+   fullName:Joi.string()
+    .required()
+    .messages({
+        'string.base':'fullName must be string',
+        'string.empty':'fullName can not be empty',
+        'any.required':'fullName is required'
+    }),
+    
+    email: Joi.string().email().required().messages({
+    'any.required': 'email is required',
+    'string.email': 'email must be a valid email',
+    'string.base': 'email should be a type of string',
+    'string.empty': 'email is not allowed to be empty field',
+  }),
+
+  subject:Joi.string()
+    .required()
+    .messages({
+        'string.empty':'subject can not be empty',
+       
+    }),
+    message:Joi.string()
+    .required()
+    .messages({
+        'string.empty':'subject can not be empty',
+       
+    }),
+}) 
