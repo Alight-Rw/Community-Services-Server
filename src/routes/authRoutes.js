@@ -6,9 +6,8 @@ import {
   Logout,
   signUpProvider,
   singUpClient,
-  verifyAccount, getprofile
+  verifyAccount, getprofile,
   updateProfile,
-  verifyAccount,
 } from "../modules/auth/authControllers.js";
 
 import { routeBodyValidation } from "../middlewares/requestMiddlewares.js";
