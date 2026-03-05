@@ -153,8 +153,6 @@ const verifyAccount = async (req, res) => {
 };
 
 
-
-
 const Logout = async (req, res) => {
   try {
     const deviceId = req.deviceId

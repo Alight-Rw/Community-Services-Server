@@ -1,3 +1,4 @@
+
 import express from "express";
 import {
   forgotPassword,
@@ -7,27 +8,35 @@ import {
   singUpClient,
   verifyAccount, getprofile
   updateProfile,
+  verifyAccount,
 } from "../modules/auth/authControllers.js";
+
 import { routeBodyValidation } from "../middlewares/requestMiddlewares.js";
 import { signupSchema } from "../validations/authValidations.js";
 import { verifyUserToken } from "../middlewares/authMiddlewares.js";
 import { checkUser, isAccountFind, isAccountVerified, isPasswordMatch, isTokenExist } from "../middlewares/authMiddlewares.js";
 
 const router = express.Router();
+
+
 router.post(
   "/provider-signup",
   routeBodyValidation(signupSchema),
   checkUser("isConflict"),
-  signUpProvider,
+  signUpProvider
 );
+
 router.post(
   "/client-signup",
   routeBodyValidation(signupSchema),
   checkUser("isConflict"),
-  singUpClient,
+  singUpClient
 );
-router.post("/forgot-password",
-  checkUser("notUser"), forgotPassword
+
+router.post(
+  "/forgot-password",
+  checkUser("notUser"),
+  forgotPassword
 );
 
 router.get(
@@ -43,5 +52,9 @@ forgotPassword,
   checkUser("notUser"), forgotPassword
 
 router.patch("/update-profile", verifyUserToken, updateProfile);
+
+router.patch(
+  "/update-profile", 
+  verifyUserToken, updateProfile);
 
 export default router;
