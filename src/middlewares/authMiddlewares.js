@@ -92,29 +92,41 @@ const isTokenExist = async (req, res, next) => {
 
 const verifyUserToken = async (req, res, next) => {
   try {
-
+    
     const authHeader = req.headers.authorization;
 
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
-      return handleError(res, StatusCodes.UNAUTHORIZED, "No token provided");
+      return handleError(res, StatusCodes.UNAUTHORIZED, "Token missing");
     }
 
+    
     const token = authHeader.split(" ")[1];
 
+    
     const decoded = verifyToken(token);
 
     if (!decoded?.id) {
       return handleError(res, StatusCodes.UNAUTHORIZED, "Invalid token");
     }
 
+    const deviceId = decoded.deviceId
     const user = await FindUserByID(decoded.id);
 
     if (!user) {
       return handleError(res, StatusCodes.NOT_FOUND, "User not found");
     }
 
-    req.user = user;
     
+    const tokenExist = await findToken({ userId: user._id, token });
+
+    if (!tokenExist) {
+      return handleError(res, StatusCodes.UNAUTHORIZED, "Token expired or logged out");
+    }
+
+    
+    req.user = user;
+    req.token = token;
+    req.deviceId = deviceId
 
     next();
 
@@ -122,7 +134,6 @@ const verifyUserToken = async (req, res, next) => {
     return handleError(res, StatusCodes.UNAUTHORIZED, "Invalid or expired token");
   }
 };
-
 
 
 export {

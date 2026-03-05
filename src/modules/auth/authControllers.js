@@ -111,7 +111,7 @@ const forgotPassword = async (req, res) => {
 const updateProfile = async (req, res) => {
   try {
     const { firstName,lastName, email, phone, location } = req.body;
-    const userId = req.user.id;
+    const userId = req.user?._id;
 
    const updatedUser = await User.findByIdAndUpdate(
   userId,
@@ -120,7 +120,7 @@ const updateProfile = async (req, res) => {
 );
 
     return handleSuccess(
-      res, StatusCodes.OK, 'Profile updated successfully');
+      res, StatusCodes.OK, 'Profile updated successfully',updatedUser);
     
   } catch (error) {
     return handleError(res, StatusCodes.INTERNAL_SERVER_ERROR, error.message );
