@@ -52,8 +52,6 @@ forgotPassword,
 
 router.patch("/update-profile", verifyUserToken, updateProfile);
 
-router.patch(
-  "/update-profile", 
-  verifyUserToken, updateProfile);
+
 
 export default router;

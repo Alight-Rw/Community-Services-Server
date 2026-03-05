@@ -8,12 +8,8 @@ import { findToken } from "../modules/auth/authRepositories.js";
 const checkUser = (mode) => {
   return async (req, res, next) => {
     try {
-      const query = {};
+     const user = await findUser({ email: req.body.email });
 
-      if (req.body.email) query.email = req.body.email;
-      if (req.params.id) query._id = req.params.id;
-
-      const user = await findUser(query);
 
       if (mode === "isConflict" && user) {
         return handleError(res, StatusCodes.CONFLICT, "Account already exists");

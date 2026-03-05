@@ -2,11 +2,10 @@
 import { StatusCodes } from 'http-status-codes';
 import { hashPassword } from '../../utils/passwordUtils.js';
 import { handleError, handleSuccess } from '../../utils/responseUtils.js';
-import { createToken, createUser, deleteToken,deleteOneToken,FindUserByID, updateVerify} from './authRepositories.js';
+import { createToken, createUser, deleteToken,deleteOneToken,FindUserByID,findUser, updateVerify} from './authRepositories.js';
 import { generateAccessToken } from '../../utils/jwtUtils.js';
 import { sendEmail } from '../../services/sendEmail.js';
-import Token from '../../database/models/tokens.js';
-import User from '../../database/models/users.js';
+import { comparePassword } from '../../utils/passwordUtils.js';
 
 const signUpProvider = async (req, res) => {
   try {
