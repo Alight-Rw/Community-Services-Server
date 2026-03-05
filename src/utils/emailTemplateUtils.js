@@ -105,3 +105,71 @@ export const forgotPasswordTemplate = (receiverEmail, action, link) => {
     </table>`
   };
 };
+
+
+export const ContactUsTemplate = (receiverEmail, fullName, email, subject, message) => {
+  return {
+    from: ` ${email}`,
+    to: receiverEmail,
+    subject: `New Contact Us Message: ${subject}`,
+    from: ` ${email}`,
+    text: `New contact message from ${fullName} (${email}). Message: ${message}`,
+    
+    html: `
+    <table cellpadding="20" cellspacing="0" border="0" width="100%" style="background: linear-gradient(135deg, #E8F4FD 0%, #D6E9F7 100%);">
+      <tr>
+        <td align="center" style="padding: 20px 0;">
+          <table style="max-width: 600px; width: 85%; background-color: #FFFFFF; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); overflow: hidden;">
+            
+            <tr>
+              <td style="background: #408BF6; padding: 12px; text-align: center;">
+                <span style="color: #FFFFFF; font-size: 22px; font-weight:600;">COMMUNITY SERVICES</span>
+              </td>
+            </tr>
+
+            <tr>
+              <td style="padding: 25px 30px;">
+                <h2 style="color: #408BF6; margin-bottom: 20px; font-size: 24px; text-align: center;">
+                  New Contact Message
+                </h2>
+
+                <table width="100%" style="font-size:15px; color:#5A6C7D;">
+                  <tr>
+                    <td style="padding:8px 0;"><strong>Full Name:</strong></td>
+                    <td>${fullName}</td>
+                  </tr>
+                  <tr>
+                    <td style="padding:8px 0;"><strong>Email:</strong></td>
+                    <td>${email}</td>
+                  </tr>
+                  <tr>
+                    <td style="padding:8px 0;"><strong>Subject:</strong></td>
+                    <td>${subject}</td>
+                  </tr>
+                  <tr>
+                    <td style="padding:8px 0; vertical-align:top;"><strong>Message:</strong></td>
+                    <td>${message}</td>
+                  </tr>
+                </table>
+
+              </td>
+            </tr>
+
+            <tr>
+              <td style="background-color: #F8FAFC; padding: 15px; text-align: center; border-top: 1px solid #E2E8F0;">
+                <p style="color: #94A3B8; font-size: 13px; margin: 0 0 5px 0;">
+                  This message was sent to the COMMUNITY SERVICES contact form.
+                </p>
+                <p style="color: #CBD5E1; font-size: 11px; margin: 0;">
+                  © ${new Date().getFullYear()} COMMUNITY SERVICES. All rights reserved.
+                </p>
+              </td>
+            </tr>
+
+          </table>
+        </td>
+      </tr>
+    </table>
+    `
+  };
+};
