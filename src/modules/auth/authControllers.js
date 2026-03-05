@@ -8,7 +8,11 @@ import { generateAccessToken } from '../../utils/jwtUtils.js';
 
 
 import { sendEmail } from '../../services/sendEmail.js';
+<<<<<<< HEAD
 import Token from '../../database/models/tokens.js';
+=======
+import User from '../../database/models/users.js';
+>>>>>>> 51787a6 (Edit profile)
 
 const signUpProvider = async (req, res) => {
   try {
@@ -110,12 +114,33 @@ const forgotPassword = async (req, res) => {
   }
 };
 
+const updateProfile = async (req, res) => {
+  try {
+    const { firstName,lastName, email, phone, location } = req.body;
+    const userId = req.user.id;
+
+   const updatedUser = await User.findByIdAndUpdate(
+  userId,
+  { firstName, lastName, email, phone, location },
+  { returnDocument: "after" }
+);
+
+    return res.status(200).json({
+      success: true,
+      message: "Profile updated successfully",
+      user: updatedUser,
+    });
+  } catch (error) {
+    return res.status(500).json({ success: false, message: error.message });
+  }
+};
 
 const verifyAccount = async (req, res) => {
   try {
     const user = req.user;
     const token = req.token;
 
+<<<<<<< HEAD
     
       await updateVerify (
       { _id: user._id },
@@ -160,3 +185,6 @@ const Logout = async (req, res) => {
 
 
 export { signUpProvider, singUpClient ,login,forgotPassword };
+=======
+export { signUpProvider, singUpClient, login, forgotPassword, updateProfile};
+>>>>>>> 51787a6 (Edit profile)

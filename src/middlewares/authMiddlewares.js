@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { StatusCodes } from "http-status-codes"
 import { findUser, FindUserByID } from "../modules/auth/authRepositories.js"
 import { handleError } from "../utils/responseUtils.js"
@@ -6,13 +7,26 @@ import { verifyToken } from "../utils/jwtUtils.js";
 import Token from "../database/models/tokens.js";
 import { findToken } from "../modules/auth/authRepositories.js";
 
+=======
+import { StatusCodes } from "http-status-codes";
+import { findUser } from "../modules/auth/authRepositories.js";
+import { handleError } from "../utils/responseUtils.js";
+>>>>>>> 51787a6 (Edit profile)
 
 const checkUser = (mode) => {
   return async (req, res, next) => {
     try {
-      const user = await findUser({ email: req.body.email });
+      const query = {};
 
-      
+      if (req.body.email) {
+        query.email = req.body.email;
+      }
+
+      if (req.params.id) {
+        query._id = req.params.id;
+      }
+
+      const user = await findUser(query);
       if (mode === "isConflict" && user) {
         return handleError(
           res,
@@ -21,7 +35,6 @@ const checkUser = (mode) => {
         );
       }
 
-      
       if (mode === "notUser" && !user) {
         return handleError(
           res,
@@ -30,7 +43,6 @@ const checkUser = (mode) => {
         );
       }
 
-      
       if (user) {
         req.user = user;
       }
