@@ -66,3 +66,51 @@ export const signupSchema = Joi.object({
     })
     
 })
+
+
+export const categorySchema = Joi.object({
+  categoryName: Joi.string()
+    .trim()
+    .min(2)
+    .max(50)
+    .required()
+    .messages({
+      "string.base": "categoryName must be a string",
+      "string.empty": "categoryName cannot be empty",
+      "string.min": "categoryName must have at least 2 characters",
+      "string.max": "categoryName must not exceed 50 characters",
+      "any.required": "categoryName is required"
+    })
+});
+export const contactUsSchema = Joi.object({
+
+   fullName:Joi.string()
+    .required()
+    .messages({
+        'string.base':'fullName must be string',
+        'string.empty':'fullName can not be empty',
+        'any.required':'fullName is required'
+    }),
+    
+    email: Joi.string().email().required().messages({
+    'any.required': 'email is required',
+    'string.email': 'email must be a valid email',
+    'string.base': 'email should be a type of string',
+    'string.empty': 'email is not allowed to be empty field',
+  }),
+
+  subject:Joi.string()
+    .required()
+    .messages({
+        'string.empty':'subject can not be empty',
+       
+    }),
+    message:Joi.string()
+    .required()
+    .messages({
+        'string.empty':'subject can not be empty',
+       
+    }),
+}) 
+
+

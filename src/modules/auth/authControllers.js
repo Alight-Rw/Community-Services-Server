@@ -174,3 +174,4 @@ const Logout = async (req, res) => {
 
 
 export { signUpProvider, singUpClient, login, forgotPassword,Logout,verifyAccount, updateProfile};
+
