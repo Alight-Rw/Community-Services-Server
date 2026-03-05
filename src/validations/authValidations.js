@@ -99,3 +99,20 @@ export const contactUsSchema = Joi.object({
 }) 
 
 
+export const changePasswordSchema = Joi.object({
+    newPassword:Joi.string()
+    .required()
+    .messages({
+        'string.base':' newPassword must be string',
+        'string.empty':' newPassword can not be empty',
+        'any.required':' newPassword is required'
+    }),
+    
+    confirmPassword: Joi.string()
+    .required()
+    .valid(Joi.ref('newPassword'))
+    .messages({
+      'string.base':'Please match your password and confirm password'
+    })
+    
+})

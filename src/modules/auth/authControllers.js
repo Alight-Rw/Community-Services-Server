@@ -140,7 +140,27 @@ const Logout = async (req, res) => {
   }
 };
 
+const changePassword = async (req, res) => {
+  try {
+    const { newPassword } = req.body;
+    const token = req.token;
+    const userId = req.user.id;
 
 
+    const hashedPassword = await hashPassword(newPassword);
 
-export { signUpProvider, singUpClient, login, forgotPassword, verifyAccount ,Logout};
+    await updateVerify(userId, {
+      password: hashedPassword
+      
+    });
+
+    await deleteToken(token, userId);
+
+    return handleSuccess(res,StatusCodes.OK, "Password changed successfully");
+
+  } catch (error) {
+    return handleError(res, StatusCodes.INTERNAL_SERVER_ERROR, error.message);
+  }
+};
+
+export { signUpProvider, singUpClient, login, forgotPassword, verifyAccount ,Logout, changePassword };

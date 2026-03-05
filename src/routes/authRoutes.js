@@ -1,5 +1,6 @@
 import express from "express";
 import {
+  changePassword,
   forgotPassword,
   login,
   Logout,
@@ -8,7 +9,7 @@ import {
   verifyAccount,
 } from "../modules/auth/authControllers.js";
 import { routeBodyValidation } from "../middlewares/requestMiddlewares.js";
-import { signupSchema } from "../validations/authValidations.js";
+import { changePasswordSchema, signupSchema } from "../validations/authValidations.js";
 import { verifyUserToken } from "../middlewares/authMiddlewares.js";
 import { checkUser, isAccountFind, isAccountVerified, isPasswordMatch, isTokenExist } from "../middlewares/authMiddlewares.js";
 
@@ -38,5 +39,10 @@ router.get(
 router.post("/login", isAccountFind, isPasswordMatch, isAccountVerified, login);
 router.post("/logout", verifyUserToken, Logout);
 
+router.post(
+  "/change-password/:token",
+  routeBodyValidation(changePasswordSchema),isTokenExist,
+  changePassword
+);
 
 export default router;
