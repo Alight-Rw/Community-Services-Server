@@ -9,6 +9,7 @@ import { generateAccessToken } from '../../utils/jwtUtils.js';
 
 import { sendEmail } from '../../services/sendEmail.js';
 import Token from '../../database/models/tokens.js';
+import { deleteToken } from './authRepositories.js';
 
 const signUpProvider = async (req, res) => {
   try {
@@ -117,6 +118,7 @@ const verifyAccount = async (req, res) => {
   } catch (error) {
     return handleError(res, 500, error.message);
   }
+
 };
 
 

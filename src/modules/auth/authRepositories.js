@@ -12,6 +12,14 @@ const findUser = (email) => {
 
 const createToken = (token, userId) => {
   return Token.create({token,userId});
+}
+const deleteToken = (token, userId) => {
+  return Token.delete({
+    where: {
+      token: token,
+      userId: userId
+    }
+  });
 };
 
 const updateVerify = (id, updateData) =>
@@ -20,7 +28,7 @@ const updateVerify = (id, updateData) =>
 const FindUserByID = async(id)=>{
   return await User.findById(id)
 }
- const deleteToken = (token) =>{
+ const deleteOneToken = (token) =>{
   return Token.deleteOne({ token });
  }
 
@@ -34,6 +42,7 @@ export {
   updateVerify,
   FindUserByID,
   deleteToken ,
-  findToken
+  findToken,
+  deleteOneToken
   
 }
