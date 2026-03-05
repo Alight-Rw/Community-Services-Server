@@ -1,4 +1,6 @@
-import { sendEmail } from "../../services/sendEmail";
+import { StatusCodes } from "http-status-codes";
+import { sendEmail } from "../../services/sendEmail.js";
+import { handleSuccess } from "../../utils/responseUtils.js";
 
 const ContactUsMessage = async (req, res) => {
 
