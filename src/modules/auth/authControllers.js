@@ -3,9 +3,8 @@ import { StatusCodes } from 'http-status-codes';
 import { hashPassword } from '../../utils/passwordUtils.js';
 import { handleError, handleSuccess } from '../../utils/responseUtils.js';
 import { createToken, createUser, deleteToken, updateVerify} from './authRepositories.js';
-
 import { generateAccessToken } from '../../utils/jwtUtils.js';
-
+import User from '../../database/models/users.js';
 
 import { sendEmail } from '../../services/sendEmail.js';
 import Token from '../../database/models/tokens.js';
@@ -61,8 +60,8 @@ const singUpClient = async (req, res) => {
 };
 const login = async (req, res) => {
   try {
-    const { deviceId } = req.body;
-    const user = req.user;
+    const { email, password, deviceId } = req.body;
+     const user = await User.findOne({ email });
     const token = generateAccessToken(user?._id, deviceId);
     await Token.findOneAndUpdate(
       { userId: user._id, deviceId },
@@ -92,14 +91,14 @@ const forgotPassword = async (req, res) => {
     return handleError(res, StatusCodes.INTERNAL_SERVER_ERROR, error.message);
   }
 };
-const verifyprofile = async(res,req)=>{
+const verifyprofile = async(req,res)=>{
   try{
   const user = req.user
   
   req.isVerified= true;
   await user.save()
 
- return handleSuccess(res, StatusCodes.OK, 'profile verified successfuly');
+ return handleSuccess(res, StatusCodes.OK, 'Profile verified successfuly');
 }catch (error) {
     return handleError(res, StatusCodes.INTERNAL_SERVER_ERROR, error.message);
   }
