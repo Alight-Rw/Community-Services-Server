@@ -12,6 +12,7 @@ import { signupSchema } from "../validations/authValidations.js";
 import { verifyUserToken } from "../middlewares/authMiddlewares.js";
 import { checkUser, isAccountFind, isAccountVerified, isPasswordMatch, isTokenExist } from "../middlewares/authMiddlewares.js";
 import { isAccountExist, isfindUser } from "../middlewares/authMiddlewares.js";
+import { checkUser } from "../middlewares/authMiddlewares.js";
 
 const router = express.Router();
 router.post(
@@ -40,6 +41,7 @@ router.post("/login", isAccountFind, isPasswordMatch, isAccountVerified, login);
 router.post("/logout", verifyUserToken, Logout);
 router.get("/profile", verifyUserToken, getprofile);
    isfindUser,forgotPassword,
+   checkUser("notUser"),forgotPassword
 
 
 export default router;
