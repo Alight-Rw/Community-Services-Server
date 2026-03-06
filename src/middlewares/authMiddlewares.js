@@ -109,46 +109,39 @@ const isTokenExist = async (req, res, next) => {
 
 const verifyUserToken = async (req, res, next) => {
   try {
-    
     const authHeader = req.headers.authorization;
 
-    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    if (!authHeader) {
       return handleError(res, StatusCodes.UNAUTHORIZED, "Token missing");
     }
 
-    
-    const token = authHeader.split(" ")[1];
+    const parts = authHeader.split(" ");
 
-    
+    if (parts.length !== 2 || parts[0] !== "Bearer") {
+      return handleError(res, StatusCodes.UNAUTHORIZED, "Invalid token format");
+    }
+
+    const token = parts[1];
+
     const decoded = verifyToken(token);
 
     if (!decoded?.id) {
       return handleError(res, StatusCodes.UNAUTHORIZED, "Invalid token");
     }
 
-    const deviceId = decoded.deviceId
     const user = await FindUserByID(decoded.id);
 
     if (!user) {
       return handleError(res, StatusCodes.NOT_FOUND, "User not found");
     }
 
-    
-    const tokenExist = await findToken({ userId: user._id, token });
-
-    if (!tokenExist) {
-      return handleError(res, StatusCodes.UNAUTHORIZED, "Token expired or logged out");
-    }
-
-    
     req.user = user;
     req.token = token;
-    req.deviceId = deviceId
 
     next();
 
   } catch (error) {
-    return handleError(res, StatusCodes.UNAUTHORIZED, "Invalid or expired token");
+    return handleError(res, StatusCodes.INTERNAL_SERVER_ERROR, error.message);
   }
 };
 

@@ -2,7 +2,7 @@
 import { StatusCodes } from 'http-status-codes';
 import { hashPassword } from '../../utils/passwordUtils.js';
 import { handleError, handleSuccess } from '../../utils/responseUtils.js';
-import { createToken, createUser, deleteToken,deleteOneToken,FindUserByID, updateVerify} from './authRepositories.js';
+import { createToken, createUser, deleteToken,deleteOneToken,FindUserByID,updatedProfile, updateVerify} from './authRepositories.js';
 
 import { generateAccessToken } from '../../utils/jwtUtils.js';
 
@@ -120,9 +120,6 @@ const verifyAccount = async (req, res) => {
 
 };
 
-
-
-
 const Logout = async (req, res) => {
   try {
     const deviceId = req.deviceId
@@ -150,8 +147,20 @@ const getprofile = async(req,res)=>{
    }
 }
 
+const updateProfile = async (req, res) => {
+  try {
+    const userId = req.user?._id;
+
+   const updatedUser = await updatedProfile(userId,req.body)
+
+    return handleSuccess(
+      res, StatusCodes.OK, 'Profile updated successfully',updatedUser);
+    
+  } catch (error) {
+    return handleError(res, StatusCodes.INTERNAL_SERVER_ERROR, error.message );
+  }
+};
 
 
 
-
-export { signUpProvider, singUpClient, login, forgotPassword, verifyAccount ,Logout,getprofile};
+export { signUpProvider, singUpClient, login, forgotPassword, verifyAccount ,Logout,getprofile,updateProfile};
