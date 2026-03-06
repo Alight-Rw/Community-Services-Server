@@ -9,13 +9,11 @@ const createServices = async (req, res) => {
  
 const newService=await createService( {...req.body,contacts:userId})
    
-
     return handleSuccess(res,StatusCodes.CREATED,"Service created successfully",newService)
   } catch (error) {
     return handleError(res,StatusCodes.INTERNAL_SERVER_ERROR,error.message)
   }
 };
-
 
 
 const getLatestThreeServicesPosted = async (req, res) => {
