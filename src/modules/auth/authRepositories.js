@@ -35,6 +35,13 @@ const FindUserByID = async(id)=>{
  const findToken = ({userId,token}) =>{
   return Token.findOne({userId,token});
  }
+
+ const updatedProfile = (userId,data)=>{
+  return User.findByIdAndUpdate(
+  userId,
+  data,
+  { returnDocument: "after" })
+ }
 export {
   createUser,
   findUser,
@@ -43,6 +50,6 @@ export {
   FindUserByID,
   deleteToken ,
   findToken,
-  deleteOneToken
-  
+  deleteOneToken,
+  updatedProfile
 }

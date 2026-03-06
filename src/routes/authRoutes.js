@@ -5,7 +5,8 @@ import {
   Logout,
   signUpProvider,
   singUpClient,
-  verifyAccount,getprofile
+  verifyAccount,getprofile,
+  updateProfile
 } from "../modules/auth/authControllers.js";
 import { routeBodyValidation } from "../middlewares/requestMiddlewares.js";
 import { signupSchema } from "../validations/authValidations.js";
@@ -38,6 +39,7 @@ router.get(
 router.post("/login", isAccountFind, isPasswordMatch, isAccountVerified, login);
 router.post("/logout", verifyUserToken, Logout);
 router.get("/profile", verifyUserToken, getprofile);
+router.patch("/edit-profile", verifyUserToken, updateProfile);
 
 
 export default router;
