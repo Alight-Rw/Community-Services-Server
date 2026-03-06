@@ -10,8 +10,8 @@ const findUser = (email) => {
   return User.findOne(email)
 } 
 
-const createToken = (token, userId) => {
-  return Token.create({token,userId});
+const createToken = (token, userId,deviceId) => {
+  return Token.create({token,userId,deviceId});
 }
 const deleteToken = (token, userId) => {
   return Token.delete({

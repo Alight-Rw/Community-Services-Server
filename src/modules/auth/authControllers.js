@@ -1,6 +1,7 @@
 /** @format */
 import { StatusCodes } from 'http-status-codes';
 import { hashPassword } from '../../utils/passwordUtils.js';
+import { v4 as uuidv4 } from "uuid";
 import { handleError, handleSuccess } from '../../utils/responseUtils.js';
 import { createToken, createUser, deleteToken,deleteOneToken,FindUserByID,updatedProfile, updateVerify} from './authRepositories.js';
 
@@ -32,6 +33,7 @@ const signUpProvider = async (req, res) => {
 };
 
 const singUpClient = async (req, res) => {
+   const deviceId = uuidv4();
   try {
     const user = await createUser({
       ...req.body,
@@ -39,7 +41,7 @@ const singUpClient = async (req, res) => {
     });
 
     const token = generateAccessToken(user?.id);
-    await createToken(token, user.id)
+    await createToken(token, user.id,deviceId)
 
     const verifyLink = `${process.env.CLIENT_URL}/verified-email/${token}`;
 
@@ -61,7 +63,7 @@ const singUpClient = async (req, res) => {
 };
 const login = async (req, res) => {
   try {
-    const { deviceId } = req.body;
+    const deviceId = uuidv4();
     const user = req.user;
     const token = generateAccessToken(user?._id, deviceId);
     await Token.findOneAndUpdate(
@@ -76,10 +78,10 @@ const login = async (req, res) => {
 };
 const forgotPassword = async (req, res) => {
   try {
-
+     const deviceId = uuidv4();
     const user = req.user
     const token = generateAccessToken(user?._id);
-    await createToken(token, user._id);
+    await createToken(token, user._id,deviceId);
 
 
     const resetUrl = `${process.env.CLIENT_URL}/reset-password/${token}`;
