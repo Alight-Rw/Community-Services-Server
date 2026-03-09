@@ -2,7 +2,10 @@ import { StatusCodes } from "http-status-codes"
 
 import { handleError } from "../utils/responseUtils.js"
 import Service from "../database/models/services.js"
+<<<<<<< HEAD
 import {  getLatestServices } from "../modules/providers/repositories/servicesRepositories.js"
+=======
+>>>>>>> 2120c47 (check if the service is already exist)
 
 const checkServiceExistence=async(req,res,next)=>{
     
@@ -19,6 +22,7 @@ const checkServiceExistence=async(req,res,next)=>{
     }
 
 }
+<<<<<<< HEAD
 
 const checkServicesToShow =async(req,res,next)=>{
     
@@ -36,3 +40,6 @@ const checkServicesToShow =async(req,res,next)=>{
 
 }
 export{checkServiceExistence,checkServicesToShow}
+=======
+export{checkServiceExistence}
+>>>>>>> 2120c47 (check if the service is already exist)

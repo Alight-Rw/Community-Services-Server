@@ -13,4 +13,24 @@ const newService=await createService( {...req.body,contacts:userId})
     return handleError(res,StatusCodes.INTERNAL_SERVER_ERROR,error.message)
   }
 };
-export { createService };
+
+
+const getLatestThreeServicesPosted = async (req, res) => {
+  try {
+    const latestServices = await getServices().limit(3);
+
+    const services = latestServices.reverse();
+
+    return handleSuccess(
+      res,
+      StatusCodes.OK,
+      "Latest services found successfully",
+      services
+    );
+
+  } catch (error) {
+    return handleError(res, StatusCodes.INTERNAL_SERVER_ERROR, error.message);
+  }
+};
+
+export { createServices, getLatestThreeServicesPosted };
