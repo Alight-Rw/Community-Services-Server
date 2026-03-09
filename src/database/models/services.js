@@ -45,7 +45,11 @@ const serviceSchema=new mongoose.Schema({
      status:{
         type:String,
        enum:['waiting', 'approved', 'rejected', 'completed'],
+<<<<<<< HEAD
        default:null
+=======
+       default:'waiting'
+>>>>>>> 21099b5 (Create service (#25))
 
     },
       requestNote:{
@@ -56,10 +60,13 @@ const serviceSchema=new mongoose.Schema({
         type:String,
         default:null
       },
+<<<<<<< HEAD
         isActive: {
     type: Boolean,
     default: true
         },
+=======
+>>>>>>> 21099b5 (Create service (#25))
       
       createdAt:{
         type:Date,
