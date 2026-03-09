@@ -7,30 +7,8 @@ import { createService } from "../repositories/servicesRepositories.js";
 const createServices = async (req, res) => {
   const userId=req.user?._id
   try {
-    const {
-      avatar,
-      name,
-      category,
-      description,
-      price,
-      location,
-      timeFrom,
-      timeTo,
-     
-    } = req.body;
-   
-const newService=await createService( {
-      avatar,
-      name,
-      category,
-      description,
-      price,
-      location,
-      contacts:userId,
-      timeFrom,
-      timeTo,
-     
-    })
+ 
+const newService=await createService( {...req.body,contacts:userId})
    
     return handleSuccess(res,StatusCodes.CREATED,"Service created successfully",newService)
   } catch (error) {
