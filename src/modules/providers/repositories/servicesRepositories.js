@@ -4,9 +4,9 @@ const createService=(data)=>{
 }
 
 
-const getLatestServices = ()=>{
+const getServices = ()=>{
     return Service.find()
      
 }
 
-export {createService,getLatestServices}
+export {createService,getServices}
