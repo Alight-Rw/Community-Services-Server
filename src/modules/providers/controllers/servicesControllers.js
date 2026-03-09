@@ -1,9 +1,11 @@
 import { StatusCodes } from "http-status-codes";
-import { handleError, handleSuccess } from "../../../utils/responseUtils";
-import Service from "../../../database/models/services";
+import { handleError, handleSuccess } from "../../../utils/responseUtils.js";
+
+import { createService } from "../repositories/servicesRepositories.js";
 
 
-const createService = async (req, res) => {
+const createServices = async (req, res) => {
+  const userId=req.user?._id
   try {
     const {
       avatar,
@@ -12,30 +14,27 @@ const createService = async (req, res) => {
       description,
       price,
       location,
-      contacts,
       timeFrom,
       timeTo,
+     
     } = req.body;
    
-
-   
-    const service = new Service({
+const newService=await createService( {
       avatar,
       name,
-      category:category || null,
+      category,
       description,
       price,
       location,
-      contacts,
+      contacts:userId,
       timeFrom,
       timeTo,
-      requestNote:req.body.requestNote || null,
-      requestedBy:req.user._id,
-    });
-    const savedService= await service.save()
-    return handleSuccess(res,StatusCodes.CREATED,"Service created successfully",savedService)
+     
+    })
+   
+    return handleSuccess(res,StatusCodes.CREATED,"Service created successfully",newService)
   } catch (error) {
     return handleError(res,StatusCodes.INTERNAL_SERVER_ERROR,error.message)
   }
 };
-export { createService };
+export { createServices };

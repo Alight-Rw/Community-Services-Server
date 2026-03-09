@@ -29,9 +29,8 @@ const serviceSchema=new mongoose.Schema({
 
     },
         contacts:{
-        type:String,
-        required:true
-
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"User"
     },
      timeFrom:{
         type:String,
@@ -57,11 +56,7 @@ const serviceSchema=new mongoose.Schema({
         type:String,
         default:null
       },
-      requestedBy:{
-        type:mongoose.Schema.Types.ObjectId,
-        required:true,
-        ref:"User"
-      },
+      
       createdAt:{
         type:Date,
         default:new Date(Date.now())
