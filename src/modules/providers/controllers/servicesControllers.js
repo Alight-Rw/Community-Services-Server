@@ -16,6 +16,7 @@ const newService=await createService( {...req.body,contacts:userId})
 };
 
 
+
 const getLatestThreeServicesPosted = async (req, res) => {
   try {
     const latestServices = await getServices().limit(3);
@@ -43,5 +44,6 @@ const getAllAvailableServices=async(req,res)=>{
   }
 
 }
+
 
 export { createServices, getLatestThreeServicesPosted,getAllAvailableServices };
