@@ -3,8 +3,6 @@ import { findUser, FindUserByID } from "../modules/auth/authRepositories.js"
 import { handleError } from "../utils/responseUtils.js"
 import { comparePassword } from "../utils/passwordUtils.js";
 import { verifyToken } from "../utils/jwtUtils.js";
-import Token from "../database/models/tokens.js";
-import { findToken } from "../modules/auth/authRepositories.js";
 
 
 const checkUser = (mode) => {
@@ -107,8 +105,9 @@ const isTokenExist = async (req, res, next) => {
   }
 };
 
-const verifyUserToken = async (req, res, next) => {
-  try {
+const verifyAccessToken = (passRoles) => {
+  return async (req,res,next)=>{
+       try {
     const authHeader = req.headers.authorization;
 
     if (!authHeader) {
@@ -132,8 +131,12 @@ const verifyUserToken = async (req, res, next) => {
     const user = await FindUserByID(decoded.id);
 
     if (!user) {
-      return handleError(res, StatusCodes.NOT_FOUND, "User not found");
+      return handleError(res, StatusCodes.NOT_FOUND, "Unauthenticated");
     }
+
+    if (!passRoles.includes(user.role)) {
+          return res.status(401).json({ status: 403, message: 'Unauthorized' });
+        }
 
     req.user = user;
     req.token = token;
@@ -143,10 +146,11 @@ const verifyUserToken = async (req, res, next) => {
   } catch (error) {
     return handleError(res, StatusCodes.INTERNAL_SERVER_ERROR, error.message);
   }
+  }
 };
 
 
 
 export {
-    isAccountFind,isPasswordMatch,isAccountVerified,checkUser,isTokenExist,verifyUserToken
+    isAccountFind,isPasswordMatch,isAccountVerified,checkUser,isTokenExist,verifyAccessToken
 }
