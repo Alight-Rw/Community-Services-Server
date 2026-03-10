@@ -1,7 +1,7 @@
 # COMMUNITY SERVICE – BACKEND API
 
 Community Service Backend is a RESTful API built with Node.js and Express.js.
-It powers the Community Service web application by handling authentication, service management, booking logic, and user account operations.
+It powers the Community Service web application by handling authentication, service management, Booking logic, and user account operations.
 
 The API enables secure communication between the frontend and the database while managing business logic and data validation.
 
@@ -23,7 +23,7 @@ The API enables secure communication between the frontend and the database while
 * Browse available services
 * Book services
 * View booked services
-* Track booking status (waiting,Approved, completed, rejected)
+* Track Booking status (waiting,Approved, completed, rejected)
 * Edit profile
 * Delete account
 
@@ -33,8 +33,8 @@ The API enables secure communication between the frontend and the database while
 * Add new services
 * Edit services
 * Delete services
-* Update booking status
-* View requested service
+* Update Booking status
+* View Booking service
 
 ## Technology Used
 

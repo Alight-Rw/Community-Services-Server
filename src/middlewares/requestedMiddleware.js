@@ -1,11 +1,11 @@
 import { StatusCodes } from "http-status-codes"
 import { handleError } from "../utils/responseUtils.js"
-import { FindById } from "../modules/clients/repositories/BookingRespositories.js"
+import { FindById } from "../modules/clients/repositories/requestedRespositories.js"
 import mongoose from "mongoose"
 
 
 
-const BookingServiceMiddleware = async (req, res, next) => {
+const isServiceExist = async (req, res, next) => {
 
     const { serviceId } = req.body
 
@@ -22,5 +22,5 @@ const BookingServiceMiddleware = async (req, res, next) => {
 }
 
 export {
-    BookingServiceMiddleware
+    isServiceExist
 }
