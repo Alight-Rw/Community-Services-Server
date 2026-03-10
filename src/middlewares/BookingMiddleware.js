@@ -7,7 +7,7 @@ import mongoose from "mongoose"
 
 const BookingServiceMiddleware = async (req, res, next) => {
 
-    const { serviceId } = req.params
+    const { serviceId } = req.body
 
     if (!mongoose.Types.ObjectId.isValid(serviceId)) {
         return handleError(res, StatusCodes.BAD_REQUEST, "Invalid serviceId");

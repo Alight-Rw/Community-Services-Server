@@ -9,7 +9,7 @@ import bookingSchema from "../validations/BookingValidation.js";
 const router = express.Router();
 
  router.post(
-  "/create/:serviceId",routeBodyValidation(bookingSchema),BookingServiceMiddleware,BookingService
+  "/create",routeBodyValidation(bookingSchema),BookingServiceMiddleware,BookingService
      
 );
 

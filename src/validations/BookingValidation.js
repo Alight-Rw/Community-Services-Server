@@ -1,23 +1,18 @@
 import Joi from "joi";
 
 const bookingSchema = Joi.object({
- 
-  year: Joi.number().required().messages({
-    "any.required": "year is required",
-    "number.base": "year must be a number"
+  serviceId: Joi.string().required().messages({
+    "any.required": "serviceId is required",
+    "string.base": "serviceId must be a string",
+    "string.empty": "serviceId must not be empty"
   }),
 
-  month: Joi.string().required().messages({
-    "any.required": "month is required",
-    "string.base": "month must be a string",
-    "string.empty": "month must not be empty"
+  Date: Joi.string().required().messages({
+    "any.required": "Date is required",
+    "number.base": "Date must be a string"
   }),
 
-  day: Joi.number().required().messages({
-    "any.required": "day is required",
-    "number.base": "day must be a number"
-  }),
-
+  
   time: Joi.string().required().messages({
     "any.required": "time is required",
     "string.base": "time must be a string",

@@ -6,11 +6,10 @@ import { handleSuccess } from "../../../utils/responseUtils.js"
 
 const BookingService = async(req,res)=>{
 
-    const {year,month,day,time,location,AdittionalNotes,fullName, email, phone,status}=req.body
+    const {serviceId,Date,time,location,AdittionalNotes,fullName, email, phone,status}=req.body
     let booking = await createBooking({
-        year,
-        month,
-        day,
+        serviceId,
+        Date,
         time,
         location,
         AdittionalNotes,
@@ -20,9 +19,10 @@ const BookingService = async(req,res)=>{
         status
     })
 
-    booking = await booking.populate([
-    {path:"serviceId",select:"name,price"}
-  ])
+    booking = await booking.populate({
+      path: "serviceId",
+      select: "name price"
+    });
  
 
      return handleSuccess(res, StatusCodes.OK, 'Booking created successfully', booking);

@@ -5,28 +5,18 @@ const bookingSchema = new mongoose.Schema({
 
     serviceId: {
         type: mongoose.Types.ObjectId,
-        ref: "Service"
+        ref: "Service",
+      
        },
-
-        year: {
-            type: Number,
-            required: true
+        Date:{
+            type:String,
+            required:true
         },
-        month: {          
-            type: String,
-            required: true
+        time:{
+            type:String,
+            required:true
         },
-        day: {
-            type: Number,
-            required: true
-        },
-        time: {
-            type: String,
-            required: true
-        },
-
   
-
         location: {
             type: String,
             required: true
@@ -63,10 +53,11 @@ const bookingSchema = new mongoose.Schema({
 
 })
 
-bookingSchema.pre(/^/, function () {
-    this.populate([
-        { path: "serviceId", select: "name,price" }
-    ])
+bookingSchema.pre(/^find/, function (next) {
+    this.populate(
+        { path: "serviceId", select: "name price" }
+    )
+    next()
 })
 
 const Booking = mongoose.model("Booking", bookingSchema)
