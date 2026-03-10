@@ -4,12 +4,13 @@ import { handleError } from "../utils/responseUtils.js"
 import Service from "../database/models/services.js"
 import { getServices } from "../modules/providers/repositories/servicesRepositories.js"
 
-const checkServiceExistence=async(req,res,next)=>{
+
+const isServiceExist=async(req,res,next)=>{
     
     try {
         const {name}=req.body
-        const existingService=await Service.findOne({name:name.trim().toLowerCase()})
-        if(existingService){
+        const service=await Service.findOne({name:name.trim().toLowerCase()})
+        if(service){
             return handleError(res,StatusCodes.CONFLICT,"service already exist")
         }
         return next()
@@ -20,19 +21,17 @@ const checkServiceExistence=async(req,res,next)=>{
 
 }
 
-const checkServicesToShow =async(req,res,next)=>{
-    
-    try {
-       
-        const existingServices =await getServices()
-        if(!existingServices){
-            return handleError(res,StatusCodes.CONFLICT,"service are not found")
-        }
-        return next()
-    } catch (error) {
-        return handleError(res,StatusCodes.INTERNAL_SERVER_ERROR,error.message)
-        
+const fetchService = async (req, res, next) => {
+  try {
+    const services = await getServices();
+
+    if (!services || services.length === 0) {
+      return handleError(res, StatusCodes.NOT_FOUND, "services are not found");
     }
 
-}
-export{checkServiceExistence,checkServicesToShow}
+    return next();
+  } catch (error) {
+    return handleError(res, StatusCodes.INTERNAL_SERVER_ERROR, error.message);
+  }
+};
+export{isServiceExist,fetchService}

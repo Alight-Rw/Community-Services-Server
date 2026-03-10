@@ -1,18 +1,21 @@
 import express from "express"
 import { uploadService } from "../services/uploadService.js"
-import { createServices, getAllAvailableServices, getLatestThreeServicesPosted } from "../modules/providers/controllers/servicesControllers.js"
+import { createServices, getAllAvailableServices, getLastFourServices } from "../modules/providers/controllers/servicesControllers.js"
 import { routeBodyValidation } from "../middlewares/requestMiddlewares.js"
 import serviceSchema from "../validations/serviceValidation.js"
-import { verifyUserToken } from "../middlewares/authMiddlewares.js"
-import { checkServiceExistence, checkServicesToShow } from "../middlewares/serviceMiddlewares.js"
+import { verifyAccessToken } from "../middlewares/authMiddlewares.js"
+import { isServiceExist, fetchService } from "../middlewares/serviceMiddlewares.js"
+import { searchServices } from "../modules/clients/controllers/servicesControllers.js"
+
 
 
 
 
 const router=express.Router()
-router.post("/create",uploadService,routeBodyValidation(serviceSchema),verifyUserToken,checkServiceExistence,createServices)
-router.get("/get-Lastest-threes-Services",checkServicesToShow,getLatestThreeServicesPosted)
-router.get("/available-services",getAllAvailableServices)
+router.post("/create",uploadService,routeBodyValidation(serviceSchema),verifyAccessToken(["provider"]),isServiceExist,createServices)
+router.get("/last-services",verifyAccessToken(["client","provider"]),fetchService,getLastFourServices)
+router.get("/available-services",fetchService,getAllAvailableServices)
+router.get("/search" , searchServices)
 
 
 

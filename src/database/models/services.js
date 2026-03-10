@@ -39,11 +39,6 @@ const serviceSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  status: {
-    type: String,
-    enum: ['waiting', 'approved', 'rejected', 'completed'],
-    default: null,
-  },
   requestNote: {
     type: String,
     default: null,

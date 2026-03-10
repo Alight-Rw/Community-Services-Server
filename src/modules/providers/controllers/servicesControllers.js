@@ -22,17 +22,14 @@ const createServices = async (req, res) => {
   }
 };
 
-const getLatestThreeServicesPosted = async (req, res) => {
+const getLastFourServices = async (req, res) => {
   try {
-    const latestServices = await getServices().limit(3);
-
-    const services = latestServices.reverse();
-
+    const lastServices = await getServices().sort({ createdAt: -1 }).limit(4);
     return handleSuccess(
       res,
       StatusCodes.OK,
       "Latest services found successfully",
-      services,
+      lastServices
     );
   } catch (error) {
     return handleError(res, StatusCodes.INTERNAL_SERVER_ERROR, error.message);
@@ -57,6 +54,6 @@ const getAllAvailableServices = async (req, res) => {
 
 export {
   createServices,
-  getLatestThreeServicesPosted,
+  getLastFourServices,
   getAllAvailableServices,
 };

@@ -1,12 +1,12 @@
 import { StatusCodes } from "http-status-codes"
-import { createBooking } from "../repositories/requestedServicesRespositories.js"
+import { BookService } from "../repositories/requestedServicesRespositories.js"
 import { handleSuccess } from "../../../utils/responseUtils.js"
 
 
 
 const requestedServices = async(req,res)=>{
 
-    let Booking = await createBooking(
+    let Booking = await BookService(
         req.body
     )
 
