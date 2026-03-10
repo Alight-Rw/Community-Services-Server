@@ -1,8 +1,9 @@
 import express from "express";
+import { fetchServices } from "../modules/clients/controllers/servicesControllers";
 
-import { fetchaAllServices } from "../modules/clients/controllers/allServicesControllers.js";
+
 
 const router = express.Router();
 
-router.get("/allservices", fetchaAllServices);
+router.get("/services", fetchServices);
  export default router;

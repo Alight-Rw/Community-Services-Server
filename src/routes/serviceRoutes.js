@@ -5,6 +5,7 @@ import { routeBodyValidation } from "../middlewares/requestMiddlewares.js"
 import serviceSchema from "../validations/serviceValidation.js"
 import { verifyUserToken } from "../middlewares/authMiddlewares.js"
 import { checkServiceExistence, checkServicesToShow } from "../middlewares/serviceMiddlewares.js"
+import { fetchServices } from "../modules/clients/controllers/servicesControllers.js"
 
 
 
@@ -12,7 +13,7 @@ import { checkServiceExistence, checkServicesToShow } from "../middlewares/servi
 const router=express.Router()
 router.post("/create",uploadService,routeBodyValidation(serviceSchema),verifyUserToken,checkServiceExistence,createServices)
 router.get("/get-Lastest-threes-Services",checkServicesToShow,getLatestThreeServicesPosted)
-
+router.get("/services",fetchServices)
 
 
 export default router
