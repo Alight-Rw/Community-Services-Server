@@ -1,6 +1,7 @@
 import { StatusCodes } from "http-status-codes";
 import { handleError, handleSuccess } from "../../../utils/responseUtils.js";
 import { createService, getServices} from "../repositories/servicesRepositories.js";
+import Service from "../../../database/models/services.js";
 
 const createServices = async (req, res) => {
   const userId=req.user?._id
@@ -33,4 +34,14 @@ const getLatestThreeServicesPosted = async (req, res) => {
   }
 };
 
-export { createServices, getLatestThreeServicesPosted };
+const getAllAvailableServices=async(req,res)=>{
+  try {
+    const availableServices=await Service.find({isActive:true}).populate("category","name").sort({ createdAt: -1 });
+    return handleSuccess(res,StatusCodes.OK,"available services fetched successfully",availableServices)
+  } catch (error) {
+    return handleError(res,StatusCodes.INTERNAL_SERVER_ERROR,error.message)
+  }
+
+}
+
+export { createServices, getLatestThreeServicesPosted,getAllAvailableServices };
