@@ -7,10 +7,6 @@ export const fetchServices = async (req, res) => {
 
     const services = await getServices();
 
-    
-      return handleSuccess(res, StatusCodes.OK, "Services not found", []);
-    
-
     return handleSuccess(res, StatusCodes.OK, "Services fetched", services);
 
   } catch (error) {
