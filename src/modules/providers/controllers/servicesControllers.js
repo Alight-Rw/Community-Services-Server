@@ -1,7 +1,6 @@
 import { StatusCodes } from "http-status-codes";
 import { handleError, handleSuccess } from "../../../utils/responseUtils.js";
-import { createService } from "../repositories/servicesRepositories.js";
-import { getServices } from "../../clients/repositories/servicesRepositories.js";
+import { createService, getServices } from "../repositories/servicesRepositories.js";
 
 const createServices = async (req, res) => {
   const userId=req.user?._id

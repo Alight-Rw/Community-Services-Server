@@ -1,8 +1,7 @@
 
 import { StatusCodes } from "http-status-codes";
 import { handleError, handleSuccess } from "../../../utils/responseUtils.js";
-import { getServices } from "../repositories/servicesRepositories.js";
-
+import { getServices } from "../../providers/repositories/profileRepositories.js";
 export const fetchServices = async (req, res) => {
     try {
 
