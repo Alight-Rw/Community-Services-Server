@@ -6,5 +6,10 @@ const getServices = ()=>{
     return Service.find()
      
 }
+const searchService = (query) => {
+  return Service.find({
+    name: { $regex: query, $options: "i" }
+  });
+};
 
-export {createService,getServices}
+export {createService,getServices,searchService}

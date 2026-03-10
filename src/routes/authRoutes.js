@@ -12,6 +12,7 @@ import { routeBodyValidation } from "../middlewares/requestMiddlewares.js";
 import { signupSchema } from "../validations/authValidations.js";
 import { verifyUserToken } from "../middlewares/authMiddlewares.js";
 import { checkUser, isAccountFind, isAccountVerified, isPasswordMatch, isTokenExist } from "../middlewares/authMiddlewares.js";
+import { searchServices } from "../modules/providers/controllers/servicesControllers.js";
 
 const router = express.Router();
 router.post(
@@ -40,6 +41,7 @@ router.post("/login", isAccountFind, isPasswordMatch, isAccountVerified, login);
 router.post("/logout", verifyUserToken, Logout);
 router.get("/profile", verifyUserToken, getprofile);
 router.patch("/edit-profile", verifyUserToken, updateProfile);
+router.get("/search" , searchServices)
 
 
 export default router;
