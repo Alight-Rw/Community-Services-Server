@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import Service from "./services.js";
 
-const RequestedSchema = new mongoose.Schema({
+const  RequestedServicesSchema = new mongoose.Schema({
 
     serviceId: {
         type: mongoose.Types.ObjectId,
@@ -53,12 +53,12 @@ const RequestedSchema = new mongoose.Schema({
 
 })
 
-RequestedSchema.pre(/^find/, function (next) {
+RequestedServicesSchema.pre(/^find/, function (next) {
     this.populate(
         { path: "serviceId", select: "name price" }
     )
     next()
 })
 
-const Requested = mongoose.model("Requested", RequestedSchema)
-export default Requested
+const  RequestedServices = mongoose.model(" RequestedServices",  RequestedServicesSchema)
+export default RequestedServices

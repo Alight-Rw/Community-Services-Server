@@ -1,6 +1,6 @@
 import Joi from "joi";
 
-const requestedSchema = Joi.object({
+const requestedServicesSchema = Joi.object({
   serviceId: Joi.string().required().messages({
     "any.required": "serviceId is required",
     "string.base": "serviceId must be a string",
@@ -51,4 +51,4 @@ const requestedSchema = Joi.object({
   })
 });
 
-export default requestedSchema;
+export default requestedServicesSchema;

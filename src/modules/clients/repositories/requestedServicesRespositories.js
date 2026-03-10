@@ -1,10 +1,10 @@
 
-import Requested from "../../../database/models/Requested.js"
+import RequestedServices from "../../../database/models/RequestedServices.js"
 import Service from "../../../database/models/services.js"
 
 
 const createBooking = async(data)=>{
-    return  Requested.create(data)
+    return RequestedServices.create(data)
 }
 const FindById = async(id)=>{
     return Service.findById(id)

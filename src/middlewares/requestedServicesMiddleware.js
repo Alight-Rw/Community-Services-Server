@@ -1,6 +1,6 @@
 import { StatusCodes } from "http-status-codes"
 import { handleError } from "../utils/responseUtils.js"
-import { FindById } from "../modules/clients/repositories/requestedRespositories.js"
+import { FindById } from "../modules/clients/repositories/requestedServicesRespositories.js"
 import mongoose from "mongoose"
 
 
