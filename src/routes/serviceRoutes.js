@@ -12,7 +12,7 @@ import { checkServiceExistence, checkServicesToShow } from "../middlewares/servi
 const router=express.Router()
 router.post("/create",uploadService,routeBodyValidation(serviceSchema),verifyUserToken,checkServiceExistence,createServices)
 router.get("/get-Lastest-threes-Services",checkServicesToShow,getLatestThreeServicesPosted)
-router.get("/",getAllAvailableServices)
+router.get("/available-services",getAllAvailableServices)
 
 
 
