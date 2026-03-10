@@ -37,7 +37,7 @@ const getLatestThreeServicesPosted = async (req, res) => {
   } catch (error) {
     return handleError(res, StatusCodes.INTERNAL_SERVER_ERROR, error.message);
   }
-};
+}
 
 const getAllAvailableServices = async (req, res) => {
   try {
