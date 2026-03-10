@@ -2,7 +2,7 @@ import { StatusCodes } from "http-status-codes"
 
 import { handleError } from "../utils/responseUtils.js"
 import Service from "../database/models/services.js"
-import {   getServices } from "../modules/providers/repositories/servicesRepositories.js"
+import { getServices } from "../modules/providers/repositories/servicesRepositories.js"
 
 const checkServiceExistence=async(req,res,next)=>{
     
