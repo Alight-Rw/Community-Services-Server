@@ -6,18 +6,9 @@ import { handleSuccess } from "../../../utils/responseUtils.js"
 
 const BookingService = async(req,res)=>{
 
-    const {serviceId,Date,time,location,AdittionalNotes,fullName, email, phone,status}=req.body
-    let booking = await createBooking({
-        serviceId,
-        Date,
-        time,
-        location,
-        AdittionalNotes,
-        fullName, 
-        email, 
-        phone,
-        status
-    })
+    let booking = await createBooking(
+        req.body
+    )
 
     booking = await booking.populate({
       path: "serviceId",
