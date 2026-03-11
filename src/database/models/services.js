@@ -50,5 +50,9 @@ const serviceSchema = new mongoose.Schema({
   },
 });
 
+serviceSchema.pre(/^find/, function (next) {
+  this.populate({ path: 'category', select: 'categoryName'});
+});
+
 const Service = mongoose.model('Service', serviceSchema);
 export default Service;
