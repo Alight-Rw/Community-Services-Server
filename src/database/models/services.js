@@ -39,14 +39,6 @@ const serviceSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  requestNote: {
-    type: String,
-    default: null,
-  },
-  rejectionNote: {
-    type: String,
-    default: null,
-  },
   isActive: {
     type: Boolean,
     default: true,

@@ -25,7 +25,7 @@ const requestedServicesSchema = Joi.object({
     "string.empty": "location must not be empty"
   }),
 
-  AdittionalNotes: Joi.string().allow("").messages({
+  requestNote: Joi.string().allow("").messages({
     "string.base": "AdittionalNotes must be a string"
   }),
 

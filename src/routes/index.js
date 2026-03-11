@@ -14,7 +14,7 @@ router.use('/auth', authRouter);
 router.use("/categories", categoryRoutes); 
 router.use("/contact",cantactRoutes),
 router.use("/services",serviceRoutes)
-router.use("/requestedServices",requestedServicesRoutes )
+router.use("/request-service",requestedServicesRoutes )
 
 
 
