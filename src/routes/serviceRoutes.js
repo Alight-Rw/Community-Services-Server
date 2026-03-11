@@ -5,7 +5,7 @@ import { routeBodyValidation } from "../middlewares/requestMiddlewares.js"
 import serviceSchema from "../validations/serviceValidation.js"
 import { verifyAccessToken } from "../middlewares/authMiddlewares.js"
 import { isServiceExist, fetchService } from "../middlewares/serviceMiddlewares.js"
-import { searchServices } from "../modules/clients/controllers/servicesControllers.js"
+import { fetchServices, searchServices } from "../modules/clients/controllers/servicesControllers.js"
 
 
 
@@ -16,6 +16,7 @@ router.post("/create",uploadService,routeBodyValidation(serviceSchema),verifyAcc
 router.get("/last-services",verifyAccessToken(["client","provider"]),fetchService,getLastFourServices)
 router.get("/available-services",fetchService,getAllAvailableServices)
 router.get("/search" , searchServices)
+router.get("/services",fetchServices)
 
 
 
