@@ -14,11 +14,9 @@ const createToken = (token, userId,deviceId) => {
   return Token.create({token,userId,deviceId});
 }
 const deleteToken = (token, userId) => {
-  return Token.delete({
-    where: {
-      token: token,
-      userId: userId
-    }
+  return Token.deleteOne({
+    token: token,
+    userId: userId
   });
 };
 
