@@ -1,7 +1,7 @@
 
 
 import express from "express"
-import { getOwnRequestedServices, requestedServices  } from "../modules/clients/controllers/requestedServicesController.js";
+import { MyRequestedServices, requestedServices  } from "../modules/clients/controllers/requestedServicesController.js";
 import { routeBodyValidation } from "../middlewares/requestMiddlewares.js";
 import requestedServicesSchema from "../validations/RequestedServicesValidation.js";
 import { isProviderIdExist, verifyAccessToken } from "../middlewares/authMiddlewares.js";
@@ -14,7 +14,7 @@ const router = express.Router();
      
 );
 router.get(
-  "/get-requested-services/:status",verifyAccessToken(["client"]),getOwnRequestedServices
+  "/get-requested-services/:status",verifyAccessToken(["client"]),MyRequestedServices
      
 );
 

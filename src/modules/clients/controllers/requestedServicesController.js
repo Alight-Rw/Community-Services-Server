@@ -1,7 +1,6 @@
 import { StatusCodes } from "http-status-codes"
 import { createRequestedServices, FindRequestedServicesInfo } from "../repositories/requestedServicesRespositories.js"
 import { handleError, handleSuccess } from "../../../utils/responseUtils.js"
-import RequestedServices from "../../../database/models/RequestedServices.js"
 
 
 
@@ -27,7 +26,7 @@ const requestedServices = async (req, res) => {
   }
 };
 
-const getOwnRequestedServices = async (req, res) => {
+const MyRequestedServices = async (req, res) => {
   try {
     if (!req.user) {
       return handleError(res, StatusCodes.UNAUTHORIZED, "User not authenticated");
@@ -62,5 +61,5 @@ const getOwnRequestedServices = async (req, res) => {
  
 export {
     requestedServices,
-     getOwnRequestedServices
+     MyRequestedServices
 }
