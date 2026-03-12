@@ -10,7 +10,7 @@ import {
   updatePassword
 } from "../modules/auth/authControllers.js";
 import { routeBodyValidation } from "../middlewares/requestMiddlewares.js";
-import { signupSchema } from "../validations/authValidations.js";
+import { signupSchema, changePasswordSchema } from "../validations/authValidations.js";
 import { checkUser, isAccountFind, isAccountVerified, isPasswordMatch, isTokenExist,verifyAccessToken } from "../middlewares/authMiddlewares.js";
 
 const router = express.Router();
@@ -43,6 +43,7 @@ router.patch("/edit-profile",verifyAccessToken(["client","provider"]), updatePro
 router.patch(
   "/change-password", 
   verifyAccessToken(["client", "provider"]), 
+  routeBodyValidation(changePasswordSchema), 
   updatePassword
 );
 

@@ -1,7 +1,7 @@
 import { StatusCodes } from "http-status-codes"
 import { findUser, FindUserByID } from "../modules/auth/authRepositories.js"
 import { handleError } from "../utils/responseUtils.js"
-import { comparePassword } from "../utils/passwordUtils.js";
+
 import { verifyToken } from "../utils/jwtUtils.js";
 
 
@@ -149,19 +149,7 @@ const verifyAccessToken = (passRoles) => {
   }
 };
 
-const validatePasswordChange = async (req, res, next) => {
-    const { newPassword, confirmPassword } = req.body;
-    if (!newPassword || !confirmPassword) {
-        return handleError(res, StatusCodes.BAD_REQUEST, "Missing fields");
-    }
-    const isMatch = comparePassword(oldPassword, req.user.password);
-    if (!isMatch) {
-        return handleError(res, StatusCodes.UNAUTHORIZED, "wrong token");
-    }
-    next();
-};
-
 
 export {
-    isAccountFind,isPasswordMatch,isAccountVerified,checkUser,isTokenExist,verifyAccessToken, validatePasswordChange
+    isAccountFind,isPasswordMatch,isAccountVerified,checkUser,isTokenExist,verifyAccessToken
 }

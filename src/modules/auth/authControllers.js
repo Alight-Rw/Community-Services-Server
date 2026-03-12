@@ -164,8 +164,11 @@ const updateProfile = async (req, res) => {
 };
 const updatePassword = async (req, res) => {
   try {
-    const hashedNewPassword = hashPassword(req.body.newPassword);
-    await changePassword(req.user._id, hashedNewPassword);
+    const userId = req.user._id;
+    const { newPassword } = req.body;
+    const hashedNewPassword = hashPassword(newPassword);
+    await changePassword(userId, hashedNewPassword);
+
     return handleSuccess(res, StatusCodes.OK, 'Password updated successfully');
   } catch (error) {
     return handleError(res, StatusCodes.INTERNAL_SERVER_ERROR, error.message);
