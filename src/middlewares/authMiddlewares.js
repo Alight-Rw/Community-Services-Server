@@ -4,6 +4,7 @@ import { handleError } from "../utils/responseUtils.js"
 
 import { verifyToken } from "../utils/jwtUtils.js";
 import mongoose from "mongoose";
+import { comparePassword } from "../utils/passwordUtils.js";
 
 
 const checkUser = (mode) => {
