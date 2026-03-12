@@ -28,21 +28,16 @@ const searchServices = async (req, res) => {
   }
 };
 
-export {searchServices}
-
-
-
-
-export const fetchServices = async (req, res) => {
+ const allServices = async (req, res) => {
   try {
     const services = await getServices();
-    if(!services){
-        return handleSuccess(res, StatusCodes.NOT_FOUND, "Services are not found");
-    }
-
+   
     return handleSuccess(res, StatusCodes.OK, "Services fetched", services);
 
   } catch (error) {
     return handleError(res, StatusCodes.INTERNAL_SERVER_ERROR, error.message);
   }
 };
+
+export {searchServices,allServices}
+
