@@ -3,6 +3,7 @@ import { findUser, FindUserByID } from "../modules/auth/authRepositories.js"
 import { handleError } from "../utils/responseUtils.js"
 
 import { verifyToken } from "../utils/jwtUtils.js";
+import mongoose from "mongoose";
 
 
 const checkUser = (mode) => {
@@ -149,7 +150,32 @@ const verifyAccessToken = (passRoles) => {
   }
 };
 
+const isProviderIdExist = async (req, res, next) => {
+  try {
+    const { providerId } = req.body;
+
+    
+    if (!mongoose.Types.ObjectId.isValid(providerId)) {
+      return handleError(res, StatusCodes.BAD_REQUEST, "Invalid providerId");
+    }
+
+   
+    const provider = await FindUserByID(providerId); 
+
+    
+    if (!provider || provider.role !== "provider") {
+      return handleError(res, StatusCodes.BAD_REQUEST, "Provider not found");
+    }
+
+    req.provider = provider;
+
+    next();
+  } catch (error) {
+    return handleError(res, StatusCodes.INTERNAL_SERVER_ERROR, error.message);
+  }
+};
+
 
 export {
-    isAccountFind,isPasswordMatch,isAccountVerified,checkUser,isTokenExist,verifyAccessToken
+    isAccountFind,isPasswordMatch,isAccountVerified,checkUser,isTokenExist,verifyAccessToken,isProviderIdExist
 }

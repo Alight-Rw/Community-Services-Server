@@ -7,6 +7,13 @@ const requestedServicesSchema = Joi.object({
     "string.empty": "serviceId must not be empty"
   }),
 
+  providerId: Joi.string().required().messages({
+    "any.required": "providerId is required",
+    "string.base": "providerId must be a string",
+    "string.empty": "providerId must not be empty"
+  }),
+
+
   Date: Joi.string().required().messages({
     "any.required": "Date is required",
     "number.base": "Date must be a string"
