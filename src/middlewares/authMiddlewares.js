@@ -1,7 +1,7 @@
 import { StatusCodes } from "http-status-codes"
 import { findUser, FindUserByID } from "../modules/auth/authRepositories.js"
 import { handleError } from "../utils/responseUtils.js"
-import { comparePassword } from "../utils/passwordUtils.js";
+
 import { verifyToken } from "../utils/jwtUtils.js";
 
 
@@ -148,7 +148,6 @@ const verifyAccessToken = (passRoles) => {
   }
   }
 };
-
 
 
 export {

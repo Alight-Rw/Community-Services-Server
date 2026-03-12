@@ -1,9 +1,9 @@
 /** @format */
 import { StatusCodes } from 'http-status-codes';
-import { hashPassword } from '../../utils/passwordUtils.js';
+import { hashPassword,} from '../../utils/passwordUtils.js';
 import { v4 as uuidv4 } from "uuid";
 import { handleError, handleSuccess } from '../../utils/responseUtils.js';
-import { createToken, createUser, deleteToken,deleteOneToken,FindUserByID,updatedProfile, updateVerify} from './authRepositories.js';
+import { createToken, createUser, deleteToken,deleteOneToken,FindUserByID,updatedProfile, updateVerify, changePassword} from './authRepositories.js';
 
 import { generateAccessToken } from '../../utils/jwtUtils.js';
 
@@ -162,7 +162,16 @@ const updateProfile = async (req, res) => {
     return handleError(res, StatusCodes.INTERNAL_SERVER_ERROR, error.message );
   }
 };
+const updatePassword = async (req, res) => {
+  try {
+    const userId = req.user._id;
+    const { newPassword } = req.body;
+    const hashedNewPassword = hashPassword(newPassword);
+    await changePassword(userId, hashedNewPassword);
 
-
-
-export { signUpProvider, singUpClient, login, forgotPassword, verifyAccount ,Logout,getprofile,updateProfile};
+    return handleSuccess(res, StatusCodes.OK, 'Password updated successfully');
+  } catch (error) {
+    return handleError(res, StatusCodes.INTERNAL_SERVER_ERROR, error.message);
+  }
+};
+export { signUpProvider, singUpClient, login, forgotPassword, verifyAccount ,Logout,getprofile,updateProfile, updatePassword};

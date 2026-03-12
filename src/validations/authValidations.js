@@ -111,6 +111,25 @@ export const contactUsSchema = Joi.object({
         'string.empty':'subject can not be empty',
        
     }),
-}) 
+});
+
+export const changePasswordSchema = Joi.object({
+  newPassword: Joi.string()
+    .required()
+    .min(8)
+    .pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9]).{8,}$/)
+    .messages({
+      'string.empty': 'New password is required',
+      'string.min': 'New password must be at least 8 characters',
+      'string.pattern': 'Password must contain uppercase, lowercase, number, and a special character',
+    }),
+  confirmPassword: Joi.any()
+    .equal(Joi.ref('newPassword'))
+    .required()
+    .messages({
+      'any.only': 'Confirm password must match the new password',
+      'any.required': 'Confirmation is required',
+    }),
+});
 
 
