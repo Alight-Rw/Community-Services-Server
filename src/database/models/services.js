@@ -28,7 +28,7 @@ const serviceSchema=new mongoose.Schema({
         required:true
 
     },
-        contacts:{
+        providerId:{
         type:mongoose.Schema.Types.ObjectId,
         ref:"User"
     },
