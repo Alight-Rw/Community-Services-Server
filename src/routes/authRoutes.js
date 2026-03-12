@@ -6,7 +6,8 @@ import {
   signUpProvider,
   singUpClient,
   verifyAccount,getprofile,
-  updateProfile
+  updateProfile,
+  updatePassword
 } from "../modules/auth/authControllers.js";
 import { routeBodyValidation } from "../middlewares/requestMiddlewares.js";
 import { signupSchema } from "../validations/authValidations.js";
@@ -39,6 +40,13 @@ router.post("/login", isAccountFind, isPasswordMatch, isAccountVerified, login);
 router.post("/logout", verifyAccessToken(["client","provider"]), Logout);
 router.get("/profile", verifyAccessToken(["client","provider"]), getprofile);
 router.patch("/edit-profile",verifyAccessToken(["client","provider"]), updateProfile);
+router.patch(
+  "/change-password", 
+  verifyAccessToken(["client", "provider"]), 
+  updatePassword
+);
 
 
 export default router;
+
+// Tuyikunde@65

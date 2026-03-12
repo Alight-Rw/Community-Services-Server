@@ -149,8 +149,19 @@ const verifyAccessToken = (passRoles) => {
   }
 };
 
+const validatePasswordChange = async (req, res, next) => {
+    const { oldPassword, newPassword } = req.body;
+    if (!oldPassword || !newPassword) {
+        return handleError(res, StatusCodes.BAD_REQUEST, "Missing fields");
+    }
+    const isMatch = comparePassword(oldPassword, req.user.password);
+    if (!isMatch) {
+        return handleError(res, StatusCodes.UNAUTHORIZED, "Old password wrong");
+    }
+    next();
+};
 
 
 export {
-    isAccountFind,isPasswordMatch,isAccountVerified,checkUser,isTokenExist,verifyAccessToken
+    isAccountFind,isPasswordMatch,isAccountVerified,checkUser,isTokenExist,verifyAccessToken, validatePasswordChange
 }

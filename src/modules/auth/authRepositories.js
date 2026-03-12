@@ -40,6 +40,14 @@ const FindUserByID = async(id)=>{
   data,
   { returnDocument: "after" })
  }
+
+ const changePassword = (userId, newPassword) => {
+  return User.findByIdAndUpdate(
+    userId,
+    { password: newPassword },
+    { new: true } 
+  );
+};
 export {
   createUser,
   findUser,
@@ -49,5 +57,6 @@ export {
   deleteToken ,
   findToken,
   deleteOneToken,
-  updatedProfile
+  updatedProfile,
+  changePassword
 }
