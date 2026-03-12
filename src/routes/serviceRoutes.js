@@ -16,7 +16,7 @@ router.post("/create",uploadService,routeBodyValidation(serviceSchema),verifyAcc
 router.get("/last-services",verifyAccessToken(["client","provider"]),fetchService,getLastFourServices)
 router.get("/available-services",fetchService,getAllAvailableServices)
 router.get("/search" , searchServices)
-router.get("/services",fetchServices)
+router.get("/get-services",fetchServices)
 
 
 
