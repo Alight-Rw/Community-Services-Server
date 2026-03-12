@@ -8,11 +8,9 @@ const FindGallery = () =>{
 const createGallery = (data)=>{
     return Gallery.create(data)
 }
-const FindOneGallery = ()=>{
-    return Gallery.findOne()
-}
+
 export {
      FindGallery,
      createGallery,
-     FindOneGallery
+    
 }

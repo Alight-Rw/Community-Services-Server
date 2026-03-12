@@ -2,7 +2,7 @@
 
 import { StatusCodes } from "http-status-codes";
 import { handleError, handleSuccess } from "../../../utils/responseUtils.js";
-import { createGallery, FindOneGallery } from "../../clients/repositories/galleryRepositories.js";
+import { createGallery } from "../../clients/repositories/galleryRepositories.js";
 
 
 const postGallery= async(req,res)=>{
