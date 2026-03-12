@@ -167,7 +167,6 @@ const isProviderIdExist = async (req, res, next) => {
       return handleError(res, StatusCodes.BAD_REQUEST, "Provider not found");
     }
 
-    req.provider = provider;
 
     next();
   } catch (error) {

@@ -20,7 +20,7 @@ const requestedServices = async (req, res) => {
       select: "name price"
     });
 
-    return handleSuccess(res, StatusCodes.OK, "Booking created successfully",requestServices);
+    return handleSuccess(res, StatusCodes.OK, "Services  Requested successfully",requestServices);
 
   } catch (error) {
     return handleError(res, StatusCodes.INTERNAL_SERVER_ERROR, error.message);
@@ -42,7 +42,7 @@ const getOwnRequestedServices = async (req, res) => {
       .where("status").equals(status) 
      
     if (!requestedServices.length) {
-      return handleError(res, StatusCodes.NOT_FOUND, "No bookings found");
+      return handleError(res, StatusCodes.NOT_FOUND, "No requested services found");
     }
 
     return handleSuccess(
