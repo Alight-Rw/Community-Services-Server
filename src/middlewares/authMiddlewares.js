@@ -150,13 +150,13 @@ const verifyAccessToken = (passRoles) => {
 };
 
 const validatePasswordChange = async (req, res, next) => {
-    const { oldPassword, newPassword } = req.body;
-    if (!oldPassword || !newPassword) {
+    const { newPassword, confirmPassword } = req.body;
+    if (!newPassword || !confirmPassword) {
         return handleError(res, StatusCodes.BAD_REQUEST, "Missing fields");
     }
     const isMatch = comparePassword(oldPassword, req.user.password);
     if (!isMatch) {
-        return handleError(res, StatusCodes.UNAUTHORIZED, "Old password wrong");
+        return handleError(res, StatusCodes.UNAUTHORIZED, "wrong token");
     }
     next();
 };
