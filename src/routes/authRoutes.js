@@ -1,4 +1,5 @@
 import express from "express";
+import multiparty from "connect-multiparty";
 import {
   forgotPassword,
   login,
@@ -6,14 +7,17 @@ import {
   signUpProvider,
   singUpClient,
   verifyAccount,getprofile,
-  updateProfile,
-  updatePassword
+  updatePassword,
+  updateProfile
 } from "../modules/auth/authControllers.js";
 import { routeBodyValidation } from "../middlewares/requestMiddlewares.js";
-import { signupSchema, changePasswordSchema } from "../validations/authValidations.js";
+import { signupSchema } from "../validations/authValidations.js";
 import { checkUser, isAccountFind, isAccountVerified, isPasswordMatch, isTokenExist,verifyAccessToken } from "../middlewares/authMiddlewares.js";
+import { uploadService } from "../services/uploadService.js";
 
+const multipart = multiparty()
 const router = express.Router();
+
 router.post(
   "/provider-signup",
   routeBodyValidation(signupSchema),
@@ -38,14 +42,9 @@ router.get(
 
 router.post("/login", isAccountFind, isPasswordMatch, isAccountVerified, login);
 router.post("/logout", verifyAccessToken(["client","provider"]), Logout);
+router.patch("/edit-profile", multipart, verifyAccessToken(["client", "provider"]), uploadService, updateProfile);
 router.get("/profile", verifyAccessToken(["client","provider"]), getprofile);
-router.patch("/edit-profile",verifyAccessToken(["client","provider"]), updateProfile);
-router.patch(
-  "/change-password", 
-  verifyAccessToken(["client", "provider"]), 
-  routeBodyValidation(changePasswordSchema), 
-  updatePassword
-);
+router.patch( "/change-password", verifyAccessToken(["client", "provider"]), updatePassword );
 
 
 export default router;

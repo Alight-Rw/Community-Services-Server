@@ -152,11 +152,10 @@ const getprofile = async(req,res)=>{
 const updateProfile = async (req, res) => {
   try {
     const userId = req.user?._id;
-
-   const updatedUser = await updatedProfile(userId,req.body)
+    const updatedUser = await updatedProfile(userId, req.body);
 
     return handleSuccess(
-      res, StatusCodes.OK, 'Profile updated successfully',updatedUser);
+      res, StatusCodes.OK, 'Profile updated successfully', updatedUser);
     
   } catch (error) {
     return handleError(res, StatusCodes.INTERNAL_SERVER_ERROR, error.message );

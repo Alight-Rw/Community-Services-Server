@@ -12,9 +12,12 @@ cloudinary.config({
 });
 
 const uploadService = async (req, res, next) => {
-  const singleFile = req?.files?.avatar;
-  const multipleFiles = req?.files?.attachments;
+      console.log('AAAAAAAA', req.files)
+      const singleFile = req?.files?.avatar;
+      const multipleFiles = req?.files?.attachments;
 
+      console.log('AAAAAAAA', singleFile)
+      console.log('bbbbbbbb', multipleFiles)
   // === Handle Single File ===
   if (singleFile) {
     const filename = singleFile.name || '';
@@ -28,6 +31,7 @@ const uploadService = async (req, res, next) => {
 
     try {
       const result = await cloudinary.uploader.upload(singleFile.tempFilePath, { resource_type: 'image' });
+    
       req.body.avatar = result.secure_url;
     } catch (error) {
       return handleError(res, StatusCodes.INTERNAL_SERVER_ERROR, 

@@ -34,13 +34,22 @@ const FindUserByID = async(id)=>{
   return Token.findOne({userId,token});
  }
 
- const updatedProfile = (userId,data)=>{
-  return User.findByIdAndUpdate(
-  userId,
-  data,
-  { returnDocument: "after" })
- }
+ const updatedProfile = async (userId, updateData) => {
+  try {
+    if (!updateData || Object.keys(updateData).length === 0) {
+      return await User.findById(userId).select("-password");
+    }
+    const user = await User.findByIdAndUpdate(
+      userId,
+      { $set: updateData }, 
+      { new: true, runValidators: true }
+    ).select("-password"); 
 
+    return user;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
  const changePassword = (userId, newPassword) => {
   return User.findByIdAndUpdate(
     userId,
