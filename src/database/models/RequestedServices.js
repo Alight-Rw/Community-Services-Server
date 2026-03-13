@@ -68,7 +68,7 @@ const RequestedServicesSchema = new mongoose.Schema({
 
 RequestedServicesSchema.pre(/^find/, function () {
   this.populate([
-    { path: 'serviceId', select: 'name price ' },
+    { path: 'serviceId', select: 'avatar name price ' },
      { path: 'providerId', select: 'firstName lastName email ' },
      { path: 'clientId', select: 'firstName lastName email' }
 ])
