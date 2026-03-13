@@ -1,10 +1,10 @@
 import express from "express"
 import { uploadService } from "../services/uploadService.js"
-import { createServices, getAllAvailableServices, getLastFourServices } from "../modules/providers/controllers/servicesControllers.js"
+import { createServices, getAllAvailableServices, getLastFourServices, updateService } from "../modules/providers/controllers/servicesControllers.js"
 import { routeBodyValidation } from "../middlewares/requestMiddlewares.js"
 import serviceSchema from "../validations/serviceValidation.js"
 import { verifyAccessToken } from "../middlewares/authMiddlewares.js"
-import { isServiceExist, fetchService } from "../middlewares/serviceMiddlewares.js"
+import { isServiceExist, fetchService, isServiceOwner } from "../middlewares/serviceMiddlewares.js"
 import { allServices, searchServices } from "../modules/clients/controllers/servicesControllers.js"
 
 
@@ -17,6 +17,8 @@ router.get("/last-services",verifyAccessToken(["client","provider"]),fetchServic
 router.get("/available-services",fetchService,getAllAvailableServices)
 router.get("/search" , searchServices)
 router.get("/get-services",fetchService,allServices)
+router.patch("/:id",verifyAccessToken(["provider"]),uploadService,isServiceOwner,updateService)
+
 
 
 

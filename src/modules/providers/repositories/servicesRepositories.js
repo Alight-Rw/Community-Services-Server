@@ -12,6 +12,13 @@ const FindRequestedServicesInfo = async(providerId, status)=>{
          .where("providerId").equals(providerId )
          .where("status").equals(status)
         
+};
+const findServiceById=(id)=>{
+    return Service.findById(id)
+};
+const findServiceByIdAndUpdate=(id,data)=>{
+    return Service.findByIdAndUpdate(id,data,{new:true})
+
 }
      
-export {createService,getServices,FindRequestedServicesInfo}
+export {createService,getServices,FindRequestedServicesInfo,findServiceById,findServiceByIdAndUpdate}

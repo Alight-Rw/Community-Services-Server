@@ -2,6 +2,7 @@ import { StatusCodes } from "http-status-codes";
 import { handleError, handleSuccess } from "../../../utils/responseUtils.js";
 import {
   createService,
+  findServiceByIdAndUpdate,
   getServices,
 } from "../repositories/servicesRepositories.js";
 import Service from "../../../database/models/services.js";
@@ -51,9 +52,21 @@ const getAllAvailableServices = async (req, res) => {
     return handleError(res, StatusCodes.INTERNAL_SERVER_ERROR, error.message);
   }
 };
+const updateService = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const updatedService = await findServiceByIdAndUpdate(id, { ...req.body });
+
+    return handleSuccess(res, StatusCodes.OK, "Service updated", updatedService);
+  } catch (error) {
+    return handleError(res, StatusCodes.INTERNAL_SERVER_ERROR, error.message);
+  }
+};
 
 export {
   createServices,
   getLastFourServices,
   getAllAvailableServices,
+  updateService
 };
