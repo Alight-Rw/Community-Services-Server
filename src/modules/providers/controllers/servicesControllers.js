@@ -51,9 +51,21 @@ const getAllAvailableServices = async (req, res) => {
     return handleError(res, StatusCodes.INTERNAL_SERVER_ERROR, error.message);
   }
 };
+const updateService = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const updatedService = await Service.findByIdAndUpdate(id, { ...req.body }, { new: true });
+
+    return handleSuccess(res, StatusCodes.OK, "Service updated", updatedService);
+  } catch (error) {
+    return handleError(res, StatusCodes.INTERNAL_SERVER_ERROR, error.message);
+  }
+};
 
 export {
   createServices,
   getLastFourServices,
   getAllAvailableServices,
+  updateService
 };
