@@ -6,10 +6,11 @@ import { categorySchema } from "../validations/authValidations.js";
 
 
 
+
 const router = express.Router();
 
 
 router.get("/getCategory", getCategories);
-router.post("/",routeBodyValidation(categorySchema),categoryExist, createCategoryies);
+router.post("/",routeBodyValidation(categorySchema),categoryExist, createCategoryies)
 
 export default router;

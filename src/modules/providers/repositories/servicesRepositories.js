@@ -10,6 +10,9 @@ const searchService = (query) => {
   return Service.find({
     name: { $regex: query, $options: "i" }
   });
+}
+const deleteService = (id) => {
+  return Service.findByIdAndDelete(id);
 };
 
-export {createService,getServices,searchService}
+export {createService,getServices,searchService,deleteService}

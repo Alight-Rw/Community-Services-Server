@@ -3,6 +3,7 @@ import { handleError, handleSuccess } from "../../../utils/responseUtils.js";
 import {
   createService,
   getServices,
+  deleteService
 } from "../repositories/servicesRepositories.js";
 import Service from "../../../database/models/services.js";
 
@@ -72,12 +73,36 @@ const searchServices = async (req, res) => {
     return handleError(res, StatusCodes.INTERNAL_SERVER_ERROR, error.message);
 
   }
+}
+
+const deleteServices = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const service = await deleteService(id);
+
+    if (!service) {
+      return handleError(res, StatusCodes.NOT_FOUND, "Service not found");
+    }
+
+    return handleSuccess(
+      res,
+      StatusCodes.OK,
+      "Service deleted successfully",
+      service
+    );
+
+  } catch (error) {
+    return handleError(res, StatusCodes.INTERNAL_SERVER_ERROR, error.message);
+  }
 };
+
 
 export {
   createServices,
   getLatestThreeServicesPosted,
-  getAllAvailableServices,searchServices
+  getAllAvailableServices,searchServices,
+  deleteServices
 };
 
 
