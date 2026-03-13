@@ -13,7 +13,7 @@ const RequestedServicesSchema = new mongoose.Schema({
   providerId: {
   type: mongoose.Schema.Types.ObjectId,
   ref: 'User',
-  required: true,
+  
   },
 
   serviceId: {
@@ -67,8 +67,11 @@ const RequestedServicesSchema = new mongoose.Schema({
 });
 
 RequestedServicesSchema.pre(/^find/, function () {
-  this.populate(
-    { path: 'serviceId', select: 'name price' });
+  this.populate([
+    { path: 'serviceId', select: 'name price ' },
+     { path: 'providerId', select: 'firstName lastName email ' },
+     { path: 'clientId', select: 'firstName lastName email' }
+])
  
 });
 

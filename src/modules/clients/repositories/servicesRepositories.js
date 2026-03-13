@@ -1,3 +1,4 @@
+import RequestedServices from "../../../database/models/RequestedServices.js";
 import Service from "../../../database/models/services.js";
 
 const searchService = (query) => {
@@ -24,4 +25,23 @@ const searchService = (query) => {
   ]);
 };
 
-export { searchService };
+const createRequestedServices = async(data)=>{
+    return await RequestedServices.create(data)
+}
+const FindRequestedServiceById = async(id)=>{
+    return await Service.findById(id)
+}
+const FindRequestedServicesInfo = async (clientId, status)=>{
+    return await RequestedServices.find()
+    .where("clientId").equals(clientId)
+    .where("status").equals(status)
+     
+}
+
+export {
+          searchService,
+          createRequestedServices,
+          FindRequestedServiceById,
+          FindRequestedServicesInfo
+
+ };
