@@ -9,6 +9,6 @@ import gallerySchema from "../validations/galleryValidation.js";
 
 
 const router = express.Router();
-router.post("/create",uploadService,routeBodyValidation(gallerySchema),postGallery)
-router.get("/get-gallery",getGallery)
+router.post("/upload",uploadService,routeBodyValidation(gallerySchema),postGallery)
+router.get("/galleries",getGallery)
 export default router;

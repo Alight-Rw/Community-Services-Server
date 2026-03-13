@@ -11,16 +11,16 @@ import { providerRequestedServices } from "../modules/providers/controllers/requ
 const router = express.Router();
 
  router.post(
-  "/client-request-service",routeBodyValidation(requestedServicesSchema),verifyAccessToken(["client"]),isServiceExist,requestedServices 
+  "/",routeBodyValidation(requestedServicesSchema),verifyAccessToken(["client"]),isServiceExist,requestedServices 
      
 );
 router.get(
-  "/get-client-requested-services/:status",verifyAccessToken(["client"]),clientRequestedServices
+  "/client-get-requested-services/:status",verifyAccessToken(["client"]),clientRequestedServices
      
 );
 
 router.get(
-  "/get-provider-requested-services/:status",verifyAccessToken(["provider"]),providerRequestedServices
+  "/provider-get-requested-services/:status",verifyAccessToken(["provider"]),providerRequestedServices
      
 );
 

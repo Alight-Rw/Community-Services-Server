@@ -16,7 +16,7 @@ router.post("/create",uploadService,routeBodyValidation(serviceSchema),verifyAcc
 router.get("/last-services",verifyAccessToken(["client","provider"]),fetchService,getLastFourServices)
 router.get("/available-services",fetchService,getAllAvailableServices)
 router.get("/search" , searchServices)
-router.get("/get-services",fetchService,allServices)
+router.get("/services",fetchService,allServices)
 router.patch("/:id",verifyAccessToken(["provider"]),uploadService,isServiceOwner,updateService)
 
 

@@ -12,6 +12,7 @@ import {
 import { routeBodyValidation } from "../middlewares/requestMiddlewares.js";
 import { signupSchema, changePasswordSchema } from "../validations/authValidations.js";
 import { checkUser, isAccountFind, isAccountVerified, isPasswordMatch, isTokenExist,verifyAccessToken } from "../middlewares/authMiddlewares.js";
+import { deleteAccount } from "../modules/shared/controllers/deleteAccount.js";
 
 const router = express.Router();
 router.post(
@@ -40,6 +41,7 @@ router.post("/login", isAccountFind, isPasswordMatch, isAccountVerified, login);
 router.post("/logout", verifyAccessToken(["client","provider"]), Logout);
 router.get("/profile", verifyAccessToken(["client","provider"]), getprofile);
 router.patch("/edit-profile",verifyAccessToken(["client","provider"]), updateProfile);
+router.delete("/delete-account", verifyAccessToken(["client","provider"]), deleteAccount);
 router.patch(
   "/change-password", 
   verifyAccessToken(["client", "provider"]), 
