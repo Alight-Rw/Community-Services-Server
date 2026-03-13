@@ -3,7 +3,12 @@
 import mongoose from 'mongoose';
 
 const serviceSchema = new mongoose.Schema({
-  avatar: {
+
+   providerId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+   },
+   avatar: {
     type: String,
     required: true,
   },
@@ -26,10 +31,6 @@ const serviceSchema = new mongoose.Schema({
   location: {
     type: String,
     required: true,
-  },
-  contacts: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
   },
   timeFrom: {
     type: String,

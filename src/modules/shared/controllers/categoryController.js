@@ -17,8 +17,9 @@ const createCategoryies = async (req, res) => {
 const getCategories = async (req, res) => {
   try {
     const categories = await getAllCategories();
-    return handleError(res, StatusCodes.NOT_FOUND, "category created successfully");
-    
+    if(!categories){
+    return handleError(res, StatusCodes.NOT_FOUND, "categories are not found ");
+      }
     return handleSuccess(res, StatusCodes.OK, "Categories fetched successfully", categories);
 
   } catch (error) {

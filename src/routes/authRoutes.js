@@ -6,10 +6,11 @@ import {
   signUpProvider,
   singUpClient,
   verifyAccount,getprofile,
-  updateProfile
+  updateProfile,
+  updatePassword
 } from "../modules/auth/authControllers.js";
 import { routeBodyValidation } from "../middlewares/requestMiddlewares.js";
-import { signupSchema } from "../validations/authValidations.js";
+import { signupSchema, changePasswordSchema } from "../validations/authValidations.js";
 import { checkUser, isAccountFind, isAccountVerified, isPasswordMatch, isTokenExist,verifyAccessToken } from "../middlewares/authMiddlewares.js";
 import { deleteAccount } from "../modules/shared/controllers/deleteAccount.js";
 
@@ -41,6 +42,14 @@ router.post("/logout", verifyAccessToken(["client","provider"]), Logout);
 router.get("/profile", verifyAccessToken(["client","provider"]), getprofile);
 router.patch("/edit-profile",verifyAccessToken(["client","provider"]), updateProfile);
 router.delete("/delete-account", verifyAccessToken(["client","provider"]), deleteAccount);
+router.patch(
+  "/change-password", 
+  verifyAccessToken(["client", "provider"]), 
+  routeBodyValidation(changePasswordSchema), 
+  updatePassword
+);
 
 
 export default router;
+
+// Tuyikunde@65

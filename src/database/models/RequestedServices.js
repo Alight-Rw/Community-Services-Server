@@ -3,6 +3,19 @@
 import mongoose from 'mongoose';
 
 const RequestedServicesSchema = new mongoose.Schema({
+
+  clientId: {
+  type: mongoose.Schema.Types.ObjectId,
+  ref: 'User',
+  required: true,
+  },
+
+  providerId: {
+  type: mongoose.Schema.Types.ObjectId,
+  ref: 'User',
+  
+  },
+
   serviceId: {
     type: mongoose.Types.ObjectId,
     ref: 'Service',
@@ -53,13 +66,17 @@ const RequestedServicesSchema = new mongoose.Schema({
   },
 });
 
-RequestedServicesSchema.pre(/^find/, function (next) {
-  this.populate({ path: 'serviceId', select: 'name price' });
-  next();
+RequestedServicesSchema.pre(/^find/, function () {
+  this.populate([
+    { path: 'serviceId', select: 'name price ' },
+     { path: 'providerId', select: 'firstName lastName email ' },
+     { path: 'clientId', select: 'firstName lastName email' }
+])
+ 
 });
 
 const RequestedServices = mongoose.model(
-  ' RequestedServices',
+  'RequestedServices',
   RequestedServicesSchema,
 );
 export default RequestedServices;
