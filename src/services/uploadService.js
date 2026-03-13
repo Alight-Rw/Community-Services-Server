@@ -12,12 +12,9 @@ cloudinary.config({
 });
 
 const uploadService = async (req, res, next) => {
-      console.log('AAAAAAAA', req.files)
-      const singleFile = req?.files?.avatar;
-      const multipleFiles = req?.files?.attachments;
+  const singleFile = req?.files?.avatar;
+  const multipleFiles = req?.files?.attachments;
 
-      console.log('AAAAAAAA', singleFile)
-      console.log('bbbbbbbb', multipleFiles)
   // === Handle Single File ===
   if (singleFile) {
     const filename = singleFile.name || '';
@@ -30,12 +27,12 @@ const uploadService = async (req, res, next) => {
     }
 
     try {
-      const result = await cloudinary.uploader.upload(singleFile.tempFilePath, { resource_type: 'image' });
-    
+      const result = await cloudinary.uploader.upload(singleFile.path, { resource_type: 'image' });
+      console.log('Cloudinary upload result:', result);    
       req.body.avatar = result.secure_url;
     } catch (error) {
       return handleError(res, StatusCodes.INTERNAL_SERVER_ERROR, 
-        'Failed to upload profile picture. Please try again.');
+        `Failed to upload profile picture. Please try again. ${error || error.message}`);
     }
   }
 
@@ -55,7 +52,7 @@ const uploadService = async (req, res, next) => {
       }
 
       try {
-        const result = await cloudinary.uploader.upload(file.tempFilePath, { resource_type: 'raw' });
+        const result = await cloudinary.uploader.upload(file.path, { resource_type: 'raw' });
         uploadedUrls.push(result.secure_url);
       } catch (error) {
         return handleError(res, StatusCodes.INTERNAL_SERVER_ERROR, 
