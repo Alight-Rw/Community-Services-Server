@@ -2,7 +2,7 @@ import { StatusCodes } from "http-status-codes"
 
 import { handleError } from "../utils/responseUtils.js"
 import Service from "../database/models/services.js"
-import { getServices } from "../modules/providers/repositories/servicesRepositories.js"
+import { findServiceById, getServices } from "../modules/providers/repositories/servicesRepositories.js"
 
 
 const isServiceExist=async(req,res,next)=>{
@@ -43,7 +43,7 @@ const isServiceOwner = async (req, res, next) => {
       "Only providers can manage services",
     );
   }
-  const service= await Service.findById(req.params.id)
+  const service= await findServiceById(req.params.id)
   if (!service) {
     return handleError(res, StatusCodes.NOT_FOUND, "service not found");
   }
