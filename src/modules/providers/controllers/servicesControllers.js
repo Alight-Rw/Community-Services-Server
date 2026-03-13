@@ -7,9 +7,9 @@ import {
 import Service from "../../../database/models/services.js";
 
 const createServices = async (req, res) => {
-  const userId = req.user?._id;
+  const providerId = req.user?._id;
   try {
-    const newService = await createService({ ...req.body, contacts: userId });
+    const newService = await createService({ ...req.body,providerId });
 
     return handleSuccess(
       res,
