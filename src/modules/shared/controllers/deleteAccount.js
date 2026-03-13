@@ -5,7 +5,7 @@ import { handleError, handleSuccess } from "../../../utils/responseUtils.js";
 export const deleteAccount = async (req, res) => {
   try {
 
-    const userId = req.params.id;
+    const userId = req.userId.id;
 
     const user = await User.findByIdAndDelete(userId);
 
