@@ -30,9 +30,25 @@ const providerRequestedServices = async (req, res) => {
   }
 };
 
+const updateRequestedServiceStatus = async (req, res) => {
+  try {
+    const { id } = req.params; 
+    const { status } = req.body; 
+    const providerId = req.user._id;
 
+    const result = await updateRequestedServiceStatus(id, providerId, status);
+
+    if (!result) {
+      return handleError(res, StatusCodes.FORBIDDEN, "Unauthorized or Request not found");
+    }
+
+    return handleSuccess(res, StatusCodes.OK, `Service ${status} successfully`, result);
+  } catch (error) {
+    return handleError(res, StatusCodes.INTERNAL_SERVER_ERROR, error.message);
+  }
+};
 
  
 export {
-     providerRequestedServices
+     providerRequestedServices, updateRequestedServiceStatus
 }

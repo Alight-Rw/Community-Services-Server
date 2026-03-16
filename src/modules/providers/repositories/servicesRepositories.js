@@ -20,5 +20,14 @@ const findServiceByIdAndUpdate=(id,data)=>{
     return Service.findByIdAndUpdate(id,data,{new:true})
 
 }
+
+const updateRequestedServiceStatus = async (id, providerId, status) => {
+  return await RequestedServices.findOneAndUpdate(
+    { _id: id, providerId: providerId }, 
+    { $set: { status: status } }, 
+    { new: true, runValidators: true }
+  );
+};
+
      
-export {createService,getServices,FindRequestedServicesInfo,findServiceById,findServiceByIdAndUpdate}
+export {createService,getServices,FindRequestedServicesInfo,findServiceById,findServiceByIdAndUpdate,updateRequestedServiceStatus}
