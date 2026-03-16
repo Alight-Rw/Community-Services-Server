@@ -71,7 +71,7 @@ const login = async (req, res) => {
       { token },
       { upsert: true, returnDocument:'after' },
     );
-    return handleSuccess(res, StatusCodes.OK, "Login successfully", token);
+    return handleSuccess(res, StatusCodes.OK, "Login successfully", { token, userType: req.user.role });
   } catch (error) {
     return handleError(res, StatusCodes.INTERNAL_SERVER_ERROR, error.message);
   }
