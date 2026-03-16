@@ -7,6 +7,7 @@ import {
 } from "../repositories/servicesRepositories.js";
 import Service from "../../../database/models/services.js";
 
+
 const createServices = async (req, res) => {
   const providerId = req.user?._id;
   try {
@@ -63,6 +64,27 @@ const updateService = async (req, res) => {
     return handleError(res, StatusCodes.INTERNAL_SERVER_ERROR, error.message);
   }
 };
+
+const deleteServices = async (req, res) => {
+  try {
+
+    const serviceId = req.params.id;
+
+    const service = await Service.findByIdAndDelete(serviceId);
+
+    if (!service) {
+      return handleError(res, StatusCodes.NOT_FOUND, "Service not found");
+    }
+
+    return handleSuccess(res, StatusCodes.OK, "Service deleted successfully", {});
+
+  } catch (error) {
+    return handleError(res, StatusCodes.INTERNAL_SERVER_ERROR, error.message);
+  }
+};
+
+export default deleteServices;
+
 
 export {
   createServices,

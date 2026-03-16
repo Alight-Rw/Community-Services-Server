@@ -13,6 +13,9 @@ import { routeBodyValidation } from "../middlewares/requestMiddlewares.js";
 import { signupSchema, changePasswordSchema } from "../validations/authValidations.js";
 import { checkUser, isAccountFind, isAccountVerified, isPasswordMatch, isTokenExist,verifyAccessToken } from "../middlewares/authMiddlewares.js";
 import { deleteAccount } from "../modules/shared/controllers/deleteAccount.js";
+import deleteServices from "../modules/providers/controllers/servicesControllers.js";
+
+
 
 const router = express.Router();
 router.post(
@@ -42,6 +45,7 @@ router.post("/logout", verifyAccessToken(["client","provider"]), Logout);
 router.get("/profile", verifyAccessToken(["client","provider"]), getprofile);
 router.patch("/edit-profile",verifyAccessToken(["client","provider"]), updateProfile);
 router.delete("/delete-account", verifyAccessToken(["client","provider"]), deleteAccount);
+router.delete("/delete-services/:id", verifyAccessToken(["client","provider"]), deleteServices);
 router.patch(
   "/change-password", 
   verifyAccessToken(["client", "provider"]), 
