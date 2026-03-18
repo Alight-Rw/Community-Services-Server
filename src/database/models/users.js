@@ -6,6 +6,7 @@ const userSchema = new mongoose.Schema({
  avatar:{
    type:String,
    required:false,
+   default:null
  },
   firstName: {
     type: String,
@@ -22,10 +23,14 @@ const userSchema = new mongoose.Schema({
   },
    location: {
     type: String,
+    required:false,
+    default:null
   },
 
   phone: {
     type: String,
+    required:false,
+    default:null
   },
   password: {
     type: String,
