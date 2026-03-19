@@ -4,7 +4,6 @@ import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import StatusCodes from 'http-status-codes';
-import fileUpload from "express-fileupload";
 
 import './database/configs/config.js';
 import router from './routes/index.js';
@@ -17,12 +16,6 @@ const port = process.env.PORT;
 app.use(cors());
 app.use(express.json({ limit: '500mb' }));
 app.use(express.urlencoded({ limit: '500mb', extended: true }));
-
-app.use(fileUpload({
-  createParentPath: true,
-  useTempFiles: true,
-  tempFileDir: '/tmp/',
-}));
 
 app.use("/api/v1",router)
 
