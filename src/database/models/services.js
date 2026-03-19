@@ -52,7 +52,7 @@ const serviceSchema = new mongoose.Schema({
 });
 
 serviceSchema.pre(/^find/, function (next) {
-  this.populate({ path: 'category', select: 'categoryName'});
+  this.populate([{ path: 'category', select: 'categoryName'},{ path: 'providerId', select: 'firstName lastName location phone email '}]);
 });
 
 const Service = mongoose.model('Service', serviceSchema);
