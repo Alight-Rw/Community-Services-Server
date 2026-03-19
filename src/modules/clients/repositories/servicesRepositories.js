@@ -31,12 +31,17 @@ const createRequestedServices = async(data)=>{
 const FindRequestedServiceById = async(id)=>{
     return await Service.findById(id)
 }
-const FindRequestedServicesInfo = async (clientId, status)=>{
-    return await RequestedServices.find()
-    .where("clientId").equals(clientId)
-    .where("status").equals(status)
-     
-}
+const FindRequestedServicesInfo = async (clientId, status) => {
+  const query = {
+    clientId: clientId
+  };
+
+  if (status && status !== "all") {
+    query.status = status;
+  }
+
+  return await RequestedServices.find(query);
+};
 
 export {
           searchService,

@@ -7,12 +7,18 @@ const getServices = ()=>{
     return Service.find()
 }
 
-const FindRequestedServicesInfo = async(providerId, status)=>{
-        return await RequestedServices.find()
-         .where("providerId").equals(providerId )
-         .where("status").equals(status)
-        
+const FindRequestedServicesInfo = async (providerId, status) => {
+  const query = {
+    clientId: providerId
+  };
+
+  if (status && status !== "all") {
+    query.status = status;
+  }
+
+  return await RequestedServices.find(query);
 };
+
 const findServiceById=(id)=>{
     return Service.findById(id)
 };
