@@ -6,13 +6,14 @@ import serviceSchema from "../validations/serviceValidation.js"
 import { verifyAccessToken } from "../middlewares/authMiddlewares.js"
 import { isServiceExist, fetchService, isServiceOwner } from "../middlewares/serviceMiddlewares.js"
 import { allServices, searchServices } from "../modules/clients/controllers/servicesControllers.js"
+import multiparty from "connect-multiparty";
 
 
 
-
+const multipart = multiparty();
 
 const router=express.Router()
-router.post("/create",uploadService,routeBodyValidation(serviceSchema),verifyAccessToken(["provider"]),isServiceExist,createServices)
+router.post("/create",multipart,uploadService,routeBodyValidation(serviceSchema),verifyAccessToken(["provider"]),isServiceExist,createServices)
 router.get("/last-services",verifyAccessToken(["client","provider"]),fetchService,getLastFourServices)
 router.get("/available-services",fetchService,getAllAvailableServices)
 router.get("/search" , searchServices)

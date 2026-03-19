@@ -1,19 +1,13 @@
 import express from "express";
-import {
-  forgotPassword,
-  login,
-  Logout,
-  signUpProvider,
-  singUpClient,
-  verifyAccount,getprofile,
-  updateProfile,
-  updatePassword
-} from "../modules/auth/authControllers.js";
+import multiparty from "connect-multiparty";
+import { forgotPassword, login, Logout, signUpProvider, singUpClient, verifyAccount,getprofile, updateProfile, updatePassword } from "../modules/auth/authControllers.js";
 import { routeBodyValidation } from "../middlewares/requestMiddlewares.js";
 import { signupSchema, changePasswordSchema } from "../validations/authValidations.js";
 import { checkUser, isAccountFind, isAccountVerified, isPasswordMatch, isTokenExist,verifyAccessToken } from "../middlewares/authMiddlewares.js";
 import { deleteAccount } from "../modules/shared/controllers/deleteAccount.js";
+import { uploadService } from "../services/uploadService.js";
 
+const multipart = multiparty();
 const router = express.Router();
 router.post(
   "/provider-signup",
@@ -40,7 +34,7 @@ router.get(
 router.post("/login", isAccountFind, isPasswordMatch, isAccountVerified, login);
 router.post("/logout", verifyAccessToken(["client","provider"]), Logout);
 router.get("/profile", verifyAccessToken(["client","provider"]), getprofile);
-router.patch("/edit-profile",verifyAccessToken(["client","provider"]), updateProfile);
+router.patch("/edit-profile",verifyAccessToken(["client","provider"]), multipart, uploadService, updateProfile);
 router.delete("/delete-account", verifyAccessToken(["client","provider"]), deleteAccount);
 router.patch(
   "/change-password", 
