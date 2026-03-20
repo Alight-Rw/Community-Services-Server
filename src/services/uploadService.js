@@ -66,7 +66,7 @@ const uploadService = async (req, res, next) => {
       }
 
       try {
-        const result = await cloudinary.uploader.upload(file.tempFilePath, {
+        const result = await cloudinary.uploader.upload(file.path, {
           resource_type: 'raw',
         });
         uploadedUrls.push(result.secure_url);
