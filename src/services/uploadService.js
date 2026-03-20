@@ -1,3 +1,5 @@
+/** @format */
+
 import dotenv from 'dotenv';
 import { v2 as cloudinary } from 'cloudinary';
 import { StatusCodes } from 'http-status-codes';
@@ -22,22 +24,32 @@ const uploadService = async (req, res, next) => {
     const allowedSingleExtensions = ['.jpeg', '.jpg', '.png'];
 
     if (!allowedSingleExtensions.includes(extension)) {
-      return handleError(res, StatusCodes.BAD_REQUEST, 
-        'Invalid file type. Accepted types for profile picture: .jpg, .png');
+      return handleError(
+        res,
+        StatusCodes.BAD_REQUEST,
+        'Invalid file type. Accepted types for profile picture: .jpg, .png',
+      );
     }
 
     try {
-      const result = await cloudinary.uploader.upload(singleFile.tempFilePath, { resource_type: 'image' });
+      const result = await cloudinary.uploader.upload(singleFile.path, {
+        resource_type: 'image',
+      });
       req.body.avatar = result.secure_url;
     } catch (error) {
-      return handleError(res, StatusCodes.INTERNAL_SERVER_ERROR, 
-        'Failed to upload profile picture. Please try again.');
+      return handleError(
+        res,
+        StatusCodes.INTERNAL_SERVER_ERROR,
+        'Failed to upload profile picture. Please try again.',
+      );
     }
   }
 
   // === Handle Multiple Files ===
   if (multipleFiles) {
-    const filesArray = Array.isArray(multipleFiles) ? multipleFiles : [multipleFiles];
+    const filesArray = Array.isArray(multipleFiles)
+      ? multipleFiles
+      : [multipleFiles];
     const allowedMultiExtensions = ['.pdf', '.doc', '.docx'];
     const uploadedUrls = [];
 
@@ -46,16 +58,24 @@ const uploadService = async (req, res, next) => {
       const extension = filename.slice(filename.lastIndexOf('.')).toLowerCase();
 
       if (!allowedMultiExtensions.includes(extension)) {
-        return handleError(res, StatusCodes.BAD_REQUEST, 
-          'Invalid document type. Accepted types: .pdf, .doc, .docx');
+        return handleError(
+          res,
+          StatusCodes.BAD_REQUEST,
+          'Invalid document type. Accepted types: .pdf, .doc, .docx',
+        );
       }
 
       try {
-        const result = await cloudinary.uploader.upload(file.tempFilePath, { resource_type: 'raw' });
+        const result = await cloudinary.uploader.upload(file.tempFilePath, {
+          resource_type: 'raw',
+        });
         uploadedUrls.push(result.secure_url);
       } catch (error) {
-        return handleError(res, StatusCodes.INTERNAL_SERVER_ERROR, 
-          'Failed to upload document. Please try again.');
+        return handleError(
+          res,
+          StatusCodes.INTERNAL_SERVER_ERROR,
+          'Failed to upload document. Please try again.',
+        );
       }
     }
 
