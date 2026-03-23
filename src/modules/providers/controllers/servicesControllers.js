@@ -25,7 +25,7 @@ const createServices = async (req, res) => {
 
 const getLastFourServices = async (req, res) => {
   try {
-    const lastServices = await getServices().sort({ createdAt: -1 }).limit(4);
+    const lastServices = await getServices().sort({ createdAt: -1 }).limit(3);
     return handleSuccess(
       res,
       StatusCodes.OK,
