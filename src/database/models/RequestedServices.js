@@ -35,7 +35,7 @@ const RequestedServicesSchema = new mongoose.Schema({
   },
   requestNote: {
     type: String,
-    required: false
+    default: null,
   },
   rejectionNote: {
     type: String,
@@ -68,9 +68,9 @@ const RequestedServicesSchema = new mongoose.Schema({
 
 RequestedServicesSchema.pre(/^find/, function () {
   this.populate([
-    { path: 'serviceId', select: 'avatar name price ' },
-     { path: 'providerId', select: 'firstName lastName email ' },
-     { path: 'clientId', select: 'firstName lastName email' }
+    { path: 'serviceId', select: 'avatar name price timeFrom timeTo' },
+     { path: 'providerId', select: 'firstName lastName email phone location' },
+     { path: 'clientId', select: 'firstName lastName email phone location' }
 ])
  
 });

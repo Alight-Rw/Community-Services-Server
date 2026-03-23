@@ -18,8 +18,8 @@ const requestedServices = async (req, res) => {
     });
 
    requestServices = await requestServices.populate([
-     { path: 'serviceId', select: ' avatar name price ' },
-     { path: 'providerId', select: 'firstName lastName email ' },
+     { path: 'serviceId', select: ' avatar name price timeFrom timeTo' },
+     { path: 'providerId', select: 'firstName lastName email phone location' },
      { path: 'clientId', select: 'firstName lastName email' }
     ]);
 
