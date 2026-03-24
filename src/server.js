@@ -14,7 +14,15 @@ const app = express();
 const port = process.env.PORT;
 
 app.use(cors());
-app.use(express.json({ limit: '500mb' }));
+// app.use(express.json({ limit: '500mb' }));
+// app.use(express.urlencoded({ limit: '500mb', extended: true }));
+
+app.use((req, res, next) => {
+  if (req.headers['content-type']?.includes('multipart/form-data')) {
+    return next() 
+  }
+  express.json({ limit: '500mb' })(req, res, next)
+})
 app.use(express.urlencoded({ limit: '500mb', extended: true }));
 
 app.use("/api/v1",router)
@@ -31,3 +39,7 @@ app.get(/.*/, (req, res) => {
 app.listen(port, () => {
   console.log(`Server running on ${port}`);
 });
+
+
+
+

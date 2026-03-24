@@ -14,7 +14,11 @@ cloudinary.config({
 });
 
 const uploadService = async (req, res, next) => {
+
+
   const singleFile = req?.files?.avatar;
+ 
+
   const multipleFiles = req?.files?.attachments;
 
   // === Handle Single File ===
