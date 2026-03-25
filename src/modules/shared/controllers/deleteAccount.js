@@ -1,21 +1,41 @@
+/** @format */
+
 import { StatusCodes } from "http-status-codes";
-import User from "../../../database/models/users.js";
-import { handleError, handleSuccess } from "../../../utils/responseUtils.js";
+import { deleteProviderData,deleteClientData } from "../repositories/deletedAccountRepo.js";
+import { handleError,handleSuccess } from "../../../utils/responseUtils.js";
 
 export const deleteAccount = async (req, res) => {
   try {
+    const userId = req.user?._id;
+    const user = req.userData;
 
-    const userId = req.userId.id;
+    if (user.role === "provider") {
+      await deleteProviderData(userId, req.serviceIds);
 
-    const user = await User.findByIdAndDelete(userId);
-
-    if (!user) {
-      return handleError(res, StatusCodes.NOT_FOUND, "User not found");
+      return handleSuccess(
+        res,
+        StatusCodes.OK,
+        "Provider account deleted successfully",
+        {}
+      );
     }
 
-    return handleSuccess(res, StatusCodes.OK, "Account deleted successfully", {});
+    if (user.role === "client") {
+      await deleteClientData(userId);
+
+      return handleSuccess(
+        res,
+        StatusCodes.OK,
+        "Client account deleted successfully",
+        {}
+      );
+    }
 
   } catch (error) {
-    return handleError(res, StatusCodes.INTERNAL_SERVER_ERROR, error.message);
+    return handleError(
+      res,
+      StatusCodes.INTERNAL_SERVER_ERROR,
+      error.message
+    );
   }
 };

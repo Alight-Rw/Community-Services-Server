@@ -7,9 +7,9 @@ const getServices = ()=>{
     return Service.find()
 }
 
-const FindRequestedServicesInfo = async (providerId, status) => {
+const FindProviderRequestedServicesInfo = async (providerId, status) => {
   const query = {
-    clientId: providerId
+    providerId: providerId, 
   };
 
   if (status && status !== "all") {
@@ -27,4 +27,4 @@ const findServiceByIdAndUpdate=(id,data)=>{
 
 }
      
-export {createService,getServices,FindRequestedServicesInfo,findServiceById,findServiceByIdAndUpdate}
+export {createService,getServices,FindProviderRequestedServicesInfo,findServiceById,findServiceByIdAndUpdate}
