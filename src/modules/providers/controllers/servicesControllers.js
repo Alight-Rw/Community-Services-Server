@@ -6,6 +6,7 @@ import {
   getServices,
 } from "../repositories/servicesRepositories.js";
 import Service from "../../../database/models/services.js";
+import { deleteServiceWithRequests } from "../repositories/servicesRepositories.js";
 
 const createServices = async (req, res) => {
   const providerId = req.user?._id;
@@ -64,9 +65,31 @@ const updateService = async (req, res) => {
   }
 };
 
+ const deleteServices = async (req, res) => {
+  try {
+    const serviceId = req.params.id;
+
+    await deleteServiceWithRequests(serviceId);
+
+    return handleSuccess(
+      res,
+      StatusCodes.OK,
+      "Service and related requests deleted successfully",
+      {}
+    );
+  } catch (error) {
+    return handleError(
+      res,
+      StatusCodes.INTERNAL_SERVER_ERROR,
+      error.message
+    );
+  }
+};
+
 export {
   createServices,
   getLastFourServices,
   getAllAvailableServices,
-  updateService
+  updateService,
+  deleteServices
 };

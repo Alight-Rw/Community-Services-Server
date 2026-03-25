@@ -1,5 +1,7 @@
 import RequestedServices from "../../../database/models/RequestedServices.js"
 import Service from "../../../database/models/services.js"
+
+
 const createService=(data)=>{
     return Service.create(data)
 }
@@ -26,5 +28,26 @@ const findServiceByIdAndUpdate=(id,data)=>{
     return Service.findByIdAndUpdate(id,data,{new:true})
 
 }
+
+ const checkServiceOwnership = (service, providerId) => {
+  return service.providerId.toString() === providerId.toString();
+};
+
+ const checkServiceCanBeDeleted = async (serviceId) => {
+  const requests = await RequestedServices.find({ serviceId });
+
+  const hasActiveRequests = requests.some(
+    (req) => req.status === "Waitting" || req.status === "Approved"
+  );
+
+  return {
+    canDelete: !hasActiveRequests,
+  };
+};
+
+ const deleteServiceWithRequests = async (serviceId) => {
+  await RequestedServices.deleteMany({ serviceId });
+  await Service.findByIdAndDelete(serviceId);
+};
      
-export {createService,getServices,FindProviderRequestedServicesInfo,findServiceById,findServiceByIdAndUpdate}
+export {createService,getServices,FindProviderRequestedServicesInfo,findServiceById,findServiceByIdAndUpdate,deleteServiceWithRequests,checkServiceCanBeDeleted,checkServiceOwnership}
