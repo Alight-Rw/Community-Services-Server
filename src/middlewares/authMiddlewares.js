@@ -141,6 +141,7 @@ const verifyAccessToken = (passRoles) => {
         }
 
     req.user = user;
+    req.user._id = user._id || user.id;
     req.token = token;
 
     next();
