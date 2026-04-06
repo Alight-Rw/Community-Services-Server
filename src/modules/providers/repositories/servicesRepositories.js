@@ -24,8 +24,18 @@ const FindProviderRequestedServicesInfo = async (providerId, status) => {
 const findServiceById=(id)=>{
     return Service.findById(id)
 };
+const findRequestServiceById=(id)=>{
+    return RequestedServices.findById(id)
+};
 const findServiceByIdAndUpdate=(id,data)=>{
     return Service.findByIdAndUpdate(id,data,{new:true})
+
+}
+
+const findRequestByIdAndUpdate=(id,status)=>{
+    return RequestedServices.findByIdAndUpdate(id, status, {
+    returnDocument: 'after',
+  });
 
 }
 
@@ -50,4 +60,4 @@ const findServiceByIdAndUpdate=(id,data)=>{
   await Service.findByIdAndDelete(serviceId);
 };
      
-export {createService,getServices,FindProviderRequestedServicesInfo,findServiceById,findServiceByIdAndUpdate,deleteServiceWithRequests,checkServiceCanBeDeleted,checkServiceOwnership}
+export {createService,getServices,findRequestByIdAndUpdate,findRequestServiceById,FindProviderRequestedServicesInfo,findServiceById,findServiceByIdAndUpdate,deleteServiceWithRequests,checkServiceCanBeDeleted,checkServiceOwnership}

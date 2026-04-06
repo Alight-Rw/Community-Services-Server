@@ -6,7 +6,7 @@ import { routeBodyValidation } from "../middlewares/requestMiddlewares.js";
 import requestedServicesSchema from "../validations/RequestedServicesValidation.js";
 import { verifyAccessToken } from "../middlewares/authMiddlewares.js";
 import { isServiceExist } from "../middlewares/requestedServicesMiddleware.js";
-import { providerRequestedServices } from "../modules/providers/controllers/requestedServicesController.js";
+import { providerRequestedServices, trackRequestServiceStatus } from "../modules/providers/controllers/requestedServicesController.js";
 
 const router = express.Router();
 
@@ -23,6 +23,8 @@ router.get(
   "/provider-get-requested-services/:status",verifyAccessToken(["provider"]),providerRequestedServices
      
 );
+
+router.put("/:id",verifyAccessToken(["provider"]),trackRequestServiceStatus)
 
 
 

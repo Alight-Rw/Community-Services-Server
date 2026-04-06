@@ -1,6 +1,6 @@
 import { StatusCodes } from "http-status-codes"
 import { handleError, handleSuccess } from "../../../utils/responseUtils.js"
-import { FindProviderRequestedServicesInfo } from "../repositories/servicesRepositories.js";
+import { FindProviderRequestedServicesInfo, findRequestByIdAndUpdate, findRequestServiceById } from "../repositories/servicesRepositories.js";
 
 
 const providerRequestedServices = async (req, res) => {
@@ -36,9 +36,38 @@ const providerRequestedServices = async (req, res) => {
   }
 };
 
+const trackRequestServiceStatus = async (req, res) => {
+  const id = req.params.id;
+
+  try {
+     const requestService = await findRequestServiceById(id);
+
+  if (!requestService) {
+    return handleError(
+      res,
+      StatusCodes.NOT_FOUND,
+      "No requested services found"
+    );
+  }
+
+  const newRequestService = await findRequestByIdAndUpdate(id, req.body);
+
+  return handleSuccess(
+    res,
+    StatusCodes.OK,
+    "Your service requests updated successfully",
+    newRequestService
+  );
+  } catch (error) {
+    return handleError(res, StatusCodes.INTERNAL_SERVER_ERROR, error.message);
+  }
+
+ 
+};
+
 
 
  
 export {
-     providerRequestedServices
+     providerRequestedServices,trackRequestServiceStatus
 }
