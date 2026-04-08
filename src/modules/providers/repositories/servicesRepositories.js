@@ -40,14 +40,20 @@ const findRequestByIdAndUpdate=(id,status)=>{
 }
 
  const checkServiceOwnership = (service, providerId) => {
-  return service.providerId.toString() === providerId.toString();
-};
+  if (!service || !providerId) return false;
+  const ownerId = service.providerId._id 
+    ? service.providerId._id.toString() 
+    : service.providerId.toString();
+    
+  const currentUserId = providerId.toString();
 
+  return ownerId === currentUserId;
+};
  const checkServiceCanBeDeleted = async (serviceId) => {
   const requests = await RequestedServices.find({ serviceId });
 
   const hasActiveRequests = requests.some(
-    (req) => req.status === "Waitting" || req.status === "Approved"
+    (req) => req.status === "Waiting" || req.status === "Approved"
   );
 
   return {
