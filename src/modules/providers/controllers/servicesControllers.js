@@ -3,8 +3,10 @@ import { handleError, handleSuccess } from "../../../utils/responseUtils.js";
 import {
   createService,
   findServiceByIdAndUpdate,
-  getServices,
+  getProviderServices,
+  
 } from "../repositories/servicesRepositories.js";
+import { getServices } from "../../clients/repositories/servicesRepositories.js";
 import Service from "../../../database/models/services.js";
 import { deleteServiceWithRequests } from "../repositories/servicesRepositories.js";
 
@@ -53,6 +55,18 @@ const getAllAvailableServices = async (req, res) => {
     return handleError(res, StatusCodes.INTERNAL_SERVER_ERROR, error.message);
   }
 };
+
+const allProviderServices = async (req, res) => {
+  const user = req.user
+  try {
+    const services = await getProviderServices(user);
+   
+    return handleSuccess(res, StatusCodes.OK, "Services fetched", services);
+
+  } catch (error) {
+    return handleError(res, StatusCodes.INTERNAL_SERVER_ERROR, error.message);
+  }
+};
 const updateService = async (req, res) => {
   try {
     const { id } = req.params;
@@ -91,5 +105,6 @@ export {
   getLastFourServices,
   getAllAvailableServices,
   updateService,
-  deleteServices
+  deleteServices,
+  allProviderServices
 };

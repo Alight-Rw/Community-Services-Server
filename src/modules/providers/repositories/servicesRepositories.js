@@ -5,9 +5,14 @@ import Service from "../../../database/models/services.js"
 const createService=(data)=>{
     return Service.create(data)
 }
-const getServices = ()=>{
-    return Service.find()
-}
+
+const getProviderServices = async (user) => {
+  if (user?.role === "provider") {
+    return await Service.find({ providerId: user._id });
+  }
+
+  return await Service.find();
+};
 
 const FindProviderRequestedServicesInfo = async (providerId, status) => {
   const query = {
@@ -66,4 +71,4 @@ const findRequestByIdAndUpdate=(id,status)=>{
   await Service.findByIdAndDelete(serviceId);
 };
      
-export {createService,getServices,findRequestByIdAndUpdate,findRequestServiceById,FindProviderRequestedServicesInfo,findServiceById,findServiceByIdAndUpdate,deleteServiceWithRequests,checkServiceCanBeDeleted,checkServiceOwnership}
+export {createService,getProviderServices,findRequestByIdAndUpdate,findRequestServiceById,FindProviderRequestedServicesInfo,findServiceById,findServiceByIdAndUpdate,deleteServiceWithRequests,checkServiceCanBeDeleted,checkServiceOwnership}

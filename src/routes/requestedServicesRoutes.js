@@ -15,12 +15,12 @@ const router = express.Router();
      
 );
 router.get(
-  "/client-get-requested-services/:status",verifyAccessToken(["client"]),clientRequestedServices
+  "/client-get-requested-services/:status",verifyAccessToken(["client","provider"]),clientRequestedServices
      
 );
 
 router.get(
-  "/provider-get-requested-services/:status",verifyAccessToken(["provider"]),providerRequestedServices
+  "/provider-get-requested-services/:status",verifyAccessToken(["client","provider"]),providerRequestedServices
      
 );
 

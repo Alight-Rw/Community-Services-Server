@@ -1,7 +1,7 @@
 import { StatusCodes } from "http-status-codes";
-import { searchService } from "../repositories/servicesRepositories.js";
+import { getServices, searchService } from "../repositories/servicesRepositories.js";
 import { handleSuccess,handleError } from "../../../utils/responseUtils.js";
-import { getServices } from "../../providers/repositories/servicesRepositories.js";
+
 
 const searchServices = async (req, res) => {
   try {

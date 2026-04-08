@@ -1,6 +1,6 @@
 import express from "express"
 import { uploadService } from "../services/uploadService.js"
-import { createServices, deleteServices, getAllAvailableServices, getLastFourServices, updateService } from "../modules/providers/controllers/servicesControllers.js"
+import { allProviderServices, createServices, deleteServices, getAllAvailableServices, getLastFourServices, updateService } from "../modules/providers/controllers/servicesControllers.js"
 import { routeBodyValidation } from "../middlewares/requestMiddlewares.js"
 import serviceSchema from "../validations/serviceValidation.js"
 import { verifyAccessToken } from "../middlewares/authMiddlewares.js"
@@ -18,6 +18,7 @@ router.get("/last-services",verifyAccessToken(["client","provider"]),fetchServic
 router.get("/available-services",fetchService,getAllAvailableServices)
 router.get("/search" , searchServices)
 router.get("/services",fetchService,allServices)
+router.get("/provider-services",verifyAccessToken(["provider"]),fetchService,allProviderServices)
 router.patch("/:id",verifyAccessToken(["provider"]),uploadService,isServiceOwner,updateService)
 router.delete("/:id",verifyAccessToken(["provider"]),validateDeleteService,deleteServices)
 

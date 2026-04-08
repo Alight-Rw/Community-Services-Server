@@ -42,11 +42,15 @@ const FindRequestedServicesInfo = async (clientId, status) => {
 
   return await RequestedServices.find(query);
 };
+const getServices = ()=>{
+    return Service.find()
+}
 
 export {
           searchService,
           createRequestedServices,
           FindRequestedServiceById,
-          FindRequestedServicesInfo
+          FindRequestedServicesInfo,
+          getServices
 
  };

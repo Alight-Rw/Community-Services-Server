@@ -2,7 +2,8 @@ import { StatusCodes } from "http-status-codes"
 
 import { handleError } from "../utils/responseUtils.js"
 import Service from "../database/models/services.js"
-import { findServiceById, getServices, checkServiceOwnership, checkServiceCanBeDeleted } from "../modules/providers/repositories/servicesRepositories.js"
+import { findServiceById, checkServiceOwnership, checkServiceCanBeDeleted } from "../modules/providers/repositories/servicesRepositories.js"
+import { getServices } from "../modules/clients/repositories/servicesRepositories.js"
 
 
 const isServiceExist = async (req, res, next) => {
