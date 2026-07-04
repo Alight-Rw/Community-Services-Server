@@ -5,26 +5,38 @@ import { handleSuccess,handleError } from "../../../utils/responseUtils.js";
 
 const searchServices = async (req, res) => {
   try {
+    const query = String(req.query.search || "").trim();
 
-    const { term } = req.query;
+    if (!query) {
+      return handleError(
+        res,
+        StatusCodes.BAD_REQUEST,
+        "Search query is required"
+      );
+    }
 
-    const services = await searchService(term);
-      if (!services || services.length === 0) {
+    const services = await searchService(query);
+
+    if (services.length === 0) {
       return handleError(
         res,
         StatusCodes.NOT_FOUND,
         "Service not found"
       );
     }
+
     return handleSuccess(
-      res,StatusCodes.OK,
-      "Services found successfully",
+      res,
+      StatusCodes.OK,
+      "Service found successfully",
       services
     );
-
   } catch (error) {
-    return handleError(res, StatusCodes.INTERNAL_SERVER_ERROR, error.message);
-
+    return handleError(
+      res,
+      StatusCodes.INTERNAL_SERVER_ERROR,
+      error.message
+    );
   }
 };
 
