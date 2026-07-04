@@ -84,7 +84,7 @@ const forgotPassword = async (req, res) => {
     await createToken(token, user._id,deviceId);
 
 
-    const resetUrl = `${process.env.CLIENT_URL}/reset-password/${token}`;
+    const resetUrl = `${process.env.CLIENT_URL}/change-password/${token}`;
 
     await sendEmail({ action: 'forgot-password', receiverEmail: user.email, link: resetUrl });
 
