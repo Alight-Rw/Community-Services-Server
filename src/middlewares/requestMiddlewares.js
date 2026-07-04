@@ -7,15 +7,24 @@ import { handleError } from '../utils/responseUtils.js';
 
 export const routeBodyValidation = (schema) => async (req, res, next) => {
   try {
-    
     const { error } = schema.validate(req.body, { abortEarly: false });
     if (error) {
-      const errorMessage = `${error.details[0].message} in the body`;
-      return handleError(res, StatusCodes.BAD_REQUEST, errorMessage);
+     
+      const validationErrors = error.details.map((err) => ({
+        field: err.path[0],
+        message: err.message.replace(/"/g, ''), 
+      }));
+
+      
+      return res.status(StatusCodes.BAD_REQUEST).json({
+        success: false,
+        message: "Validation failed",
+        errors: validationErrors 
+      });
     }
     return next();
   } catch (error) {
-    return handleError(res, StatusCodes.INTERNAL_SERVER_ERROR, errorMessage);
+    return handleError(res, StatusCodes.INTERNAL_SERVER_ERROR, "Internal Server Error");
   }
 };
 
