@@ -43,7 +43,7 @@ const singUpClient = async (req, res) => {
     const token = generateAccessToken(user?.id);
     await createToken(token, user.id,deviceId)
 
-    const verifyLink = `${process.env.CLIENT_URL}/verified-email/${token}`;
+    const verifyLink = `${process.env.CLIENT_URL}/account-verified/${token}`;
 
     await sendEmail({
       action: "verify-account",
