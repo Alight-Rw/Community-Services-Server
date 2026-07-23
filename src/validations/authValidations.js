@@ -1,13 +1,14 @@
+
 /** @format */
 
 import Joi from 'joi';
 
 export const signinSchema = Joi.object({
   email: Joi.string().email().required().messages({
-    'any.required': 'email is required',
-    'string.email': 'email must be a valid email',
-    'string.base': 'email should be a type of string',
-    'string.empty': 'email is not allowed to be empty field',
+    'any.required': 'Email is required',
+    'string.email': 'Email must be a valid email address',
+    'string.base': 'Email should be a text field',
+    'string.empty': 'Email cannot be empty',
   }),
   password: Joi.string()
     .required()
@@ -15,58 +16,55 @@ export const signinSchema = Joi.object({
     .max(10)
     .pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9]).{8,}$/)
     .messages({
-      'string.base': 'password should be a type of text',  
-      'string.empty': 'password can not be empty',
-      'string.min': 'password should have minimum length of 8',
-      'string.max':'password is less than or equal to ten character',
-      'string.pattern':
-        'password must contain atleast one uppercase letter,one lowercase letter one number, one special character',
-      'any.required': 'password is required',
+      'string.base': 'Password should be a text field',  
+      'string.empty': 'Password cannot be empty',
+      'string.min': 'Password must have at least 8 characters',
+      'string.max': 'Password cannot exceed 10 characters',
+      'string.pattern.base': 'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character', // KOSORA HANO
+      'any.required': 'Password is required',
     }),
 });
 
 export const signupSchema = Joi.object({
-    firstName:Joi.string()
+  firstName: Joi.string()
     .required()
     .messages({
-        'string.base':'firstName must be string',
-        'string.empty':'firstName can not be empty',
-        'any.required':'firstName is required'
+      'string.base': 'First name must be text',
+      'string.empty': 'First name cannot be empty',
+      'any.required': 'First name is required'
     }),
-    lastName:Joi.string()
+  lastName: Joi.string()
     .required()
     .messages({
-        'string.base':'lastName must be string',
-        'string.empty':'lastName can not be empty',
-        'any.required':'lastName is required'
+      'string.base': 'Last name must be text',
+      'string.empty': 'Last name cannot be empty',
+      'any.required': 'Last name is required'
     }),
-    email: Joi.string().email().required().messages({
-    'any.required': 'email is required',
-    'string.email': 'email must be a valid email',
-    'string.base': 'email should be a type of string',
-    'string.empty': 'email is not allowed to be empty field',
+  email: Joi.string().email().required().messages({
+    'any.required': 'Email is required',
+    'string.email': 'Email must be a valid email address',
+    'string.base': 'Email should be a text field',
+    'string.empty': 'Email cannot be empty',
   }),
   password: Joi.string()
     .required()
     .min(8)
     .pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[^a-zA-Z0-9]).{8,}$/)
     .messages({
-      'string.base': 'password should be a type of text',  
-      'string.empty': 'password can not be empty',
-      'string.min': 'password should have minimum length of 8',
-      'string.pattern':
-        'password must contain atleast one uppercase letter,one lowercase letter one number, one special character',
-      'any.required': 'password is required',
+      'string.base': 'Password should be a text field',  
+      'string.empty': 'Password cannot be empty',
+      'string.min': 'Password must have at least 8 characters',
+      'string.pattern.base': 'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character', // KOSORA HANO
+      'any.required': 'Password is required',
     }),
-    confirmPassword: Joi.string()
+  confirmPassword: Joi.string()
     .required()
     .valid(Joi.ref('password'))
     .messages({
-      'string.base':'Please match your password and confirm password'
+      'any.only': 'Confirm password must match your password', // KOSORA HANO
+      'any.required': 'Confirm password is required'
     })
-    
-})
-
+});
 
 export const categorySchema = Joi.object({
   categoryName: Joi.string()
@@ -75,41 +73,39 @@ export const categorySchema = Joi.object({
     .max(50)
     .required()
     .messages({
-      "string.base": "categoryName must be a string",
-      "string.empty": "categoryName cannot be empty",
-      "string.min": "categoryName must have at least 2 characters",
-      "string.max": "categoryName must not exceed 50 characters",
-      "any.required": "categoryName is required"
+      "string.base": "Category name must be text",
+      "string.empty": "Category name cannot be empty",
+      "string.min": "Category name must have at least 2 characters",
+      "string.max": "Category name must not exceed 50 characters",
+      "any.required": "Category name is required"
     })
 });
+
 export const contactUsSchema = Joi.object({
-
-   fullName:Joi.string()
+  fullName: Joi.string()
     .required()
     .messages({
-        'string.base':'fullName must be string',
-        'string.empty':'fullName can not be empty',
-        'any.required':'fullName is required'
+      'string.base': 'Full name must be text',
+      'string.empty': 'Full name cannot be empty',
+      'any.required': 'Full name is required'
     }),
-    
-    email: Joi.string().email().required().messages({
-    'any.required': 'email is required',
-    'string.email': 'email must be a valid email',
-    'string.base': 'email should be a type of string',
-    'string.empty': 'email is not allowed to be empty field',
+  email: Joi.string().email().required().messages({
+    'any.required': 'Email is required',
+    'string.email': 'Email must be a valid email address',
+    'string.base': 'Email should be a text field',
+    'string.empty': 'Email cannot be empty',
   }),
-
-  subject:Joi.string()
+  subject: Joi.string()
     .required()
     .messages({
-        'string.empty':'subject can not be empty',
-       
+      'string.empty': 'Subject cannot be empty',
+      'any.required': 'Subject is required'
     }),
-    message:Joi.string()
+  message: Joi.string()
     .required()
     .messages({
-        'string.empty':'subject can not be empty',
-       
+      'string.empty': 'Message cannot be empty',
+      'any.required': 'Message is required'
     }),
 });
 
@@ -121,7 +117,8 @@ export const changePasswordSchema = Joi.object({
     .messages({
       'string.empty': 'New password is required',
       'string.min': 'New password must be at least 8 characters',
-      'string.pattern': 'Password must contain uppercase, lowercase, number, and a special character',
+      'string.pattern.base': 'Password must contain uppercase, lowercase, number, and a special character', 
+      'any.required': 'New password is required',
     }),
   confirmPassword: Joi.any()
     .equal(Joi.ref('newPassword'))
@@ -131,5 +128,3 @@ export const changePasswordSchema = Joi.object({
       'any.required': 'Confirmation is required',
     }),
 });
-
-
