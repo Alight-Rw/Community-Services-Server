@@ -1,5 +1,5 @@
 import { StatusCodes } from "http-status-codes";
-import { getServices, searchService } from "../repositories/servicesRepositories.js";
+import { searchService, listServices } from "../repositories/servicesRepositories.js";
 import { handleSuccess,handleError } from "../../../utils/responseUtils.js";
 
 
@@ -42,7 +42,7 @@ const searchServices = async (req, res) => {
 
  const allServices = async (req, res) => {
   try {
-    const services = await getServices();
+    const services = await listServices(req.query);
    
     return handleSuccess(res, StatusCodes.OK, "Services fetched", services);
 
