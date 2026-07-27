@@ -9,24 +9,18 @@ import {
   parsePaginationQuery,
 } from "../../../utils/queryUtils.js";
 
-const searchService = (query) => {
-  return Service.find({
-    $or: [
-      {
-        name: {
-          $regex: query,
-          $options: "i",
-        },
-      },
-      {
-        location: {
-          $regex: query,
-          $options: "i",
-        },
-      },
-    ],
-  });
-};
+const buildServiceQuery = async ({
+  search,
+  serviceName,
+  category,
+  location,
+  isActive,
+  providerId,
+} = {}) => {
+  const conditions = [];
+
+  const searchRegex = createSearchRegex(search);
+  const serviceNameRegex = createSearchRegex(serviceName);
 
   if (providerId) {
     conditions.push({ providerId });
@@ -156,7 +150,7 @@ const buildRequestedServicesQuery = async ({
 const searchService = async (query, options = {}) => {
   const { page, limit, skip, sort, hasPagination } = parsePaginationQuery(
     options,
-    { sort: "-createdAt" },
+    { sort: "-createdAt" }
   );
   const filter = await buildServiceQuery({ search: query });
 
@@ -193,10 +187,10 @@ const findRequestedServicesByOwner = async (
   ownerField,
   ownerId,
   status,
-  options = {},
+  options = {}
 ) => {
   const { page, limit, skip, sort, hasPagination, search } =
-    parsePaginationQuery(options, { sort: "-createAt" });
+    parsePaginationQuery(options, { sort: "-createdAt" });
 
   const query = await buildRequestedServicesQuery({
     ownerField,
