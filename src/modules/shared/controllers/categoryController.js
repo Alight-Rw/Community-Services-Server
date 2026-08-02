@@ -1,6 +1,6 @@
 import { StatusCodes } from "http-status-codes";
 import { handleError, handleSuccess } from "../../../utils/responseUtils.js";
-import { createCategory, findCategory, getAllCategories } from "../repositories/categortRepositories.js";
+import { createCategory, findCategory, listCategories } from "../repositories/categortRepositories.js";
 
 const createCategoryies = async (req, res) => {
   try {
@@ -16,10 +16,7 @@ const createCategoryies = async (req, res) => {
 
 const getCategories = async (req, res) => {
   try {
-    const categories = await getAllCategories();
-    if(!categories){
-    return handleError(res, StatusCodes.NOT_FOUND, "categories are not found ");
-      }
+    const categories = await listCategories(req.query);
     return handleSuccess(res, StatusCodes.OK, "Categories fetched successfully", categories);
 
   } catch (error) {

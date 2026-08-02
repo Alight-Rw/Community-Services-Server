@@ -3,12 +3,10 @@ import { handleError, handleSuccess } from "../../../utils/responseUtils.js";
 import {
   createService,
   findServiceByIdAndUpdate,
-  getProviderServices,
-  
+  listProviderServices,
 } from "../repositories/servicesRepositories.js";
-import { getServices } from "../../clients/repositories/servicesRepositories.js";
-import Service from "../../../database/models/services.js";
 import { deleteServiceWithRequests } from "../repositories/servicesRepositories.js";
+import { listServices } from "../../clients/repositories/servicesRepositories.js";
 
 const createServices = async (req, res) => {
   const providerId = req.user?._id;
@@ -28,7 +26,11 @@ const createServices = async (req, res) => {
 
 const getLastFourServices = async (req, res) => {
   try {
-    const lastServices = await getServices().sort({ createdAt: -1 }).limit(3);
+    const lastServices = await listServices({
+      ...req.query,
+      sort: "-createdAt",
+      limit: req.query.limit ?? 3,
+    });
     return handleSuccess(
       res,
       StatusCodes.OK,
@@ -42,9 +44,11 @@ const getLastFourServices = async (req, res) => {
 
 const getAllAvailableServices = async (req, res) => {
   try {
-    const availableServices = await Service.find({ isActive: true })
-      .populate("category", "name")
-      .sort({ createdAt: -1 });
+    const availableServices = await listServices({
+      ...req.query,
+      isActive: true,
+      sort: req.query.sort || "-createdAt",
+    });
     return handleSuccess(
       res,
       StatusCodes.OK,
@@ -59,7 +63,7 @@ const getAllAvailableServices = async (req, res) => {
 const allProviderServices = async (req, res) => {
   const user = req.user
   try {
-    const services = await getProviderServices(user);
+    const services = await listProviderServices(user, req.query);
    
     return handleSuccess(res, StatusCodes.OK, "Services fetched", services);
 

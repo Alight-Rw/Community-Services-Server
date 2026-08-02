@@ -1,5 +1,9 @@
 import RequestedServices from "../../../database/models/RequestedServices.js"
 import Service from "../../../database/models/services.js"
+import {
+  findRequestedServicesByOwner,
+  listServices,
+} from "../../clients/repositories/servicesRepositories.js"
 
 
 const createService=(data)=>{
@@ -14,16 +18,8 @@ const getProviderServices = async (user) => {
   return await Service.find();
 };
 
-const FindProviderRequestedServicesInfo = async (providerId, status) => {
-  const query = {
-    providerId: providerId, 
-  };
-
-  if (status && status !== "all") {
-    query.status = status;
-  }
-
-  return await RequestedServices.find(query);
+const FindProviderRequestedServicesInfo = async (providerId, status, options = {}) => {
+  return await findRequestedServicesByOwner("providerId", providerId, status, options);
 };
 
 const findServiceById=(id)=>{
@@ -66,9 +62,16 @@ const findRequestByIdAndUpdate=(id,status)=>{
   };
 };
 
- const deleteServiceWithRequests = async (serviceId) => {
+const deleteServiceWithRequests = async (serviceId) => {
   await RequestedServices.deleteMany({ serviceId });
   await Service.findByIdAndDelete(serviceId);
 };
+
+const listProviderServices = async (user, options = {}) => {
+  return await listServices({
+    ...options,
+    providerId: user?._id,
+  });
+};
      
-export {createService,getProviderServices,findRequestByIdAndUpdate,findRequestServiceById,FindProviderRequestedServicesInfo,findServiceById,findServiceByIdAndUpdate,deleteServiceWithRequests,checkServiceCanBeDeleted,checkServiceOwnership}
+export {createService,getProviderServices,findRequestByIdAndUpdate,findRequestServiceById,FindProviderRequestedServicesInfo,findServiceById,findServiceByIdAndUpdate,deleteServiceWithRequests,checkServiceCanBeDeleted,checkServiceOwnership,listProviderServices}

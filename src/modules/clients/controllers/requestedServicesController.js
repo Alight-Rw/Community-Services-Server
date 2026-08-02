@@ -38,12 +38,7 @@ const clientRequestedServices= async (req, res) => {
     const { status } = req.params; 
 
    
-    const requestedServices  = await  FindRequestedServicesInfo(clientId, status)
-       
-     
-    if (!requestedServices.length) {
-      return handleError(res, StatusCodes.NOT_FOUND, "No requested services found");
-    }
+    const requestedServices  = await  FindRequestedServicesInfo(clientId, status, req.query)
 
     return handleSuccess(
       res,

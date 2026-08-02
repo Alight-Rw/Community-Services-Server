@@ -10,16 +10,9 @@ const providerRequestedServices = async (req, res) => {
 
     const requestedServices = await FindProviderRequestedServicesInfo(
       providerId,
-      status
+      status,
+      req.query
     );
-
-    if (!requestedServices.length) {
-      return handleError(
-        res,
-        StatusCodes.NOT_FOUND,
-        "No requested services found"
-      );
-    }
 
     return handleSuccess(
       res,

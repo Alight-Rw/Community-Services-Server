@@ -4,7 +4,7 @@ import { allProviderServices, createServices, deleteServices, getAllAvailableSer
 import { routeBodyValidation } from "../middlewares/requestMiddlewares.js"
 import serviceSchema from "../validations/serviceValidation.js"
 import { verifyAccessToken } from "../middlewares/authMiddlewares.js"
-import { isServiceExist, fetchService, isServiceOwner, validateDeleteService } from "../middlewares/serviceMiddlewares.js"
+import { fetchService, isServiceExist, isServiceOwner, validateDeleteService } from "../middlewares/serviceMiddlewares.js"
 import { allServices, searchServices } from "../modules/clients/controllers/servicesControllers.js"
 import multiparty from "connect-multiparty";
 
